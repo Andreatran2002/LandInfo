@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:tineviland/Widgets/widget.dart';
 import 'signup.dart';
 import 'forgetpassword.dart';
-import 'home.dart';
+import 'home/home.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class SignIn extends StatefulWidget {
@@ -41,7 +41,7 @@ class _SignInState extends State<SignIn> {
   bool circular = false;
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        // appBar: AppBar(),
         body: Form(
             key: _formKey,
             child: ListView(

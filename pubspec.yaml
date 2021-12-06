@@ -38,6 +38,11 @@ dependencies:
   provider: ^6.0.1
   otp_text_field: ^1.1.1
   flutter_secure_storage: ^5.0.2
+  carousel_slider: ^4.0.0
+  smooth_page_indicator: ^1.0.0+2
+  flutter_svg: ^1.0.0
+
+
   google_maps_flutter: ^2.1.1
 
 dev_dependencies:
@@ -69,6 +74,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -92,5 +98,17 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets\fonts\Montserrat\Montserrat-Regular.ttf
+        - asset: assets\fonts\Montserrat\Montserrat-Bold.ttf
+          weight: 700
+        - asset: assets\fonts\Montserrat\Montserrat-SemiBold.ttf
+          weight: 600
+        - asset: assets\fonts\Montserrat\Montserrat-Black.ttf
+          weight: 900
+
+          
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
