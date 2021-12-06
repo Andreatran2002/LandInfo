@@ -20,44 +20,88 @@ class _SliderForBannerState extends State<SliderForBanner> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.symmetric(vertical: 20),
-      child: CarouselSlider(
-        options: CarouselOptions(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: CarouselSlider.builder(
+          itemCount: bannerList.length,
+          itemBuilder: (context, index, realIndex) {
+            final url = bannerList[index];
+            return Container(
+              width: 400,
+              // color: Colors.black,
+              margin: const EdgeInsets.symmetric(
+                horizontal: 5.0,
+                vertical: 10,
+              ),
+              // child: Image.asset(item),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    offset: const Offset(0, 2),
+                    blurRadius: 2,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: AssetImage(url),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
+          options: CarouselOptions(
             height: 200.0,
             autoPlay: true,
             viewportFraction: 1,
-            autoPlayInterval: const Duration(seconds: 3),
-            onPageChanged: (index, reason) {}),
-        items: bannerList.map((item) {
-          return Builder(
-            builder: (BuildContext context) {
-              var assetImage = AssetImage(item);
-              return Container(
-                width: 400,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 5.0,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      offset: const Offset(0, 2),
-                      blurRadius: 2,
-                    ),
-                  ],
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: assetImage,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              );
-            },
-          );
-        }).toList(),
-      ),
-    );
+            enableInfiniteScroll: false,
+
+            // autoPlayInterval: const Duration(seconds: 4),
+            // onPageChanged: (index, reason) {},
+          ),
+        )
+        // CarouselSlider(
+        //   options: CarouselOptions(
+        //       height: 200.0,
+        //       autoPlay: true,
+        //       viewportFraction: 1,
+        //       enableInfiniteScroll: false,
+        //       // initialPage: bannerList.length,
+        //       autoPlayInterval: const Duration(seconds: 4),
+        //       onPageChanged: (index, reason) {}),
+        //   items: bannerList.map((item) {
+        //     return Builder(
+        //       builder: (BuildContext context) {
+        //         var assetImage = AssetImage(item);
+        //         return Container(
+        //           width: 400,
+        //           // color: Colors.black,
+
+        //           margin: const EdgeInsets.symmetric(
+        //             horizontal: 5.0,
+        //             vertical: 10,
+        //           ),
+        //           // child: Image.asset(item),
+        //           decoration: BoxDecoration(
+        //             color: Colors.black,
+        //             boxShadow: [
+        //               BoxShadow(
+        //                 color: Colors.black.withOpacity(0.2),
+        //                 offset: const Offset(0, 2),
+        //                 blurRadius: 2,
+        //               ),
+        //             ],
+        //             borderRadius: BorderRadius.circular(10),
+        //             image: DecorationImage(
+        //               image: assetImage,
+        //               fit: BoxFit.cover,
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //     );
+        //   }).toList(),
+        // ),
+        );
   }
 }
