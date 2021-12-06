@@ -37,6 +37,7 @@ dependencies:
   firebase_core: ^1.10.2
   provider: ^6.0.1
   otp_text_field: ^1.1.1
+  flutter_secure_storage: ^5.0.2
 
 dev_dependencies:
   flutter_test:
