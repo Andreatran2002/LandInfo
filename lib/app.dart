@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tineviland/Widgets/colors.dart';
 import 'package:tineviland/Views/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tineviland/Views/Map.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class App extends StatefulWidget {
@@ -43,7 +44,7 @@ class _AppState extends State<App> {
 
     return MaterialPageRoute<void>(
       settings: settings,
-      builder: (BuildContext context) => const SignIn(),
+      builder: (BuildContext context) => const Map(),
       fullscreenDialog: true,
     );
   }
