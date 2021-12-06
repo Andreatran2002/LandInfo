@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tineviland/Widgets/colors.dart';
-import 'package:tineviland/Views/signin.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:tineviland/Views/signup.dart';
 import 'package:tineviland/Views/Map.dart';
+import 'package:tineviland/utils/authmethod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:tineviland/views/home.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -14,27 +15,29 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   firebase_auth.FirebaseAuth firebaseAuth =  firebase_auth.FirebaseAuth.instance;
+
   @override
+  AuthMethods authMethod = AuthMethods();
+  Widget currentPage = SignUp();
 
-
+  void initState(){
+    super.initState();
+    checkLogin();
+  }
 
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      title: 'TINEVY',
-      initialRoute: '/login',
-      onGenerateRoute: _getRoute,
-      // TODO: Add a theme (103)
-      theme : _kAppTheme,
+      home: currentPage,
     );
   }
-  void signup() async {
-    try
-    {
-      await firebaseAuth.createUserWithEmailAndPassword(email: "andreatran200@gmail.com", password: "123Phuongvy");
-    }
-    catch (e){
-      print(e);
+
+  void checkLogin() async {
+    String? token = await authMethod.getToken();
+    if (token != null) {
+      setState(() {
+        currentPage = Home();
+      });
     }
   }
   Route<dynamic>? _getRoute(RouteSettings settings) {
