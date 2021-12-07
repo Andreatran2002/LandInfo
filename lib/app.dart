@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tineviland/Widgets/colors.dart';
 import 'package:tineviland/Views/signup.dart';
-import 'package:tineviland/Views/Map.dart';
+import 'package:tineviland/Views/map.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:tineviland/views/home.dart';
+import 'package:tineviland/views/home/home.dart';
+import 'package:tineviland/views/posts/add_post.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -16,11 +17,11 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   firebase_auth.FirebaseAuth firebaseAuth =  firebase_auth.FirebaseAuth.instance;
 
-  @override
   AuthMethods authMethod = AuthMethods();
   Widget currentPage = SignUp();
 
-  void initState(){
+  @override
+  void initState()  {
     super.initState();
     checkLogin();
   }
@@ -28,7 +29,8 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      home: currentPage,
+      home:  AddPost(),
+      theme: _kAppTheme,
     );
   }
 
