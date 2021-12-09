@@ -56,40 +56,41 @@ class _HomeState extends State<Home> {
               ),
             ),
             SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Opacity(
-                      opacity: ((90 - _scrollPosition) / 100 >= 0)
-                          ? (90 - _scrollPosition) / 100
-                          : 0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Row(
-                          // key: headingKey,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.asset(
-                              "assets/images/mainLogo.png",
-                              height: 90,
-                            ),
-                            Text(
-                              "Chào, Vy",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "Montserrat",
-                                  ),
-                            ),
-                          ],
-                        ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Opacity(
+                    opacity: ((90 - _scrollPosition) / 100 >= 0)
+                        ? (90 - _scrollPosition) / 100
+                        : 0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                      child: Row(
+                        // key: headingKey,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset(
+                            "assets/images/mainLogo.png",
+                            height: 90,
+                          ),
+                          Text(
+                            "Chào, Vy",
+                            style:
+                                Theme.of(context).textTheme.headline4?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: "Montserrat",
+                                    ),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 14,
                         vertical: 5,
@@ -111,10 +112,13 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                    const SliderForBanner(),
-                    SliderForNews(),
-                  ],
-                ),
+                  ),
+                  const Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: const SliderForBanner(),
+                  ),
+                  SliderForNews(),
+                ],
               ),
             ),
           ],
