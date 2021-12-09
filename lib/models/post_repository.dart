@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'post.dart';
 
 class PostsRepository {
@@ -23,7 +25,9 @@ class PostsRepository {
         surfaceArea: 222.3,
         title: 'Vagabond sack',
         price: 120,
-        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+
       ),
       Post(
           category: Category.forRent,
@@ -32,6 +36,7 @@ class PostsRepository {
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+    ,coordinate : const LatLng(23,23),
       ),
       Post(
           category: Category.forRent,
@@ -40,6 +45,7 @@ class PostsRepository {
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+        ,coordinate : const LatLng(23,23),
       ),
       Post(
           category: Category.forRent,
@@ -48,6 +54,7 @@ class PostsRepository {
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+        ,coordinate : const LatLng(23,23),
       ),
       Post(
           category: Category.forRent,
@@ -56,6 +63,7 @@ class PostsRepository {
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+        ,coordinate : const LatLng(23,23),
       ),
       Post(
           category: Category.forRent,
@@ -64,6 +72,7 @@ class PostsRepository {
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+        ,coordinate : const LatLng(23,23),
       ),
       Post(
           category: Category.forRent,
@@ -72,6 +81,7 @@ class PostsRepository {
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+        ,coordinate : const LatLng(23,23),
       ),
       Post(
           category: Category.forRent,
@@ -80,13 +90,16 @@ class PostsRepository {
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-      ),Post(
+        ,coordinate : const LatLng(23,23),
+      ),
+      Post(
           category: Category.forRent,
           id: 8,
           surfaceArea: 222.3,
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+        ,coordinate : const LatLng(23,23),
       ),
       Post(
           category: Category.forRent,
@@ -95,6 +108,7 @@ class PostsRepository {
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+        ,coordinate : const LatLng(23,23),
       ),
       Post(
           category: Category.forRent,
@@ -103,23 +117,9 @@ class PostsRepository {
           title: 'Vagabond sack',
           price: 120,
           content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+        ,coordinate : const LatLng(23,23),
       ),
-      Post(
-          category: Category.forRent,
-          id: 11,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-      ),
-      Post(
-          category: Category.forRent,
-          id: 12,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-      ),
+
 
 
     ];

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
 
 PreferredSizeWidget? appBarMain(BuildContext context){
   return AppBar(
@@ -10,7 +9,7 @@ PreferredSizeWidget? appBarMain(BuildContext context){
 
 
 TextStyle simpleTextFieltStyle(){
-  return TextStyle(
+  return const TextStyle(
   color : Colors.black26,
   );
 }

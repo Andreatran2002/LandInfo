@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'signin.dart';
-import 'phoneauth.dart';
-import 'package:tineviland/Widgets/widget.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class SignUp extends StatefulWidget {
@@ -49,6 +47,7 @@ class _SignUpState extends State<SignUp> {
   bool _isObscurePassword = true;
   bool _isObscureRepeatPassword = true;
   bool circular = false;
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
@@ -56,7 +55,7 @@ class _SignUpState extends State<SignUp> {
             key: _formSignUpKey,
             child: ListView(
 
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               children: <Widget>[
                 const SizedBox(height: 0.0),
                 Column(children: <Widget>[
@@ -68,7 +67,7 @@ class _SignUpState extends State<SignUp> {
                 ]),
                 const SizedBox(height: 30.0),
                 TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                   ),
                   controller: _emailController,
@@ -83,7 +82,7 @@ class _SignUpState extends State<SignUp> {
 
                   validator: (value) {
 
-                    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value!) || value == null)
+                    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value!) || value == "")
                       return 'Vui lòng nhập email đúng định dạng example@gmail.com';
                     else
                       return null;
@@ -92,7 +91,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 const SizedBox(height: 10.0),
                 TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                   ),
                   controller: _usernameController,
@@ -116,7 +115,7 @@ class _SignUpState extends State<SignUp> {
 
                 const SizedBox(height: 10.0),
                 TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                   ),
                   controller: _passwordController,
@@ -157,7 +156,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 const SizedBox(height: 10.0),
                 TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                   ),
                   controller: _repeatpasswordController,
@@ -204,7 +203,7 @@ class _SignUpState extends State<SignUp> {
                       child: Center(
                         widthFactor: 8.0,
                         heightFactor : 1.3,
-                        child: circular ? CircularProgressIndicator( color: Colors.white,) : const Text('Đăng kí tài khoản' ,
+                        child: circular ? const CircularProgressIndicator( color: Colors.white,) : const Text('Đăng kí tài khoản' ,
                             style:TextStyle(
                               color: Colors.white,
                             )
@@ -236,7 +235,7 @@ class _SignUpState extends State<SignUp> {
                               circular = false;
                             });
                             Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(builder: (builder)=>SignIn()),
+                                MaterialPageRoute(builder: (builder)=> const SignIn()),
                                     (route) => false);
                           }
                         } catch (e){
@@ -256,7 +255,7 @@ class _SignUpState extends State<SignUp> {
                               const Text('Nếu bạn đã có tài khoản thì hãy vào ',
                               style : TextStyle(fontSize:11 )),
                               TextButton(
-                                child: Text("Đăng nhập", style : TextStyle(fontWeight: FontWeight.bold , fontSize: 11)),
+                                child: const Text("Đăng nhập", style :  TextStyle(fontWeight: FontWeight.bold , fontSize: 11)),
                                 onPressed: () {
                                   _usernameController.clear();
                                   _repeatpasswordController.clear();
@@ -264,7 +263,7 @@ class _SignUpState extends State<SignUp> {
                                   _passwordController.clear();
                                   Navigator.pushAndRemoveUntil(
                                     context,
-                                    MaterialPageRoute(builder: (context) => SignIn()),
+                                    MaterialPageRoute(builder: (context) => const SignIn()),
                                       (route)=>false
                                   );
                                 },
