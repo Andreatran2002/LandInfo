@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:tineviland/Widgets/widget.dart';
-import 'package:tineviland/views/phoneauth.dart';
+import 'package:tineviland/views/auth/phoneauth.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({Key? key}) : super(key: key);
@@ -30,9 +30,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       body: Form(
         key : _forgetPasswordFormKey,
         child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             children: <Widget> [
-          SizedBox(
+          const SizedBox(
             height: 70,
           ),
           Text("Khôi phục tài khoản",
@@ -41,9 +41,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.primary,
               )),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           TextFormField(
-            style: TextStyle(
+            style:  const TextStyle(
               color: Colors.black,
             ),
             controller: _passwordController,
@@ -80,7 +80,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           ),
           const SizedBox(height: 10.0),
           TextFormField(
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
             ),
             controller: _repeatpasswordController,
@@ -113,7 +113,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             },
             obscureText: _isObscureRepeatPassword,
           ),
-              SizedBox(height : 30),
+              const SizedBox(height : 30),
               ElevatedButton(
 
                 child: const Text('Khôi phục' ,
@@ -136,7 +136,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   if (_forgetPasswordFormKey.currentState!.validate()) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => phoneAuth()),
+                      MaterialPageRoute(builder: (context) => const phoneAuth()),
                     );
                   }
                 },

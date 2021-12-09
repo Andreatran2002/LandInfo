@@ -6,7 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final storage = new FlutterSecureStorage();
+  final storage =  new FlutterSecureStorage();
   void storeTokenAndData(UserCredential userCredential) async {
     print("storing token and data");
     await storage.write(
@@ -29,7 +29,7 @@ class AuthMethods {
           await _auth.signInWithCredential(credential);
       storeTokenAndData(userCredential);
       Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (builder) => Home()), (route) => false);
+          MaterialPageRoute(builder: (builder) => const Home()), (route) => false);
 
       showSnackBar(context, "logged In");
     } catch (e) {

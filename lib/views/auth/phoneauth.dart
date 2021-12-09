@@ -25,7 +25,7 @@ class _phoneAuthState extends State<phoneAuth> {
           width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
               child: Column(children: [
-            SizedBox(
+            const SizedBox(
               height: 70,
             ),
             Container(
@@ -39,9 +39,9 @@ class _phoneAuthState extends State<phoneAuth> {
                         color : Theme.of(context).colorScheme.primary,
 
                       )),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   textField(),
-                  SizedBox(
+                  const SizedBox(
                     height : 30,
                   )
                 ]
@@ -70,7 +70,7 @@ class _phoneAuthState extends State<phoneAuth> {
 
             border: InputBorder.none,
             hintText: "Nhập số điện thoại.",
-            hintStyle: TextStyle(color: Colors.black12, fontSize: 13),
+            hintStyle: const TextStyle(color: Colors.black12, fontSize: 13),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 19, horizontal: 8),
             prefixIcon: Padding(
@@ -93,12 +93,12 @@ class _phoneAuthState extends State<phoneAuth> {
                   onPressed:(){
                     if (validNumber(_phonenumberController.text)) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                         SnackBar(content: Text('Đang gửi mã xác thực', style : TextStyle(color: Colors.white)),backgroundColor: Theme.of(context).colorScheme.primary,),
+                         SnackBar(content: const Text('Đang gửi mã xác thực', style : TextStyle(color: Colors.white)),backgroundColor: Theme.of(context).colorScheme.primary,),
                       );
                     }
                     else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Số điện thoại không hợp lệ vui lòng nhập lại.'),backgroundColor: Theme.of(context).colorScheme.error,),
+                      SnackBar(content: const Text('Số điện thoại không hợp lệ vui lòng nhập lại.'),backgroundColor: Theme.of(context).colorScheme.error,),
                       );
                     }
 
@@ -128,7 +128,7 @@ class _phoneAuthState extends State<phoneAuth> {
       width: MediaQuery.of(context).size.width-40,
 
       fieldWidth: 60,
-      style: TextStyle(fontSize: 15,),
+      style: const TextStyle(fontSize: 15,),
       textFieldAlignment: MainAxisAlignment.spaceAround,
       fieldStyle: FieldStyle.underline,
       onCompleted: (pin) {

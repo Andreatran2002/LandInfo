@@ -18,7 +18,7 @@ class SliderForNews extends StatelessWidget {
             //     // color: Colors.black,
             //     ),
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Container(
             width: 200,
             height: 170,
@@ -27,7 +27,7 @@ class SliderForNews extends StatelessWidget {
             //     // color: Colors.black,
             //     ),
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Container(
             width: 200,
             height: 170,

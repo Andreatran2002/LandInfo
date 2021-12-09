@@ -20,7 +20,7 @@ class _SliderForBannerState extends State<SliderForBanner> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: CarouselSlider.builder(
           itemCount: bannerList.length,
           itemBuilder: (context, index, realIndex) {

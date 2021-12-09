@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tineviland/Widgets/widget.dart';
 import 'signup.dart';
-import 'forgetpassword.dart';
-import 'home/home.dart';
+import '../forgetpassword.dart';
+import '../home/home.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class SignIn extends StatefulWidget {
@@ -45,7 +45,7 @@ class _SignInState extends State<SignIn> {
         body: Form(
             key: _formKey,
             child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               children: <Widget>[
                 Column(children: <Widget>[
                   const SizedBox(height: 70.0),
@@ -55,7 +55,7 @@ class _SignInState extends State<SignIn> {
                   ),
                 ]),
                 TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                   ),
                   controller: _emailController,
@@ -80,7 +80,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 const SizedBox(height: 10.0),
                 TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                   ),
                   controller: _passwordController,
@@ -126,7 +126,7 @@ class _SignInState extends State<SignIn> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ForgetPassword()),
+                              builder: (context) => const ForgetPassword()),
                         );
                       },
                     ),
@@ -134,7 +134,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 ElevatedButton(
                   child: circular
-                      ? CircularProgressIndicator(
+                      ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
                       : const Text('Đăng nhập',
@@ -167,7 +167,7 @@ class _SignInState extends State<SignIn> {
                         });
                         Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (builder) => Home()),
+                            MaterialPageRoute(builder: (builder) =>const  Home()),
                             (route) => false);
                       }
                     } catch (e) {
@@ -192,7 +192,7 @@ class _SignInState extends State<SignIn> {
                     onPressed: () => {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUp()),
+                        MaterialPageRoute(builder: (context) => const SignUp()),
                       )
                     },
                   )
