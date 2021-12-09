@@ -6,6 +6,7 @@ import 'package:tineviland/utils/authmethod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:tineviland/views/home/home.dart';
 import 'package:tineviland/views/posts/add_post.dart';
+import 'package:tineviland/views/signin.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -15,21 +16,21 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  firebase_auth.FirebaseAuth firebaseAuth =  firebase_auth.FirebaseAuth.instance;
+  firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
 
   AuthMethods authMethod = AuthMethods();
   Widget currentPage = SignUp();
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     checkLogin();
   }
 
   Widget build(BuildContext context) {
-
     return MaterialApp(
-      home:  AddPost(),
+      // home: AddPost(),
+      home: Home(),
       theme: _kAppTheme,
     );
   }
@@ -42,6 +43,7 @@ class _AppState extends State<App> {
       });
     }
   }
+
   Route<dynamic>? _getRoute(RouteSettings settings) {
     if (settings.name != '/login') {
       return null;
@@ -113,29 +115,32 @@ ThemeData _buildShrineTheme() {
     // ),
   );
 }
+
 // TODO: Build a Shrine Text Theme (103)
-TextTheme _buildAppTextTheme(TextTheme base){
-  return base.copyWith(
-    headline1: base.headline1!.copyWith(
-      fontSize : 30.0,
-    ),
-    headline5: base.headline5!.copyWith(
-      fontWeight: FontWeight.w500,
-    ),
-    headline6: base.headline6!.copyWith(
-      fontSize: 18.0,
-    ),
-    caption: base.caption!.copyWith(
-      fontWeight: FontWeight.w400,
-      fontSize: 14.0,
-    ),
-    bodyText1: base.bodyText1!.copyWith(
-      fontWeight: FontWeight.w500,
-      fontSize: 16.0,
-    ),
-  ).apply(
-    fontFamily: 'Rubik',
-    displayColor: Colors.black,
-    bodyColor: Colors.black,
-  );
+TextTheme _buildAppTextTheme(TextTheme base) {
+  return base
+      .copyWith(
+        headline1: base.headline1!.copyWith(
+          fontSize: 30.0,
+        ),
+        headline5: base.headline5!.copyWith(
+          fontWeight: FontWeight.w500,
+        ),
+        headline6: base.headline6!.copyWith(
+          fontSize: 18.0,
+        ),
+        caption: base.caption!.copyWith(
+          fontWeight: FontWeight.w400,
+          fontSize: 14.0,
+        ),
+        bodyText1: base.bodyText1!.copyWith(
+          fontWeight: FontWeight.w500,
+          fontSize: 16.0,
+        ),
+      )
+      .apply(
+        fontFamily: 'Montsterrat',
+        displayColor: Colors.black,
+        bodyColor: Colors.black,
+      );
 }
