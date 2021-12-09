@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tineviland/blocs/application_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 class Map extends StatefulWidget {
   const Map({Key? key}) : super(key: key);
 
@@ -10,8 +11,14 @@ class Map extends StatefulWidget {
 }
 
 class _MapState extends State<Map> {
+  PermissionStatus? _status ;
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(10.856809388642066, 106.77465589400319);
+  @override
+  void initState() {
+    super.initState();
+    Permission.location.request();
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -25,9 +32,9 @@ class _MapState extends State<Map> {
         //   title: const Text('Maps Sample App', style : TextStyle(color : Colors.white)),
         //   backgroundColor: Colors.green[700],
         // ),
-        body: (applicationBloc.currentLocation == null ) ?
-        const Center( child : CircularProgressIndicator(), )
-            :ListView(
+        body:
+        // (applicationBloc.currentLocation == null) ? Text("meo moe"):
+        ListView(
           children: [
             const TextField(
               decoration: InputDecoration(
@@ -40,7 +47,9 @@ class _MapState extends State<Map> {
                 onMapCreated: _onMapCreated,
                 myLocationEnabled: true,
                 initialCameraPosition: CameraPosition(
-                  target: LatLng(applicationBloc.currentLocation!.latitude, applicationBloc.currentLocation!.longitude),
+                  target: (applicationBloc.currentLocation == null) ? _center:
+                  LatLng(applicationBloc.currentLocation!.latitude, applicationBloc.currentLocation!.longitude),
+                  // target: _center,
                   zoom: 14,
                 ),
               )
