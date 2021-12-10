@@ -19,6 +19,7 @@ class _HomeState extends State<Home> {
     News(),
     AddPost(),
     Account(),
+    // AddPost(),
     // const
   ];
   int currentPageIndex = 0;
@@ -48,11 +49,51 @@ class _HomeState extends State<Home> {
         currentIndex: currentPageIndex,
         onTap: (index) {
           if (index != currentPageIndex) {
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => screens[index]));
-            setState(() {
-              currentPageIndex = index;
-            });
+            if (index == 2) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: Text('Chọn loại bài đăng!'),
+                  // content: Row(
+                  //   children: <Widget>[],
+                  // ),
+                  actions: [
+                    Row(
+                      children: [
+                        TextButton(
+                            onPressed: () {},
+                            child: Column(
+                              children: [
+                                Image.asset('assets/images/trade.png',
+                                    width: 135),
+                                Text('Tin tức'),
+                              ],
+                            )),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, 'cancel');
+                              setState(() {
+                                currentPageIndex = 2;
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Image.asset('assets/images/news.png',
+                                    width: 135),
+                                Text('Buôn bán'),
+                              ],
+                            )),
+                      ],
+                    ),
+                    SizedBox(height: 20)
+                  ],
+                ),
+              );
+            } else {
+              setState(() {
+                currentPageIndex = index;
+              });
+            }
           }
         },
         selectedItemColor: const Color(0xff358F38),
