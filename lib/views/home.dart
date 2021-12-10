@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../../constants.dart';
-import 'banner_slider.dart';
-import './news_slider.dart';
+import '../constants.dart';
+import 'home/banner_slider.dart';
+import 'home/news_slider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,6 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late ScrollController _scrollController;
   late double _scrollPosition;
+  int currentPageIndex = 0;
 
   _scrollListener() {
     setState(() {
@@ -36,6 +37,43 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentPageIndex,
+        onTap: (index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        selectedItemColor: const Color(0xff358F38),
+        unselectedItemColor: const Color(0xffC4C4C4),
+        iconSize: 30,
+        selectedLabelStyle: const TextStyle(
+          fontFamily: "Montserrat",
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontFamily: "Montserrat",
+        ),
+        items: const [
+          BottomNavigationBarItem(
+            label: "Nhà chính",
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            label: "Tin tức",
+            icon: Icon(Icons.public),
+            backgroundColor: Colors.pink,
+          ),
+          BottomNavigationBarItem(
+            label: "Đăng bài",
+            icon: Icon(Icons.cloud_upload),
+          ),
+          BottomNavigationBarItem(
+            label: "Cá Nhân",
+            icon: Icon(Icons.person),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Stack(
@@ -48,11 +86,6 @@ class _HomeState extends State<Home> {
                   bottomRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10),
                 ),
-                // image: DecorationImage(
-                //   alignment: Alignment.topLeft,
-                //   scale: 2.6,
-                //   image: AssetImage("assets/images/mainLogo.png"),
-                // ),
               ),
             ),
             SafeArea(
@@ -114,12 +147,12 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   const Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: const SliderForBanner(),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: SliderForBanner(),
                   ),
-                  SliderFor News(title: 'Mua bán'),
-                  SizedBox(height: 10),
-                  SliderForNews(title: 'Tin tức'),
+                  const SliderForNews(title: 'Mua bán'),
+                  const SizedBox(height: 10),
+                  const SliderForNews(title: 'Tin tức'),
                   // SliderForNews(),
                 ],
               ),
