@@ -12,7 +12,9 @@ class Post {
     required this.price,
     required this.surfaceArea,
     required this.coordinate,
-    required this.images
+    required this.images,
+    required this.date_created,
+    required this.date_updated
   });
 
   final Category category;
@@ -23,6 +25,8 @@ class Post {
   final String content;
   final LatLng  coordinate;
   final List<String> images;
+  final String date_created;
+  final String date_updated;
   //
 
 

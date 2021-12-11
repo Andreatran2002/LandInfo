@@ -84,7 +84,7 @@ class _AddPostState extends State<AddPost> {
                     {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  Map(addPostFormKey: addPostFormKey,)),
+                        MaterialPageRoute(builder: (context) =>  Map()),
                       )
                     },
                     child: const Text('Tiếp tục',

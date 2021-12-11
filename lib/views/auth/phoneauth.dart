@@ -1,9 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+
+import '../home.dart';
+
+enum MobileVerificationState{
+  SHOW_MOBILE_FORM_STATE,
+  SHOW_OPT_FORM_STATE
+}
+
 
 class phoneAuth extends StatefulWidget {
   const phoneAuth({Key? key}) : super(key: key);
@@ -14,19 +23,30 @@ class phoneAuth extends StatefulWidget {
 
 class _phoneAuthState extends State<phoneAuth> {
   @override
+  var currenState = MobileVerificationState.SHOW_MOBILE_FORM_STATE;
+  var verificationId ;
   final _phonenumberController = TextEditingController();
+  bool showLoading = false;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  void signInWithPhoneAuthCredential(PhoneAuthCredential credential) async{
+    try {
+      final authCredential = await auth.signInWithCredential(credential);
+      if (authCredential.user != null){
+        Navigator.push(context,MaterialPageRoute(builder: (context)=> const Home()));
+      }
+    } on FirebaseAuthException catch(e){
+print(e);
+    }
+
+  }
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-      ),
-      body: Container(
-          height: MediaQuery.of(context).size.height,
+     return Container(
+          height: 300,
           width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
               child: Column(children: [
             const SizedBox(
-              height: 70,
+              height: 40,
             ),
             Container(
               child: Column(
@@ -37,7 +57,6 @@ class _phoneAuthState extends State<phoneAuth> {
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color : Theme.of(context).colorScheme.primary,
-
                       )),
                   const SizedBox(height: 50),
                   textField(),
@@ -45,14 +64,11 @@ class _phoneAuthState extends State<phoneAuth> {
                     height : 30,
                   )
                 ]
-              ),
+              )
             )
-
             ,
                 optField(),
-
-          ]))),
-    );
+          ])));
   }
 
   Widget textField() {
@@ -69,29 +85,50 @@ class _phoneAuthState extends State<phoneAuth> {
         decoration: InputDecoration(
 
             border: InputBorder.none,
-            hintText: "Nhập số điện thoại.",
-            hintStyle: const TextStyle(color: Colors.black12, fontSize: 13),
+            hintText: "(+84)",
+            hintStyle: const TextStyle(color: Colors.black12, fontSize: 12),
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 19, horizontal: 8),
-            prefixIcon: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
-                child: Text(
-                  " (+84) ",
-                  style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 17),
-                )),
+                const EdgeInsets.symmetric(vertical: 19, horizontal: 20),
+
             suffixIcon: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: TextButton(
                   child :  Text(" Gửi ",
                       style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 17,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold),),
 
-                  onPressed:(){
+                  onPressed:() async {
                     if (validNumber(_phonenumberController.text)) {
+
+                      
+                      await auth.verifyPhoneNumber(
+                        phoneNumber: '+84 788 892 441',
+                        verificationCompleted: (PhoneAuthCredential credential) async {
+                          await auth.signInWithCredential(credential);
+                        },
+                        verificationFailed: (FirebaseAuthException e) {
+                          if (e.code == 'invalid-phone-number') {
+                            print('The provided phone number is not valid.');
+                          }
+
+                          // Handle other errors
+                        },
+                        codeSent: (String verificationId, int? resendToken) async {
+                          setState(()=> {currenState = MobileVerificationState.SHOW_OPT_FORM_STATE});
+                          // Update the UI - wait for the user to enter the SMS code
+                          this.verificationId = verificationId;
+
+                          // Create a PhoneAuthCredential with the code
+
+                        },
+                        timeout: const Duration(seconds: 60),
+                        codeAutoRetrievalTimeout: (String verificationId) {
+                          // Auto-resolution timed out...
+                        },
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                          SnackBar(content: const Text('Đang gửi mã xác thực', style : TextStyle(color: Colors.white)),backgroundColor: Theme.of(context).colorScheme.primary,),
                       );
@@ -123,18 +160,25 @@ class _phoneAuthState extends State<phoneAuth> {
 
   }
   Widget optField() {
+    // if (currenState == MobileVerificationState.SHOW_OPT_FORM_STATE)
+    //   return const Text("Vui lòng nhập số điện thoại để nhận được mã xác thực!");
+    // else
     return OTPTextField(
-      length: 4,
-      width: MediaQuery.of(context).size.width-40,
-
-      fieldWidth: 60,
+      length: 6,
+      width: MediaQuery.of(context).size.width-120,
+      fieldWidth: 30,
       style: const TextStyle(fontSize: 15,),
       textFieldAlignment: MainAxisAlignment.spaceAround,
       fieldStyle: FieldStyle.underline,
-      onCompleted: (pin) {
+      onCompleted: (pin) async {
         print("Completed: " + pin);
+        PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: pin);
 
+        // Sign the user in (or link) with the credential
+        signInWithPhoneAuthCredential(credential);
       },
     );
   }
+
+  
 }

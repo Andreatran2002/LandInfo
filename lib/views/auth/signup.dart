@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tineviland/views/auth/phoneauth.dart';
 import 'signin.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -12,7 +14,9 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  firebase_auth.FirebaseAuth firebaseAuth =  firebase_auth.FirebaseAuth.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +36,7 @@ class _SignUpState extends State<SignUp> {
       });
     });
   }
+
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatpasswordController = TextEditingController();
@@ -44,17 +49,16 @@ class _SignUpState extends State<SignUp> {
   final _usernameFocusNode = FocusNode();
   final _emailFocusNode = FocusNode();
   final _formSignUpKey = GlobalKey<FormState>();
+  final _authPhoneKey = GlobalKey<FormState>();
   bool _isObscurePassword = true;
   bool _isObscureRepeatPassword = true;
   bool circular = false;
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: Form(
             key: _formSignUpKey,
             child: ListView(
-
               padding: const EdgeInsets.symmetric(horizontal: 24),
               children: <Widget>[
                 const SizedBox(height: 0.0),
@@ -65,30 +69,7 @@ class _SignUpState extends State<SignUp> {
                     height: 150,
                   ),
                 ]),
-                const SizedBox(height: 30.0),
-                TextFormField(
-                  style: const TextStyle(
-                    color: Colors.black,
-                  ),
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    labelStyle: TextStyle(
-                      color: _emailFocusNode.hasFocus
-                          ? Theme.of(context).colorScheme.secondary
-                          : _unfocusedColor,
-                    ),
-                  ),
 
-                  validator: (value) {
-
-                    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value!) || value == "")
-                      return 'Vui lòng nhập email đúng định dạng example@gmail.com';
-                    else
-                      return null;
-                  },
-                  focusNode: _emailFocusNode,
-                ),
                 const SizedBox(height: 10.0),
                 TextFormField(
                   style: const TextStyle(
@@ -103,16 +84,15 @@ class _SignUpState extends State<SignUp> {
                           : _unfocusedColor,
                     ),
                   ),
-
                   validator: (value) {
                     if (value == "") {
                       return 'Vui lòng nhập tên đăng nhập';
                     }
-                    if (value!.length < 3) return "Tên đăng nhập phải hơn 3 kí tự";
+                    if (value!.length < 3)
+                      return "Tên đăng nhập phải hơn 3 kí tự";
                   },
                   focusNode: _usernameFocusNode,
                 ),
-
                 const SizedBox(height: 10.0),
                 TextFormField(
                   style: const TextStyle(
@@ -123,8 +103,9 @@ class _SignUpState extends State<SignUp> {
                   decoration: InputDecoration(
                       labelText: "Mật khẩu",
                       suffixIcon: IconButton(
-                          icon: Icon(
-                              _isObscurePassword ? Icons.visibility : Icons.visibility_off),
+                          icon: Icon(_isObscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off),
                           onPressed: () {
                             setState(() {
                               _isObscurePassword = !_isObscurePassword;
@@ -134,14 +115,10 @@ class _SignUpState extends State<SignUp> {
                         color: _passwordFocusNode.hasFocus
                             ? Theme.of(context).colorScheme.secondary
                             : _unfocusedColor,
-
-                      )
-
-                  ),
-
+                      )),
                   focusNode: _passwordFocusNode,
                   validator: (value) {
-                    if (value=="") {
+                    if (value == "") {
                       return 'Vui lòng không được bỏ trống mật khẩu';
                     } else {
                       if (value!.length < 8) {
@@ -152,7 +129,6 @@ class _SignUpState extends State<SignUp> {
                     }
                   },
                   obscureText: _isObscurePassword,
-
                 ),
                 const SizedBox(height: 10.0),
                 TextFormField(
@@ -164,37 +140,33 @@ class _SignUpState extends State<SignUp> {
                   decoration: InputDecoration(
                       labelText: "Nhập lại mật khẩu",
                       suffixIcon: IconButton(
-                          icon: Icon(
-                              _isObscureRepeatPassword ? Icons.visibility : Icons.visibility_off),
+                          icon: Icon(_isObscureRepeatPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off),
                           onPressed: () {
                             setState(() {
-                              _isObscureRepeatPassword = !_isObscureRepeatPassword;
+                              _isObscureRepeatPassword =
+                                  !_isObscureRepeatPassword;
                             });
                           }),
                       labelStyle: TextStyle(
                         color: _repeatpasswordFocusNode.hasFocus
                             ? Theme.of(context).colorScheme.secondary
                             : _unfocusedColor,
-
-                      )
-
-                  ),
-
+                      )),
                   focusNode: _repeatpasswordFocusNode,
                   validator: (value) {
-                    if (value=="") {
+                    if (value == "") {
                       return 'Vui lòng không được bỏ trống mật khẩu';
                     }
-                    if (value != _passwordController.text){
+                    if (value != _passwordController.text) {
                       return "Mật khẩu nhập lại không khớp.";
                     }
                     return null;
                   },
                   obscureText: _isObscureRepeatPassword,
-
                 ),
                 const SizedBox(height: 20.0),
-
                 ButtonBar(
                   alignment: MainAxisAlignment.spaceAround,
                   buttonMinWidth: 300,
@@ -202,41 +174,40 @@ class _SignUpState extends State<SignUp> {
                     ElevatedButton(
                       child: Center(
                         widthFactor: 8.0,
-                        heightFactor : 1.3,
-                        child: circular ? const CircularProgressIndicator( color: Colors.white,) : const Text('Đăng kí tài khoản' ,
-                            style:TextStyle(
-                              color: Colors.white,
-                            )
-
-                        ),
+                        heightFactor: 1.3,
+                        child: circular
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : const Text('Đăng kí tài khoản',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                )),
                       ),
                       style: ButtonStyle(
                         elevation: MaterialStateProperty.all(8.0),
-
                         shape: MaterialStateProperty.all(
                           const BeveledRectangleBorder(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(3.0)),
+                                BorderRadius.all(Radius.circular(3.0)),
                           ),
                         ),
                       ),
                       onPressed: () async {
+
                         setState(() {
                           circular = true;
                         });
                         try {
                           if (_formSignUpKey.currentState!.validate()) {
-                            firebase_auth.UserCredential userCredential = await firebaseAuth
-                                .createUserWithEmailAndPassword(
-                                email: _emailController.text,
-                                password: _passwordController.text);
-                            print(userCredential.user!.email);
+
                             setState(() {
                               circular = false;
                             });
-                            Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(builder: (builder)=> const SignIn()),
-                                    (route) => false);
+                            showInformationDialog(context);
+                            // Navigator.pushAndRemoveUntil(context,
+                            //     MaterialPageRoute(builder: (builder)=> const SignIn()),
+                            //         (route) => false);
                           }
                         } catch (e){
                           final snackbar = SnackBar(content : Text(e.toString()));
@@ -248,41 +219,58 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                     Center(
-
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text('Nếu bạn đã có tài khoản thì hãy vào ',
-                              style : TextStyle(fontSize:11 )),
-                              TextButton(
-                                child: const Text("Đăng nhập", style :  TextStyle(fontWeight: FontWeight.bold , fontSize: 11)),
-                                onPressed: () {
-                                  _usernameController.clear();
-                                  _repeatpasswordController.clear();
-                                  _phonenumberController.clear();
-                                  _passwordController.clear();
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const SignIn()),
-                                      (route)=>false
-                                  );
-                                },
-
-                              )
-                            ],
-                          ),
-
-
-
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Nếu bạn đã có tài khoản thì hãy vào ',
+                              style: TextStyle(fontSize: 11)),
+                          TextButton(
+                            child: const Text("Đăng nhập",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 11)),
+                            onPressed: () {
+                              _usernameController.clear();
+                              _repeatpasswordController.clear();
+                              _phonenumberController.clear();
+                              _passwordController.clear();
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignIn()),
+                                  (route) => false);
+                            },
+                          )
+                        ],
+                      ),
                     ),
-
                   ],
                 ),
-
-
               ],
             )));
   }
 
+  Future<void> showInformationDialog(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          bool isChecked = false;
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: new phoneAuth(),
+              actions: <Widget>[
+                InkWell(
+                  child: Text('OK   '),
+                  onTap: () {
+                    if (_authPhoneKey.currentState!.validate()) {
+                      // Do something like updating SharedPreferences or User Settings etc.
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+              ],
+            );
+          });
+        });
+  }
 
 }

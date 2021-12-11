@@ -5,11 +5,12 @@ import 'package:tineviland/Views/auth/signup.dart';
 import 'package:tineviland/Views/map.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:tineviland/views/home/home.dart';
+import 'package:tineviland/views/home.dart';
 import 'package:tineviland/views/posts/add_post.dart';
 import 'package:tineviland/views/auth/signin.dart';
 
 import 'blocs/application_bloc.dart';
+import 'views/news/add_new.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _AppState extends State<App> {
       create: (context) => ApplicationBloc(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: const AddPost(),
+        home: currentPage,
         theme: _kAppTheme,
       ),
     );
