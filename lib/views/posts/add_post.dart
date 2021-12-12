@@ -16,6 +16,12 @@ class _AddPostState extends State<AddPost> {
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(10.856809388642066, 106.77465589400319);
 
+  final addPostFormKey = GlobalKey<FormState>();
+  final _titleController  = TextEditingController();
+  final _priceController = TextEditingController();
+  final _contentController = TextEditingController();
+  final _surfaceAreaController = TextEditingController();
+
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -36,89 +42,86 @@ class _AddPostState extends State<AddPost> {
       body : Container(
         padding: const EdgeInsets.all(18.0),
         child: SingleChildScrollView(
-          child:Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              label("Tiêu đề bài đăng"),
-              textField("Tiêu đề bài đăng",TextInputType.text,1),
-              const SizedBox(height: 10),
-              label("Hình thức"),
-              DropdownButton(
-                isExpanded: true,
-                value: dropdownvalue,
-                icon: const Icon(Icons.keyboard_arrow_down),
-                items:_categories.map((Category items) {
-                  return DropdownMenuItem(
-                      value: items,
-                      child: Text(PostsRepository.printCategory(items))
-                  );
-                }
-                ).toList(),
-                onChanged: (Category? newValue){
-                  setState(() {
-                    dropdownvalue = newValue!;
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              label("Giá cả"),
-              textField("Nhập giá", TextInputType.number,1),
-              const SizedBox(height: 10),
-              label("Diện tích (m2)"),
-              textField("Nhập diện tích", TextInputType.number,1),
-              const SizedBox(height: 10),
-              label("Nội dung"),
-              description("Nhập vào nội dung"),
-              const SizedBox(height: 10),
-              label("Địa chỉ"),
-              Container(
-                height : 200,
-                child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _center,
-                  zoom: 10,
-                )),
-              ),
-              ElevatedButton(
-                  onPressed: ()=>
-                  {
-                  Navigator.pushAndRemoveUntil(context,
-                  MaterialPageRoute(builder: (builder)=> const Map()),
-                  (route) => false)
+          child:Form(
+            key: addPostFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                label("Tiêu đề bài đăng"),
+                textField("Tiêu đề bài đăng",TextInputType.text,1,_titleController),
+                const SizedBox(height: 10),
+                label("Hình thức"),
+                DropdownButton(
+                  isExpanded: true,
+                  value: dropdownvalue,
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  items:_categories.map((Category items) {
+                    return DropdownMenuItem(
+                        value: items,
+                        child: Text(PostsRepository.printCategory(items))
+                    );
+                  }
+                  ).toList(),
+                  onChanged: (Category? newValue){
+                    setState(() {
+                      dropdownvalue = newValue!;
+                    });
                   },
-                  child: const Text('Tiếp tục',
-                      style: TextStyle(
-                        height: 1.5,
-                        fontSize: 17,
-                        color: Colors.white,
-                      )),
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(8.0),
-                  shape: MaterialStateProperty.all(
-                    const BeveledRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                ),
+                const SizedBox(height: 10),
+                label("Giá cả"),
+                textField("Nhập giá", TextInputType.number,1,_priceController),
+                const SizedBox(height: 10),
+                label("Diện tích (m2)"),
+                textField("Nhập diện tích", TextInputType.number,1,_surfaceAreaController),
+                const SizedBox(height: 10),
+                label("Nội dung"),
+                description("Nhập vào nội dung", _contentController),
+                const SizedBox(height: 10),
+
+                ElevatedButton(
+                    onPressed: ()=>
+                    {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  Map()),
+                      )
+                    },
+                    child: const Text('Tiếp tục',
+                        style: TextStyle  (
+                          height: 1.5,
+                          fontSize: 17,
+                          color: Colors.white,
+                        )),
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(8.0),
+                    fixedSize: MaterialStateProperty.all(const Size(350,50)),
+                    shape: MaterialStateProperty.all(
+                      const BeveledRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                      ),
                     ),
-                  ),
-                ),)
-            ],
+                  ),)
+              ],
+            ),
           )
         ),
       )
     );
   }
 
-  Widget textField( String textHint, TextInputType inputType,int maxLine){
-    return new text_field.TextField(textHint: textHint, inputType: inputType, maxLine: maxLine) ;
+  Widget textField( String textHint, TextInputType inputType,int maxLine , TextEditingController controller){
+    return new text_field.TextField(textHint: textHint, inputType: inputType, maxLine: maxLine, controller : controller) ;
 
   }
-  Widget description( String textHint){
+  Widget description( String textHint, TextEditingController controller){
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0)
       ),
       child: TextFormField(
+        controller: controller,
         maxLines: 8,
         decoration: const InputDecoration(
             contentPadding: EdgeInsets.only( top: 10, bottom: 10)

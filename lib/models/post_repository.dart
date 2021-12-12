@@ -21,104 +21,148 @@ class PostsRepository {
     const allPosts = <Post> [
       Post(
         category: Category.forRent,
-        id: 0,
+          author_id: 'AEzSQEo6wIwuSK7ATG0M',
         surfaceArea: 222.3,
         title: 'Vagabond sack',
         price: 120,
         content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
         coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
 
       ),
       Post(
-          category: Category.forRent,
-          id: 1,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-    ,coordinate : const LatLng(23,23),
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
       ),
       Post(
-          category: Category.forRent,
-          id: 2,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-        ,coordinate : const LatLng(23,23),
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
       ),
       Post(
-          category: Category.forRent,
-          id: 3,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-        ,coordinate : const LatLng(23,23),
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
       ),
       Post(
-          category: Category.forRent,
-          id: 4,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-        ,coordinate : const LatLng(23,23),
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
+      ),Post(
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
+      ),Post(
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
+      ),Post(
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
+      ),Post(
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
       ),
       Post(
-          category: Category.forRent,
-          id: 5,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-        ,coordinate : const LatLng(23,23),
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
       ),
       Post(
-          category: Category.forRent,
-          id: 6,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-        ,coordinate : const LatLng(23,23),
+        category: Category.forRent,
+        author_id: 'AEzSQEo6wIwuSK7ATG0M',
+        surfaceArea: 222.3,
+        title: 'Vagabond sack',
+        price: 120,
+        content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+        coordinate : const LatLng(23,23),
+        images:  [],
+        date_updated:  '1969-07-20 20:18:04Z',
+        date_created:  '1969-07-20 20:18:04Z',
+
       ),
-      Post(
-          category: Category.forRent,
-          id: 7,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-        ,coordinate : const LatLng(23,23),
-      ),
-      Post(
-          category: Category.forRent,
-          id: 8,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-        ,coordinate : const LatLng(23,23),
-      ),
-      Post(
-          category: Category.forRent,
-          id: 9,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-        ,coordinate : const LatLng(23,23),
-      ),
-      Post(
-          category: Category.forRent,
-          id: 10,
-          surfaceArea: 222.3,
-          title: 'Vagabond sack',
-          price: 120,
-          content: " orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-        ,coordinate : const LatLng(23,23),
-      ),
+
+
+
+
+
 
 
 

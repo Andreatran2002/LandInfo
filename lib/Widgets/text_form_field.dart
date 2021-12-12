@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 
@@ -6,12 +8,14 @@ class TextField extends StatelessWidget {
     required this.textHint,
     required this.inputType,
     required this.maxLine,
+    required this.controller,
     Key? key
   }) : super(key: key);
 
   final String textHint;
   final TextInputType inputType;
   final int maxLine ;
+  final TextEditingController controller;
   static const kTextBoxHeight = 65.0;
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,7 @@ class TextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0)
       ),
       child: TextFormField(
+        controller: controller,
         maxLines: maxLine,
         keyboardType: inputType,
         decoration: InputDecoration(

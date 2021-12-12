@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tineviland/Widgets/widget.dart';
 import 'signup.dart';
-import '../forgetpassword.dart';
+import '../auth/forgetpassword.dart';
 import '../home.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
@@ -167,8 +167,7 @@ class _SignInState extends State<SignIn> {
                         });
                         Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(
-                                builder: (builder) => const Home()),
+                            MaterialPageRoute(builder: (builder) =>const  Home()),
                             (route) => false);
                       }
                     } catch (e) {

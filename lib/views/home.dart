@@ -3,6 +3,12 @@ import './home/index.dart';
 import './news/index.dart';
 import './account/index.dart';
 import './posts/add_post.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:tineviland/views/news/add_new.dart';
+import '../constants.dart';
+import 'home/banner_slider.dart';
+import 'home/news_slider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -104,14 +110,30 @@ class _HomeState extends State<Home> {
           fontFamily: "Montserrat",
           fontWeight: FontWeight.w600,
         ),
-        items: const [
+        items: [
           BottomNavigationBarItem(
             label: "Nhà chính",
-            icon: Icon(Icons.home),
+            icon: TextButton(
+              child: Icon(Icons.home),
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Home()),
+                )
+              },
+            ),
           ),
           BottomNavigationBarItem(
             label: "Tin tức",
-            icon: Icon(Icons.public),
+            icon: IconButton(
+              icon: const Icon(Icons.public),
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddNew()),
+                )
+              },
+            ),
             backgroundColor: Colors.pink,
           ),
           BottomNavigationBarItem(

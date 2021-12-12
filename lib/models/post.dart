@@ -6,33 +6,28 @@ enum Category {  all,forSale, forRent,needBuy, needRent }
 class Post {
   const Post({
     required this.category,
-    required this.id,
+    required this.author_id,
     required this.content,
     required this.title,
     required this.price,
     required this.surfaceArea,
     required this.coordinate,
-
+    required this.images,
+    required this.date_created,
+    required this.date_updated
   });
 
   final Category category;
-  final int id;
+  final String author_id;
   final String title;
   final double price;
   final double surfaceArea;
   final String content;
   final LatLng  coordinate;
+  final List<String> images;
+  final String date_created;
+  final String date_updated;
   //
 
-  @override
-  String toString() => "$title (id=$id)";
-  // factory Post.fromMap(Map<String, dynamic> json) {
-  //   return Post(
-  //     json['category'],
-  //     json['title'],
-  //     json['price'],
-  //     json['surfaceArea'],
-  //     json['idf'],
-  //   );
-  // }
+
 }
