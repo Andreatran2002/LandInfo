@@ -36,7 +36,7 @@ class _AppState extends State<App> {
       create: (context) => ApplicationBloc(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: currentPage,
+        home: Home(),
         theme: _kAppTheme,
       ),
     );
@@ -50,17 +50,7 @@ class _AppState extends State<App> {
       });
     }
   }
-  // Route<dynamic>? _getRoute(RouteSettings settings) {
-  //   if (settings.name != '/login') {
-  //     return null;
-  //   }
-  //
-  //   return MaterialPageRoute<void>(
-  //     settings: settings,
-  //     builder: (BuildContext context) => const Map(),
-  //     fullscreenDialog: true,
-  //   );
-  // }
+
 }
 
 final ThemeData _kAppTheme = _buildAppTheme();
@@ -75,54 +65,14 @@ ThemeData _buildAppTheme() {
       error: kAppErrorRed,
     ),
 
-    // TODO: Add the text themes (103)
-    textTheme: _buildAppTextTheme(base.textTheme),
-    textSelectionTheme: const TextSelectionThemeData(
-      selectionColor: kAppGreen1,
-    ),
-    // TODO: Add the icon themes (103)
-    // TODO: Decorate the inputs (103)
-    // inputDecorationTheme: const InputDecorationTheme(
-    //   focusedBorder: OutlineInputBorder(
-    //     borderSide: BorderSide(
-    //       width: 2.0,
-    //       color: kAppGreen2,
-    //     ),
-    //   ),
-    //   border: OutlineInputBorder(),
-    // ),
-  );
-}
-
-ThemeData _buildShrineTheme() {
-  final ThemeData base = ThemeData.light();
-  return base.copyWith(
-    colorScheme: base.colorScheme.copyWith(
-      primary: kAppGreen1,
-      onPrimary: kAppGreen2,
-      secondary: kAppGreen3,
-      error: kAppErrorRed,
-    ),
-
-    // TODO: Add the text themes (103)
     textTheme: _buildAppTextTheme(base.textTheme),
     textSelectionTheme: const TextSelectionThemeData(
       selectionColor: kAppGreen1,
     ),
 
-    // inputDecorationTheme: const InputDecorationTheme(
-    //   focusedBorder: OutlineInputBorder(
-    //     borderSide: BorderSide(
-    //       width: 2.0,
-    //       color: kAppGreen2,
-    //     ),
-    //   ),
-    //   border: OutlineInputBorder(),
-    // ),
   );
 }
 
-// TODO: Build a Shrine Text Theme (103)
 TextTheme _buildAppTextTheme(TextTheme base) {
   return base
       .copyWith(

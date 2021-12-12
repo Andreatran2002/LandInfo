@@ -5,6 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:tineviland/models/user.dart' as user_account;
+import 'package:tineviland/utils/authmethod.dart';
+import 'package:tineviland/views/auth/signup.dart';
 
 import '../home.dart';
 
@@ -15,25 +18,33 @@ enum MobileVerificationState{
 
 
 class phoneAuth extends StatefulWidget {
-  const phoneAuth({Key? key}) : super(key: key);
+  final user_account.User _account ;
+  const phoneAuth( {required user_account.User account }) : _account = account ;
 
   @override
   _phoneAuthState createState() => _phoneAuthState();
 }
 
 class _phoneAuthState extends State<phoneAuth> {
+
   @override
+  var authService = AuthMethods();
   var currenState = MobileVerificationState.SHOW_MOBILE_FORM_STATE;
   var verificationId ;
   final _phonenumberController = TextEditingController();
   bool showLoading = false;
   FirebaseAuth auth = FirebaseAuth.instance;
+
+  user_account.User get account => account;
+
+
   void signInWithPhoneAuthCredential(PhoneAuthCredential credential) async{
     try {
-      final authCredential = await auth.signInWithCredential(credential);
-      if (authCredential.user != null){
-        Navigator.push(context,MaterialPageRoute(builder: (context)=> const Home()));
-      }
+
+      // final authCredential = await auth.signInWithCredential(credential);
+      // if (authCredential.user != null){
+      //   Navigator.push(context,MaterialPageRoute(builder: (context)=> const Home()));
+      // }
     } on FirebaseAuthException catch(e){
 print(e);
     }
@@ -102,8 +113,6 @@ print(e);
 
                   onPressed:() async {
                     if (validNumber(_phonenumberController.text)) {
-
-                      
                       await auth.verifyPhoneNumber(
                         phoneNumber: '+84 788 892 441',
                         verificationCompleted: (PhoneAuthCredential credential) async {
@@ -171,10 +180,7 @@ print(e);
       fieldStyle: FieldStyle.underline,
       onCompleted: (pin) async {
         print("Completed: " + pin);
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: pin);
-
-        // Sign the user in (or link) with the credential
-        signInWithPhoneAuthCredential(credential);
+        authService.signUpWithPhoneNumber(verificationId, pin, context,account);
       },
     );
   }

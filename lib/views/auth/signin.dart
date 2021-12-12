@@ -19,7 +19,7 @@ class _SignInState extends State<SignIn> {
   @override
   void initState() {
     super.initState();
-    _emailFocusNode.addListener(() {
+    _phoneFocusNode.addListener(() {
       setState(() {
         //Redraw so that the username label reflects the focus state
       });
@@ -32,9 +32,9 @@ class _SignInState extends State<SignIn> {
   }
 
   final _passwordController = TextEditingController();
-  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _unfocusedColor = Colors.grey[600];
-  final _emailFocusNode = FocusNode();
+  final _phoneFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   bool _isObscurePassword = true;
@@ -48,7 +48,7 @@ class _SignInState extends State<SignIn> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               children: <Widget>[
                 Column(children: <Widget>[
-                  const SizedBox(height: 70.0),
+                  const SizedBox(height: 120.0),
                   Image.asset(
                     'assets/Logo.png',
                     height: 150,
@@ -58,25 +58,24 @@ class _SignInState extends State<SignIn> {
                   style: const TextStyle(
                     color: Colors.black,
                   ),
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    labelText: "Email",
+                    labelText: "Số điện thoại",
                     labelStyle: TextStyle(
-                      color: _emailFocusNode.hasFocus
+                      color: _phoneFocusNode.hasFocus
                           ? Theme.of(context).colorScheme.secondary
                           : _unfocusedColor,
                     ),
                   ),
                   validator: (value) {
-                    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(value!) ||
+                    if (value!.length<10 ||
                         value == null)
                       return 'Vui lòng nhập email đúng định dạng example@gmail.com';
                     else
                       return null;
                   },
-                  focusNode: _emailFocusNode,
+                  focusNode: _phoneFocusNode,
                 ),
                 const SizedBox(height: 10.0),
                 TextFormField(
@@ -157,14 +156,11 @@ class _SignInState extends State<SignIn> {
                     });
                     try {
                       if (_formKey.currentState!.validate()) {
-                        firebase_auth.UserCredential userCredential =
-                            await firebaseAuth.signInWithEmailAndPassword(
-                                email: _emailController.text,
-                                password: _passwordController.text);
-                        print(userCredential.user!.email);
+                        firebase_auth.ConfirmationResult result = await firebaseAuth.signInWithPhoneNumber("+84788892441");
                         setState(() {
                           circular = false;
                         });
+                        // const userCredential = await result.confirm(verificationCode);
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (builder) =>const  Home()),

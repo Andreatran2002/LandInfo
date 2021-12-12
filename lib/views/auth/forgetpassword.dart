@@ -134,10 +134,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 ),
                 onPressed: () {
                   if (_forgetPasswordFormKey.currentState!.validate()) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const phoneAuth()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => const phoneAuth()),
+                    // );
                   }
                 },
               )

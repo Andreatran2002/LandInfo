@@ -53,6 +53,7 @@ dependencies:
   permission_handler: ^8.3.0
   firebase_database: ^9.0.2
   mobx: ^2.0.5
+  crypt: ^4.0.1
 
 dev_dependencies:
   flutter_test:
