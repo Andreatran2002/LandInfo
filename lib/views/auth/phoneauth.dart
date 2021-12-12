@@ -107,7 +107,7 @@ print(e);
                       await auth.verifyPhoneNumber(
                         phoneNumber: '+84 788 892 441',
                         verificationCompleted: (PhoneAuthCredential credential) async {
-                          await auth.signInWithCredential(credential);
+                          // await auth.signInWithCredential(credential);
                         },
                         verificationFailed: (FirebaseAuthException e) {
                           if (e.code == 'invalid-phone-number') {
@@ -124,7 +124,6 @@ print(e);
                           // Create a PhoneAuthCredential with the code
 
                         },
-                        timeout: const Duration(seconds: 60),
                         codeAutoRetrievalTimeout: (String verificationId) {
                           // Auto-resolution timed out...
                         },
