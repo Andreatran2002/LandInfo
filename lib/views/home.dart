@@ -14,15 +14,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late ScrollController _scrollController;
   late double _scrollPosition;
+  int currentPageIndex = 0;
   final screens = [
-    const Home(),
+    Home(),
     News(),
     AddPost(),
     Account(),
     // AddPost(),
     // const
   ];
-  int currentPageIndex = 0;
 
   _scrollListener() {
     setState(() {
@@ -54,9 +54,6 @@ class _HomeState extends State<Home> {
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
                   title: Text('Chọn loại bài đăng!'),
-                  // content: Row(
-                  //   children: <Widget>[],
-                  // ),
                   actions: [
                     Row(
                       children: [
