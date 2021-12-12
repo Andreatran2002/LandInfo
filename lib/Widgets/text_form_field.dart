@@ -19,7 +19,6 @@ class TextField extends StatelessWidget {
   static const kTextBoxHeight = 65.0;
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
     return Container(
       height: 55,
       width: MediaQuery

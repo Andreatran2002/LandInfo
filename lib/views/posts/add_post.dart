@@ -1,29 +1,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:tineviland/Views/map.dart';
 import 'package:tineviland/models/post.dart';
 import 'package:tineviland/models/post_repository.dart';
 import 'package:tineviland/Widgets/text_form_field.dart' as text_field;
-import 'package:tineviland/views/map.dart';
+import 'package:tineviland/views/map.dart' as MyMap;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 class AddPost extends StatefulWidget {
-  const AddPost({this.category = Category.all  , Key? key}) : super(key: key);
+  const AddPost( {  this.category = Category.all  , Key? key}) : super(key: key);
   final Category category;
+  // final MyMap.Map map ;
   @override
   _AddPostState createState() => _AddPostState();
 }
 
 class _AddPostState extends State<AddPost> {
+
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(10.856809388642066, 106.77465589400319);
-
   final addPostFormKey = GlobalKey<FormState>();
   final _titleController  = TextEditingController();
   final _priceController = TextEditingController();
   final _contentController = TextEditingController();
   final _surfaceAreaController = TextEditingController();
+  String Address="Chưa cập nhập vị trí";
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+  LatLng? pos ;
+  void onDataChange(val) {
+    setState(() {
+      pos= val;
+      // Address = val.toString();
+      print(pos);
+      print("mêmmeeeeeeeeeeee");
+    });
+    GetAddressFromLatLong(val);
   }
   @override
   Category dropdownvalue = Category.all;
@@ -75,24 +90,39 @@ class _AddPostState extends State<AddPost> {
                 label("Diện tích (m2)"),
                 textField("Nhập diện tích", TextInputType.number,1,_surfaceAreaController),
                 const SizedBox(height: 10),
+                Container(
+                  child: Row(
+                    children: [
+                      label("Vị trí"),
+                      IconButton(
+                        icon:  Icon(Icons.add,color: Theme.of(context).colorScheme.primary,),
+                        onPressed: ()=>{
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) =>  MyMap.Map( pos: pos ,callback: (val) => onDataChange(val),)))
+
+                        },
+                      )
+                    ],
+                  )
+                ),
+
+                Text(Address),
+                const SizedBox(height: 10),
                 label("Nội dung"),
                 description("Nhập vào nội dung", _contentController),
                 const SizedBox(height: 10),
-
+                
                 ElevatedButton(
-                    onPressed: ()=>
-                    {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  Map()),
-                      )
-                    },
-                    child: const Text('Tiếp tục',
-                        style: TextStyle  (
-                          height: 1.5,
-                          fontSize: 17,
-                          color: Colors.white,
-                        )),
+                  onPressed: ()=>
+                  {
+
+                     },
+                  child: const Text('Đăng',
+                      style: TextStyle  (
+                        height: 1.5,
+                        fontSize: 17,
+                        color: Colors.white,
+                      )),
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(8.0),
                     fixedSize: MaterialStateProperty.all(const Size(350,50)),
@@ -101,7 +131,7 @@ class _AddPostState extends State<AddPost> {
                         borderRadius: BorderRadius.all(Radius.circular(3.0)),
                       ),
                     ),
-                  ),)
+                  ),),
               ],
             ),
           )
@@ -141,5 +171,14 @@ class _AddPostState extends State<AddPost> {
       )
     );
   }
-
+  void GetAddressFromLatLong(LatLng position)async {
+    setState(() async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    Address = '${place.street}, ${place.administrativeArea} ,  ${place.subAdministrativeArea}, ${place.postalCode}, ${place.country}';
+    });
+    print(Address);
+    print("Địa chỉ đây nè -----------------------------------------------") ;
+  }
 }

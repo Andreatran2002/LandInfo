@@ -21,7 +21,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
-
+  Map map = Map();
   AuthMethods authMethod = AuthMethods();
   Widget currentPage = const SignUp();
   @override
@@ -32,14 +32,19 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ApplicationBloc(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+        create: (context) => ApplicationBloc()),
+
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Home(),
         theme: _kAppTheme,
       ),
     );
+
   }
 
   void checkLogin() async {

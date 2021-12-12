@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tineviland/Views/map.dart';
 import './home/index.dart';
 import './news/index.dart';
 import './account/index.dart';
@@ -18,6 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Map map = Map();
   late ScrollController _scrollController;
   late double _scrollPosition;
   int currentPageIndex = 0;
