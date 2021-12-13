@@ -40,7 +40,7 @@ class _AppState extends State<App> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Home(),
+        home: currentPage,
         theme: _kAppTheme,
       ),
     );
@@ -48,6 +48,8 @@ class _AppState extends State<App> {
   }
 
   void checkLogin() async {
+    AuthMethods auth = AuthMethods();
+    await auth.getUserId();
     String? token = await authMethod.getToken();
     if (token != null) {
       setState(() {

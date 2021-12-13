@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tineviland/Widgets/widget.dart';
+import 'package:tineviland/utils/authmethod.dart';
 import 'signup.dart';
 import '../auth/forgetpassword.dart';
 import '../home.dart';
@@ -156,18 +157,24 @@ class _SignInState extends State<SignIn> {
                     });
                     try {
                       if (_formKey.currentState!.validate()) {
-                        firebase_auth.ConfirmationResult result = await firebaseAuth.signInWithPhoneNumber("+84788892441");
+                        AuthMethods authService = AuthMethods();
                         setState(() {
                           circular = false;
                         });
-                        // const userCredential = await result.confirm(verificationCode);
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (builder) =>const  Home()),
-                            (route) => false);
+                        var result = await authService.signInWithPhoneAndPass(_phoneController.text, _passwordController.text);
+                        print("metaa");
+                        if(result == true)
+                        {
+                          print("Sign in success");
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (builder) =>const  Home()),
+                                  (route) => false);
+                        }
+
                       }
                     } catch (e) {
-                      final snackbar = SnackBar(content: Text(e.toString()));
+                      final snackbar = SnackBar(content:Text("Số điện thoại hoặc mật khẩu đã sai . Vui lòng nhập lại!"));
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
                       setState(() {
                         circular = false;

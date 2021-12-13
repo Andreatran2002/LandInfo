@@ -267,10 +267,8 @@ class _SignUpState extends State<SignUp> {
                 InkWell(
                   child: const Text('Đóng', style : TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
                   onTap: () {
-                    if (_authPhoneKey.currentState!.validate()) {
-                      // Do something like updating SharedPreferences or User Settings etc.
-                      Navigator.of(context).pop();
-                    }
+
+                    Navigator.of(context).pop();
                   },
                 ),
               ],

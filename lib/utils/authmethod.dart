@@ -18,20 +18,40 @@ class AuthMethods {
     await storage.write(
         key: "usercredential", value: userCredential.toString());
   }
+  void storeTokenAndPhone(String phone) async {
+    print("storing token and data");
+    await storage.write(
+        key: "token", value: Crypt.sha256(phone).toString());
+    await storage.write(
+        key: "phone", value: phone);
+    print(phone);
+  }
+
 
   Future<String?> getToken() async {
     return await storage.read(key: "token");
   }
+  Future<String?> getUserId() async{
+    var userPhone = await storage.read(key: "phone");
+    await FirebaseFirestore.instance.collection("users")
+        .where('phone',isEqualTo : userPhone).get().then(
+            (data)  {
+              print("Id là ");
+              print(data);
+              return data.docs[0];
+
+
+        });
+  }
 
   Future<void> signUpWithPhoneNumber(
-      String verificationId, String smsCode, BuildContext context, user_account.User user) async {
+      String verificationId, String smsCode, BuildContext context, user_account.User user, String phone) async {
     try {
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
 
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
-      storeTokenAndData(userCredential);
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (builder) => const SignIn()),
@@ -39,7 +59,7 @@ class AuthMethods {
       FirebaseFirestore.instance.collection("users").add({
         "username" :    user.Name,
         "avatar": "",
-        "phone" : user.PhoneNumber,
+        "phone" : phone,
         "postIds": "",
         "password" : setPassword(user.Password),
       });
@@ -58,7 +78,24 @@ class AuthMethods {
     String hashedPassword = Crypt.sha256(password).toString();
     return hashedPassword;
   }
-  Future<bool> checkPassword(String storedHashedPassword, String password) async {
-    return Future.value(Crypt(storedHashedPassword).match(password)); // 3
+
+   Future<bool> signInWithPhoneAndPass(String phone, String password)async {
+    var result ;
+    await FirebaseFirestore.instance.collection("users")
+        .where('phone',isEqualTo : phone).get().then(
+            (data)  {
+              result = Crypt(data.docs[0]['password']).match(password) ;
+              print("Mat khau dung");
+              if(result){
+                 storeTokenAndPhone(phone);
+              }
+        }
+    );
+
+
+    return Future<bool>.value(result) ;
+  }
+  Future<void> signOut() async {
+    await storage.delete(key: 'token');
   }
 }

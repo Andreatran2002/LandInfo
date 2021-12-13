@@ -53,17 +53,7 @@ class _MapState extends State<Map> {
               ),
               child : const Text("Vị trí" , style : TextStyle(color : Colors.white)),
             ),
-          TextButton(
-            onPressed: ()=> {
 
-            }
-            ,
-            style: TextButton.styleFrom(
-                primary: Colors.green,
-                textStyle : const TextStyle(fontWeight: FontWeight.w600)
-            ),
-            child : const Text("Tiếp" , style : TextStyle(color : Colors.white)),
-          )
         ],
       ),
       body:GoogleMap(

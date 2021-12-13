@@ -20,7 +20,6 @@ class TextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 55,
       width: MediaQuery
           .of(context)
           .size
@@ -40,6 +39,12 @@ class TextField extends StatelessWidget {
             ),
             contentPadding: const EdgeInsets.only(left: 20, right: 20)
         ),
+        validator: (value) {
+          if (value == "") {
+            return 'Vui lòng không được bỏ trống';
+          }
+          return null;
+        },
       ),
     );
 

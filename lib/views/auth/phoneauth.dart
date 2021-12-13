@@ -35,21 +35,7 @@ class _phoneAuthState extends State<phoneAuth> {
   bool showLoading = false;
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  user_account.User get account => account;
 
-
-  void signInWithPhoneAuthCredential(PhoneAuthCredential credential) async{
-    try {
-
-      // final authCredential = await auth.signInWithCredential(credential);
-      // if (authCredential.user != null){
-      //   Navigator.push(context,MaterialPageRoute(builder: (context)=> const Home()));
-      // }
-    } on FirebaseAuthException catch(e){
-print(e);
-    }
-
-  }
   Widget build(BuildContext context) {
      return Container(
           height: 300,
@@ -180,7 +166,7 @@ print(e);
       fieldStyle: FieldStyle.underline,
       onCompleted: (pin) async {
         print("Completed: " + pin);
-        authService.signUpWithPhoneNumber(verificationId, pin, context,account);
+        authService.signUpWithPhoneNumber(verificationId, pin, context,widget._account, _phonenumberController.text);
       },
     );
   }
