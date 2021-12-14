@@ -98,9 +98,12 @@ class _phoneAuthState extends State<phoneAuth> {
                     fontWeight: FontWeight.bold),),
 
                   onPressed:() async {
+                    String phone = _phonenumberController.text;
+                    phone.substring(1);
+                    phone ="+84"+phone;
                     if (validNumber(_phonenumberController.text)) {
                       await auth.verifyPhoneNumber(
-                        phoneNumber: _phonenumberController.text,
+                        phoneNumber: phone,
                         verificationCompleted: (PhoneAuthCredential credential) async {
                           // await auth.signInWithCredential(credential);
                         },
