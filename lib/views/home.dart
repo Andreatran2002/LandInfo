@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
           } else {
             setState(() {
               currentPageIndex = index;
-              currentPage = 2;
+              currentPage = index;
             });
           }
         },
