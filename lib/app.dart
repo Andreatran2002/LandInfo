@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tineviland/Widgets/colors.dart';
 import 'package:tineviland/Views/auth/signup.dart';
 import 'package:tineviland/Views/map.dart';
+import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:tineviland/views/home.dart';
@@ -20,6 +21,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  String? userDocument ;
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   Map map = Map();
   AuthMethods authMethod = AuthMethods();
@@ -36,7 +38,9 @@ class _AppState extends State<App> {
       providers: [
         ChangeNotifierProvider(
         create: (context) => ApplicationBloc()),
-
+        ChangeNotifierProvider(
+          create : (context)=> UserBloc()
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -48,12 +52,14 @@ class _AppState extends State<App> {
   }
 
   void checkLogin() async {
-    AuthMethods auth = AuthMethods();
-    await auth.getUserId();
+
     String? token = await authMethod.getToken();
-    if (token != null) {
-      setState(() {
+    if (token != null)  {
+      setState(() async {
         currentPage = const Home();
+        userDocument = await authMethod.getUserId();
+        print("hehe");
+        print(userDocument);
       });
     }
   }

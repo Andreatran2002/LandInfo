@@ -100,7 +100,7 @@ class _phoneAuthState extends State<phoneAuth> {
                   onPressed:() async {
                     if (validNumber(_phonenumberController.text)) {
                       await auth.verifyPhoneNumber(
-                        phoneNumber: '+84 788 892 441',
+                        phoneNumber: _phonenumberController.text,
                         verificationCompleted: (PhoneAuthCredential credential) async {
                           // await auth.signInWithCredential(credential);
                         },

@@ -3,7 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:tineviland/Views/map.dart';
+import 'package:tineviland/blocs/application_bloc.dart';
+import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/models/post.dart';
 import 'package:tineviland/models/post_repository.dart';
 import 'package:tineviland/Widgets/text_form_field.dart' as text_field;
@@ -48,6 +51,7 @@ class _AddPostState extends State<AddPost> {
   final List<Category> _categories = Category.values;
   @override
   Widget build(BuildContext context) {
+    final userBloc = Provider.of<UserBloc>(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -122,7 +126,7 @@ class _AddPostState extends State<AddPost> {
                 description("Nhập vào nội dung", _contentController),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       circular = true;
                     });
@@ -132,9 +136,9 @@ class _AddPostState extends State<AddPost> {
                         setState(() {
                           circular = false;
                         });
-                        FirebaseFirestore.instance.collection("posts").add({
+                        var post = await FirebaseFirestore.instance.collection("posts").add({
                           "category" : dropdownvalue.index,
-                          "author_id" :    "AEzSQEo6wIwuSK7ATG0M",
+                          "author_id" : userBloc.currentUser,
                           "content" : _contentController.text,
                           "date_created": DateTime.now(),
                           "date_updated" : DateTime.now(),
@@ -144,6 +148,8 @@ class _AddPostState extends State<AddPost> {
                           "price": _priceController.text,
                           "surfaceArea": _surfaceAreaController.text
                         });
+                        print(post);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:const Text("Đã tạo bài đăng thành công!")));
                       }
                     } catch (e) {
                       final snackbar = SnackBar(content: Text(e.toString()));
@@ -230,14 +236,9 @@ class _AddPostState extends State<AddPost> {
     print(Address);
     print("Địa chỉ đây nè -----------------------------------------------");
   }
-  Future<void> updateUser(String doc,String postDoc) async {
+  Future<void> updateUser(String userDoc,String postDoc) async {
 
-    await FirebaseFirestore.instance.collection("users").get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        print(doc);
-      });
-    });
+    // await FirebaseFirestore.instance.collection("users").doc(userDoc).get().then((value) => )
     // oldPost = [... oldPost, postDoc]
 
   }
