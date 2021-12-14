@@ -31,6 +31,7 @@ class _HomeState extends State<Home> {
     AddPost(),
     Account(),
     AddNew(),
+    Home(),
     // AddPost(),
     // const
   ];
@@ -112,7 +113,7 @@ class _HomeState extends State<Home> {
           } else {
             setState(() {
               currentPageIndex = index;
-              currentPage = index;
+              currentPage = 2;
             });
           }
         },
