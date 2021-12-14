@@ -1,12 +1,17 @@
 // import 'dart:html';
-import 'dart:io';
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+
 import '../../utils/firebase_api.dart';
+import '../../utils/storage_service.dart';
 
 class AddNew extends StatefulWidget {
   const AddNew({Key? key}) : super(key: key);
@@ -19,14 +24,39 @@ class _AddNewState extends State<AddNew> {
   final addNewFormKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
+  get size => MediaQuery.of(context).size;
   File? file;
+  String? fileName;
+  final Storage storage = Storage();
+
   Future selectFile() async {
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['png', 'jpg'],
     );
-    if (result == null) return;
+    if (result == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Hình ảnh không hợp lệ vui lòng nhập lại!"),
+        ),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Tải hình ảnh thành công !!"),
+        backgroundColor: Colors.green,
+      ),
+    );
     final path = result.files.single.path!;
-    setState(() => file = File(path));
+    final name = result.files.single.name;
+
+    setState(() => {
+          file = File(path),
+          fileName = name,
+        });
   }
 
   @override
@@ -50,7 +80,7 @@ class _AddNewState extends State<AddNew> {
           children: <Widget>[
             TextField(
               controller: _titleController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Tiêu đề bài viết",
                 labelStyle: TextStyle(
                   fontFamily: 'Montserrat',
@@ -61,7 +91,7 @@ class _AddNewState extends State<AddNew> {
             ),
             TextField(
               controller: _contentController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Nội dung bài viết",
                 labelStyle: TextStyle(
                   fontFamily: 'Montserrat',
@@ -74,12 +104,20 @@ class _AddNewState extends State<AddNew> {
               textAlignVertical: TextAlignVertical.top,
             ),
             Container(
-              child: Text(fileName),
+              margin: EdgeInsets.symmetric(vertical: 20),
+              height: 200,
+              // decoration: ,
+              width: size.width * 0.9,
+              child: file != null
+                  ? Image.file(file!, fit: BoxFit.cover)
+                  : const Center(
+                      child: Text('Chọn ảnh'),
+                    ),
               // child: ,
             ),
             SizedBox(
               width: 300,
-              child: TextButton(
+              child: ElevatedButton(
                 child: const Text(
                   'Tải ảnh lên',
                   style: TextStyle(
@@ -98,14 +136,16 @@ class _AddNewState extends State<AddNew> {
             SizedBox(
               // height: 30,
               width: 90,
-              child: TextButton(
-                onPressed: () {
-                  print('up');
-                  if (file == null) return;
-                  final fileName = file!.path;
-                  final destination = 'files/$fileName';
+              child: ElevatedButton(
+                // onPressed: () {
+                //   if (file == null) return;
+                //   final fileName = file!.path;
+                //   final destination = 'files/$fileName';
 
-                  FirebaseApi.uploadFile(destination, file!);
+                //   FirebaseApi.uploadFile(destination, file!);
+                // },
+                onPressed: () {
+                  storage.uploadFile(context, file, fileName);
                 },
                 child: const Text(
                   'Đăng',

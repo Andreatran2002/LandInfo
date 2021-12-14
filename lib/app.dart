@@ -42,8 +42,8 @@ class _AppState extends State<App> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
 
-        home: currentPage,
-        // home: Home(),
+        // home: currentPage,
+        home: Home(),
         theme: _kAppTheme,
       ),
     );
