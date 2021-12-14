@@ -13,6 +13,8 @@ import 'package:tineviland/Widgets/text_form_field.dart' as text_field;
 import 'package:tineviland/views/map.dart' as MyMap;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../home.dart';
+
 class AddPost extends StatefulWidget {
   const AddPost({this.category = Category.all, Key? key}) : super(key: key);
   final Category category;
@@ -149,7 +151,12 @@ class _AddPostState extends State<AddPost> {
                           "surfaceArea": _surfaceAreaController.text
                         });
                         print(post);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:const Text("Đã tạo bài đăng thành công!")));
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()),
+                                (route) => false);
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Đã tạo bài đăng thành công!")));
                       }
                     } catch (e) {
                       final snackbar = SnackBar(content: Text(e.toString()));
@@ -187,7 +194,7 @@ class _AddPostState extends State<AddPost> {
 
   Widget textField(String textHint, TextInputType inputType, int maxLine,
       TextEditingController controller) {
-    return new text_field.TextField(
+    return  text_field.TextField(
         textHint: textHint,
         inputType: inputType,
         maxLine: maxLine,
