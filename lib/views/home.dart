@@ -26,13 +26,12 @@ class _HomeState extends State<Home> {
   int currentPage = 0;
 
   final screens = [
-    const Home(),
-    const News(),
-    const AddPost(),
+    Home(),
+    News(),
+    AddPost(),
     Account(),
-    const AddNew(),
-    const Home(),
-
+    AddNew(),
+    Home(),
     // AddPost(),
     // const
   ];
@@ -84,7 +83,7 @@ class _HomeState extends State<Home> {
                                 'assets/images/trade.png',
                                 width: 115,
                               ),
-                              const Text('Buôn bán'),
+                              Text('Buôn bán'),
                             ],
                           )),
                       TextButton(
@@ -107,14 +106,14 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20)
+                  SizedBox(height: 20)
                 ],
               ),
             );
           } else {
             setState(() {
               currentPageIndex = index;
-              currentPage = index;
+              currentPage = 2;
             });
           }
         },
