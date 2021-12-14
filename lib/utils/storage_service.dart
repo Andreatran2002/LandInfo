@@ -13,14 +13,10 @@ class Storage {
     String fileName,
   ) async {
     try {
+      print("oke oke " + fileName);
       await storage
           .ref('images/$fileName')
           .putFile(file!)
-          // await ScaffoldMessenger.of(context).showSnackBar(
-          //   const SnackBar(
-          //     content: Text("Hình ảnh không hợp lệ vui lòng nhập lại!"),
-          //   ),
-          // );
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text(

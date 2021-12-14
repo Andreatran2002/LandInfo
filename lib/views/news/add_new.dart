@@ -61,7 +61,6 @@ class _AddNewState extends State<AddNew> {
 
   @override
   Widget build(BuildContext context) {
-    final fileName = file != null ? file!.path : 'Name of file!';
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -137,15 +136,8 @@ class _AddNewState extends State<AddNew> {
               // height: 30,
               width: 90,
               child: ElevatedButton(
-                // onPressed: () {
-                //   if (file == null) return;
-                //   final fileName = file!.path;
-                //   final destination = 'files/$fileName';
-
-                //   FirebaseApi.uploadFile(destination, file!);
-                // },
                 onPressed: () {
-                  storage.uploadFile(context, file, fileName);
+                  storage.uploadFile(context, file, fileName!);
                 },
                 child: const Text(
                   'Đăng',
