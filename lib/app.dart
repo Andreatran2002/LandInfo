@@ -36,7 +36,9 @@ class _AppState extends State<App> {
       create: (context) => ApplicationBloc(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: currentPage,
+
+        // home: currentPage,
+        home: Home(),
         theme: _kAppTheme,
       ),
     );

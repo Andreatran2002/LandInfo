@@ -21,11 +21,15 @@ class _HomeState extends State<Home> {
   late ScrollController _scrollController;
   late double _scrollPosition;
   int currentPageIndex = 0;
+  int currentPage = 0;
+
   final screens = [
     Home(),
     News(),
     AddPost(),
     Account(),
+    AddNew(),
+    Home(),
     // AddPost(),
     // const
   ];
@@ -54,49 +58,61 @@ class _HomeState extends State<Home> {
         type: BottomNavigationBarType.fixed,
         currentIndex: currentPageIndex,
         onTap: (index) {
-          if (index != currentPageIndex) {
-            if (index == 2) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: Text('Chọn loại bài đăng!'),
-                  actions: [
-                    Row(
-                      children: [
-                        TextButton(
-                            onPressed: () {},
-                            child: Column(
-                              children: [
-                                Image.asset('assets/images/trade.png',
-                                    width: 135),
-                                Text('Tin tức'),
-                              ],
-                            )),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pop(context, 'cancel');
-                              setState(() {
-                                currentPageIndex = 2;
-                              });
-                            },
-                            child: Column(
-                              children: [
-                                Image.asset('assets/images/news.png',
-                                    width: 135),
-                                Text('Buôn bán'),
-                              ],
-                            )),
-                      ],
-                    ),
-                    SizedBox(height: 20)
-                  ],
-                ),
-              );
-            } else {
-              setState(() {
-                currentPageIndex = index;
-              });
-            }
+          if (index == 2) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Chọn loại bài đăng!'),
+                actions: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context, rootNavigator: true).pop();
+                            setState(() {
+                              currentPageIndex = 2;
+                              currentPage = 2;
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                'assets/images/trade.png',
+                                width: 115,
+                              ),
+                              Text('Buôn bán'),
+                            ],
+                          )),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true).pop();
+                          setState(() {
+                            currentPageIndex = 2;
+                            currentPage = 4;
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              'assets/images/news.png',
+                              width: 115,
+                            ),
+                            const Text('Tin tức'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20)
+                ],
+              ),
+            );
+          } else {
+            setState(() {
+              currentPageIndex = index;
+              currentPage = 2;
+            });
           }
         },
         selectedItemColor: const Color(0xff358F38),
@@ -110,30 +126,14 @@ class _HomeState extends State<Home> {
           fontFamily: "Montserrat",
           fontWeight: FontWeight.w600,
         ),
-        items: [
+        items: const [
           BottomNavigationBarItem(
             label: "Nhà chính",
-            icon: TextButton(
-              child: Icon(Icons.home),
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                )
-              },
-            ),
+            icon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
             label: "Tin tức",
-            icon: IconButton(
-              icon: const Icon(Icons.public),
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddNew()),
-                )
-              },
-            ),
+            icon: Icon(Icons.public),
             backgroundColor: Colors.pink,
           ),
           BottomNavigationBarItem(
@@ -152,7 +152,7 @@ class _HomeState extends State<Home> {
               size: size,
               scrollPosition: _scrollPosition,
             )
-          : screens[currentPageIndex],
+          : screens[currentPage],
     );
   }
 }

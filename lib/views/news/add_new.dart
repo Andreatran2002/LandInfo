@@ -1,7 +1,12 @@
+// import 'dart:html';
+import 'dart:io';
+import 'dart:convert';
+import 'dart:async';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:tineviland/Widgets/text_form_field.dart' as text_field;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../home.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../../utils/firebase_api.dart';
 
 class AddNew extends StatefulWidget {
   const AddNew({Key? key}) : super(key: key);
@@ -10,99 +15,148 @@ class AddNew extends StatefulWidget {
   _AddNewState createState() => _AddNewState();
 }
 
-class _AddNewState extends State<AddNew>{
-final addNewFormKey = GlobalKey<FormState>();
-final _titleController  = TextEditingController();
-final _contentController = TextEditingController();
+class _AddNewState extends State<AddNew> {
+  final addNewFormKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _contentController = TextEditingController();
+  File? file;
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+    );
+    if (result == null) return;
+    final path = result.files.single.path!;
+    setState(() => file = File(path));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final fileName = file != null ? file!.path : 'Name of file!';
     return Scaffold(
-
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            "Đăng tin", style: TextStyle(
-            color : Colors.white,),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "Đăng tin",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: "Montserrat",
+            fontWeight: FontWeight.bold,
           ),
         ),
-        body : Container(
-          padding: const EdgeInsets.all(18.0),
-          child: SingleChildScrollView(
-              child:Form(
-                key: addNewFormKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    label("Tiêu đề tin tức"),
-                    textField("Tiêu đề tin tức",TextInputType.text,1,_titleController),
-                    const SizedBox(height: 10),
-                    label("Nội dung"),
-                    description("Nhập vào nội dung", _contentController),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: ()=>
-                      {
-                        FirebaseFirestore.instance.collection("news").add({
-                        "author_id" :    "AEzSQEo6wIwuSK7ATG0M",
-                        "content" :" 222 . quên thêm intl: 0.15.7phụ thuộc vào pubspec.yamltệp của bạn . Phiên bản mới nhất của thư viện có thể được tìm thấy tại đây . — Defuera gói intl có xếp hạng rất thấp — Aseem Bất kỳ ai khác nhận được rằng các thành viên tĩnh không thể được truy cập trong trình khởi tạo? — MrPool @MrPool Có, không thể truy cập vấn đề tương tự với các thành viên tĩnh trong trình khởi tạo. Rất khó chịu vì có ngày tĩnh không có",
-                        "date_created": "July 5, 2020 at 12:00:00 AM UTC+7",
-                        "date_updated" : "July 5, 2020 at 12:00:00 AM UTC+7",
-                        "images": "",
-                        "title": "Giá cả thị trường 2020"
-                        })
-                      },
-                      child: const Text('Tiếp tục',
-                          style: TextStyle  (
-                            height: 1.5,
-                            fontSize: 17,
-                            color: Colors.white,
-                          )),
-                      style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(8.0),
-                        fixedSize: MaterialStateProperty.all(const Size(350,50)),
-                        shape: MaterialStateProperty.all(
-                          const BeveledRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(3.0)),
-                          ),
-                        ),
-                      ),)
-                  ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                labelText: "Tiêu đề bài viết",
+                labelStyle: TextStyle(
+                  fontFamily: 'Montserrat',
                 ),
-              )
-          ),
-        )
-    );
-  }
+                border: OutlineInputBorder(),
+              ),
+              maxLength: 100,
+            ),
+            TextField(
+              controller: _contentController,
+              decoration: InputDecoration(
+                labelText: "Nội dung bài viết",
+                labelStyle: TextStyle(
+                  fontFamily: 'Montserrat',
+                ),
+                border: OutlineInputBorder(),
+              ),
+              maxLength: 500,
+              minLines: 3,
+              maxLines: 7,
+              textAlignVertical: TextAlignVertical.top,
+            ),
+            Container(
+              child: Text(fileName),
+              // child: ,
+            ),
+            SizedBox(
+              width: 300,
+              child: TextButton(
+                child: const Text(
+                  'Tải ảnh lên',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Color(0xff108A2D),
+                  ),
+                ),
+                onPressed: selectFile,
+              ),
+            ),
+            SizedBox(
+              // height: 30,
+              width: 90,
+              child: TextButton(
+                onPressed: () {
+                  print('up');
+                  if (file == null) return;
+                  final fileName = file!.path;
+                  final destination = 'files/$fileName';
 
-  Widget textField( String textHint, TextInputType inputType,int maxLine , TextEditingController controller){
-    return new text_field.TextField(textHint: textHint, inputType: inputType, maxLine: maxLine, controller : controller) ;
-
-  }
-  Widget description( String textHint, TextEditingController controller){
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0)
-      ),
-      child: TextFormField(
-        controller: controller,
-        maxLines: 8,
-        decoration: const InputDecoration(
-            contentPadding: EdgeInsets.only( top: 10, bottom: 10)
+                  FirebaseApi.uploadFile(destination, file!);
+                },
+                child: const Text(
+                  'Đăng',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Color(0xff108A2D),
+                  ),
+                ),
+                // onPressed: () {},
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
-  Widget label(String label){
-    return Text(
-        label,
-        style : const TextStyle(
-            height: 1.4,
-            color : Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 16.5,
-            letterSpacing: 0.2
-        )
-    );
-  }
+
+  // Widget textField(String textHint, TextInputType inputType, int maxLine,
+  //     TextEditingController controller) {
+  //   return new text_field.TextField(
+  //       textHint: textHint,
+  //       inputType: inputType,
+  //       maxLine: maxLine,
+  //       controller: controller,);
+  // }
+
+  // Widget description(String textHint, TextEditingController controller) {
+  //   return Container(
+  //     width: MediaQuery.of(context).size.width,
+  //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+  //     child: TextFormField(
+  //       controller: controller,
+  //       maxLines: 8,
+  //       decoration: const InputDecoration(
+  //           contentPadding: EdgeInsets.only(top: 10, bottom: 10)),
+  //     ),
+  //   );
+  // }
+
+  // Widget label(String label) {
+  //   return Text(label,
+  //       style: const TextStyle(
+  //           height: 1.4,
+  //           color: Colors.black,
+  //           fontWeight: FontWeight.w600,
+  //           fontSize: 16.5,
+  //           letterSpacing: 0.2));
+  // }
 }
