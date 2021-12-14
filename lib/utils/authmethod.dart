@@ -74,7 +74,7 @@ class AuthMethods {
         "password" : setPassword(user.Password),
       });
 
-      showSnackBar(context, "logged In");
+      showSnackBar(context, "Đăng ký tài khoản thành công");
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -107,5 +107,6 @@ class AuthMethods {
   }
   Future<void> signOut() async {
     await storage.delete(key: 'token');
+    await storage.delete(key: 'phone');
   }
 }
