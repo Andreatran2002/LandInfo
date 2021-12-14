@@ -21,7 +21,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  String? userDocument ;
+  String? userDocument;
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   Map map = Map();
   AuthMethods authMethod = AuthMethods();
@@ -36,25 +36,22 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-        create: (context) => ApplicationBloc()),
-        ChangeNotifierProvider(
-          create : (context)=> UserBloc()
-        )
+        ChangeNotifierProvider(create: (context) => ApplicationBloc()),
+        ChangeNotifierProvider(create: (context) => UserBloc())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+
         home: currentPage,
+        // home: Home(),
         theme: _kAppTheme,
       ),
     );
-
   }
 
   void checkLogin() async {
-
     String? token = await authMethod.getToken();
-    if (token != null)  {
+    if (token != null) {
       setState(() async {
         currentPage = const Home();
         userDocument = await authMethod.getUserId();
@@ -63,7 +60,6 @@ class _AppState extends State<App> {
       });
     }
   }
-
 }
 
 final ThemeData _kAppTheme = _buildAppTheme();
@@ -77,12 +73,10 @@ ThemeData _buildAppTheme() {
       secondary: kAppGreen3,
       error: kAppErrorRed,
     ),
-
     textTheme: _buildAppTextTheme(base.textTheme),
     textSelectionTheme: const TextSelectionThemeData(
       selectionColor: kAppGreen1,
     ),
-
   );
 }
 
