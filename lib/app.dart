@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tineviland/Widgets/colors.dart';
 import 'package:tineviland/Views/auth/signup.dart';
 import 'package:tineviland/Views/map.dart';
+import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:tineviland/views/home.dart';
@@ -20,8 +21,9 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  String? userDocument ;
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
-
+  Map map = Map();
   AuthMethods authMethod = AuthMethods();
   Widget currentPage = const SignUp();
   @override
@@ -32,8 +34,14 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ApplicationBloc(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+        create: (context) => ApplicationBloc()),
+        ChangeNotifierProvider(
+          create : (context)=> UserBloc()
+        )
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
 
@@ -42,27 +50,22 @@ class _AppState extends State<App> {
         theme: _kAppTheme,
       ),
     );
+
   }
 
   void checkLogin() async {
+
     String? token = await authMethod.getToken();
-    if (token != null) {
-      setState(() {
+    if (token != null)  {
+      setState(() async {
         currentPage = const Home();
+        userDocument = await authMethod.getUserId();
+        print("hehe");
+        print(userDocument);
       });
     }
   }
-  // Route<dynamic>? _getRoute(RouteSettings settings) {
-  //   if (settings.name != '/login') {
-  //     return null;
-  //   }
-  //
-  //   return MaterialPageRoute<void>(
-  //     settings: settings,
-  //     builder: (BuildContext context) => const Map(),
-  //     fullscreenDialog: true,
-  //   );
-  // }
+
 }
 
 final ThemeData _kAppTheme = _buildAppTheme();
@@ -77,54 +80,14 @@ ThemeData _buildAppTheme() {
       error: kAppErrorRed,
     ),
 
-    // TODO: Add the text themes (103)
-    textTheme: _buildAppTextTheme(base.textTheme),
-    textSelectionTheme: const TextSelectionThemeData(
-      selectionColor: kAppGreen1,
-    ),
-    // TODO: Add the icon themes (103)
-    // TODO: Decorate the inputs (103)
-    // inputDecorationTheme: const InputDecorationTheme(
-    //   focusedBorder: OutlineInputBorder(
-    //     borderSide: BorderSide(
-    //       width: 2.0,
-    //       color: kAppGreen2,
-    //     ),
-    //   ),
-    //   border: OutlineInputBorder(),
-    // ),
-  );
-}
-
-ThemeData _buildShrineTheme() {
-  final ThemeData base = ThemeData.light();
-  return base.copyWith(
-    colorScheme: base.colorScheme.copyWith(
-      primary: kAppGreen1,
-      onPrimary: kAppGreen2,
-      secondary: kAppGreen3,
-      error: kAppErrorRed,
-    ),
-
-    // TODO: Add the text themes (103)
     textTheme: _buildAppTextTheme(base.textTheme),
     textSelectionTheme: const TextSelectionThemeData(
       selectionColor: kAppGreen1,
     ),
 
-    // inputDecorationTheme: const InputDecorationTheme(
-    //   focusedBorder: OutlineInputBorder(
-    //     borderSide: BorderSide(
-    //       width: 2.0,
-    //       color: kAppGreen2,
-    //     ),
-    //   ),
-    //   border: OutlineInputBorder(),
-    // ),
   );
 }
 
-// TODO: Build a Shrine Text Theme (103)
 TextTheme _buildAppTextTheme(TextTheme base) {
   return base
       .copyWith(

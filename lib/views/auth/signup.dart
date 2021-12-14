@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:tineviland/views/auth/phoneauth.dart';
 import 'signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:tineviland/models/user.dart' as user_account;
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class _SignUpState extends State<SignUp> {
     super.initState();
     _passwordFocusNode.addListener(() {
       setState(() {
-        //Redraw so that the password label reflects the focus state
+
       });
     });
     _usernameFocusNode.addListener(() {
@@ -204,6 +204,8 @@ class _SignUpState extends State<SignUp> {
                             setState(() {
                               circular = false;
                             });
+
+
                             showInformationDialog(context);
                             // Navigator.pushAndRemoveUntil(context,
                             //     MaterialPageRoute(builder: (builder)=> const SignIn()),
@@ -250,21 +252,23 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<void> showInformationDialog(BuildContext context) async {
+    user_account.User user = user_account.User(
+        Name: _usernameController.text,
+        Password:  _passwordController.text,
+        PhoneNumber: _phonenumberController.text);
     return await showDialog(
         context: context,
         builder: (context) {
           bool isChecked = false;
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
-              content: new phoneAuth(),
+              content:  phoneAuth(account : user),
               actions: <Widget>[
                 InkWell(
-                  child: Text('OK   '),
+                  child: const Text('Đóng', style : TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
                   onTap: () {
-                    if (_authPhoneKey.currentState!.validate()) {
-                      // Do something like updating SharedPreferences or User Settings etc.
-                      Navigator.of(context).pop();
-                    }
+
+                    Navigator.of(context).pop();
                   },
                 ),
               ],

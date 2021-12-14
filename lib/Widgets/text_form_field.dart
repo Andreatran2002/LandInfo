@@ -19,9 +19,7 @@ class TextField extends StatelessWidget {
   static const kTextBoxHeight = 65.0;
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
     return Container(
-      height: 55,
       width: MediaQuery
           .of(context)
           .size
@@ -41,6 +39,12 @@ class TextField extends StatelessWidget {
             ),
             contentPadding: const EdgeInsets.only(left: 20, right: 20)
         ),
+        validator: (value) {
+          if (value == "") {
+            return 'Vui lòng không được bỏ trống';
+          }
+          return null;
+        },
       ),
     );
 
