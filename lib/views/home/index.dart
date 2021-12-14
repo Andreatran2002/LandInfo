@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tineviland/blocs/user_bloc.dart';
+import 'package:tineviland/models/user.dart';
 import '../../constants.dart';
 import './banner_slider.dart';
 import './news_slider.dart';
@@ -20,6 +23,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userBloc = Provider.of<UserBloc>(context);
+    User user = userBloc.user;
+    var name = user.Name.split(" ");
+
     return SingleChildScrollView(
       controller: _scrollController,
       child: Stack(
@@ -56,7 +63,7 @@ class HomePage extends StatelessWidget {
                           height: 90,
                         ),
                         Text(
-                          "Chào, Vy",
+                          "Hi " + name[0],
                           style:
                               Theme.of(context).textTheme.headline4?.copyWith(
                                     fontWeight: FontWeight.w700,

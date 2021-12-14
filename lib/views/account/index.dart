@@ -17,7 +17,12 @@ class _AccountState extends State<Account> {
     final userBloc = Provider.of<UserBloc>(context);
     var user = userBloc.user;
     return Scaffold(
-      body: Container(
+      body: (userBloc.user== null) ?
+      const CircularProgressIndicator(
+        value: 15,
+        semanticsLabel: 'Loading!!',
+      )
+          : Container(
         padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
         child: GestureDetector(
           onTap: () {
