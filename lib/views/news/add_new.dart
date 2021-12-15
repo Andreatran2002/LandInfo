@@ -2,12 +2,15 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:provider/provider.dart';
+import 'package:tineviland/blocs/user_bloc.dart';
 
 import '../../utils/firebase_api.dart';
 import '../../utils/storage_service.dart';
@@ -26,6 +29,7 @@ class _AddNewState extends State<AddNew> {
   get size => MediaQuery.of(context).size;
   File? file;
   String? fileName;
+  String? fileUrl;
   final Storage storage = Storage();
 
   Future selectFile() async {
@@ -60,6 +64,7 @@ class _AddNewState extends State<AddNew> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserBloc>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -72,88 +77,141 @@ class _AddNewState extends State<AddNew> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: "Tiêu đề bài viết",
-                labelStyle: TextStyle(
-                  fontFamily: 'Montserrat',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
+          child: Column(
+            children: <Widget>[
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  labelText: "Tiêu đề bài viết",
+                  labelStyle: TextStyle(
+                    fontFamily: 'Montserrat',
+                  ),
+                  border: OutlineInputBorder(),
                 ),
-                border: OutlineInputBorder(),
+                maxLength: 100,
               ),
-              maxLength: 100,
-            ),
-            TextField(
-              controller: _contentController,
-              decoration: const InputDecoration(
-                labelText: "Nội dung bài viết",
-                labelStyle: TextStyle(
-                  fontFamily: 'Montserrat',
+              TextField(
+                controller: _contentController,
+                decoration: const InputDecoration(
+                  labelText: "Nội dung bài viết",
+                  labelStyle: TextStyle(
+                    fontFamily: 'Montserrat',
+                  ),
+                  border: OutlineInputBorder(),
                 ),
-                border: OutlineInputBorder(),
+                maxLength: 500,
+                minLines: 3,
+                maxLines: 7,
+                textAlignVertical: TextAlignVertical.top,
               ),
-              maxLength: 500,
-              minLines: 3,
-              maxLines: 7,
-              textAlignVertical: TextAlignVertical.top,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              height: 200,
-              // decoration: ,
-              width: size.width * 0.9,
-              child: file != null
-                  ? Image.file(file!, fit: BoxFit.cover)
-                  : const Center(
-                      child: Text('Chọn ảnh'),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                height: 200,
+                // decoration: ,
+                width: size.width * 0.9,
+                child: file != null
+                    ? Image.file(file!, fit: BoxFit.cover)
+                    : const Center(
+                        child: Text('Chọn ảnh'),
+                      ),
+                // child: ,
+              ),
+              SizedBox(
+                width: 300,
+                child: ElevatedButton(
+                  child: const Text(
+                    'Tải ảnh lên',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Montserrat',
                     ),
-              // child: ,
-            ),
-            SizedBox(
-              width: 300,
-              child: ElevatedButton(
-                child: const Text(
-                  'Tải ảnh lên',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Montserrat',
                   ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    Color(0xff108A2D),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Color(0xff108A2D),
+                    ),
                   ),
+                  onPressed: selectFile,
                 ),
-                onPressed: selectFile,
               ),
-            ),
-            SizedBox(
-              // height: 30,
-              width: 90,
-              child: ElevatedButton(
-                onPressed: () {
-                  storage.uploadFile(context, file, fileName!);
-                },
-                child: const Text(
-                  'Đăng',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Montserrat',
+              SizedBox(
+                // height: 30,
+                width: 90,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (_titleController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Vui lòng nhập tiêu đề!"),
+                      ));
+                    } else if (_contentController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Vui lòng nhập Nội dung!"),
+                      ));
+                    } else {
+                      String url = await storage.uploadFile(
+                        context,
+                        file,
+                        fileName!,
+                        fileUrl,
+                      );
+                      if (url.isEmpty) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("Đã có lỗi khi tải ảnh lên !!"),
+                        ));
+                      } else {
+                        try {
+                          print("id nè : ");
+                          print(user.currentUser);
+
+                          await FirebaseFirestore.instance
+                              .collection("news")
+                              .add({
+                            "author_id": user.currentUser,
+                            "content": _contentController.text,
+                            "title": _titleController.text,
+                            "images": url,
+                            "date_created": new DateTime.now(),
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Đăng bài thành công"),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } on FirebaseException catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.message.toString()),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                          print(e);
+                        }
+                      }
+                    }
+                  },
+
+                  child: const Text(
+                    'Đăng',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Montserrat',
+                    ),
                   ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    Color(0xff108A2D),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Color(0xff108A2D),
+                    ),
                   ),
+                  // onPressed: () {},
                 ),
-                // onPressed: () {},
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
