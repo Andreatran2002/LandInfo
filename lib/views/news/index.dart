@@ -16,16 +16,6 @@ class News extends StatefulWidget {
 }
 
 class _NewsState extends State<News> {
-  void initState() {
-    super.initState();
-    // takeAuthorInfo();
-  }
-
-  Future<User> takeAuthorInfo(String id) async {
-    User result = await AuthMethods.getUser(id);
-    return result;
-  }
-
   get size => MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
@@ -64,84 +54,153 @@ class _NewsState extends State<News> {
                   final content = snapshot.data!.docs[index].get('content');
                   final imageUrl = snapshot.data!.docs[index].get('images');
                   final author_id = snapshot.data!.docs[index].get('author_id');
-                  User author = takeAuthorInfo(author_id) as User;
-                  print(author.Name);
 
-                  return Container(
-                    width: size.width * 0.9,
-                    height: 150,
-                    margin: EdgeInsets.only(bottom: 20),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(2, 2),
-                            blurRadius: 5,
-                            spreadRadius: 1.1,
-                          )
-                        ]),
-                    child: Row(
-                      children: [
-                        Container(
-                            width: size.width * 0.45,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(5),
-                                bottomLeft: Radius.circular(5),
-                              ),
-                              image: DecorationImage(
-                                image: NetworkImage(imageUrl),
-                                fit: BoxFit.cover,
-                              ),
-                            )),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    title,
-                                    overflow: TextOverflow.ellipsis,
-                                    // maxLines: 2,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: "Montserrat",
-                                          fontSize: 16,
-                                        ),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    content,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "Montserrat",
-                                          fontSize: 12,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  return HoriCard(
+                    size: size,
+                    imageUrl: imageUrl,
+                    title: title,
+                    content: content,
+                    author_id: author_id,
                   );
                 },
               );
             }),
+      ),
+    );
+  }
+}
+
+class HoriCard extends StatefulWidget {
+  HoriCard({
+    Key? key,
+    required this.size,
+    required this.imageUrl,
+    required this.title,
+    required this.content,
+    required this.author_id,
+  }) : super(key: key);
+
+  final size;
+  final imageUrl;
+  final title;
+  final content;
+  final author_id;
+
+  @override
+  State<HoriCard> createState() => _HoriCardState();
+}
+
+class _HoriCardState extends State<HoriCard> {
+  late User? author = new User(
+    Name: "",
+    Password: "",
+    Avatar: "loading",
+    PhoneNumber: "",
+  );
+
+  Future<void> takeAuthorInfo() async {
+    User author1 = await AuthMethods.getUser(widget.author_id);
+    setState(() => {author = author1});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    takeAuthorInfo();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: widget.size.width * 0.9,
+      height: 150,
+      margin: EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(2, 2),
+              blurRadius: 5,
+              spreadRadius: 1.1,
+            )
+          ]),
+      child: Row(
+        children: [
+          Container(
+              width: widget.size.width * 0.45,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  bottomLeft: Radius.circular(5),
+                ),
+                image: DecorationImage(
+                  image: NetworkImage(widget.imageUrl),
+                  fit: BoxFit.cover,
+                ),
+              )),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: 5, right: 10, left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        CircleAvatar(
+                          backgroundImage:
+                              // author!.Avatar == "loading"
+                              //     ? AssetImage("assets\images\default-avatar.png")
+                              NetworkImage(author!.Avatar),
+                        ),
+                        SizedBox(width: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Text(
+                            author!.Name,
+                            style:
+                                Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      fontSize: 16,
+                                    ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      widget.title,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "Montserrat",
+                            fontSize: 16,
+                          ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      widget.content,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "Montserrat",
+                            fontSize: 12,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

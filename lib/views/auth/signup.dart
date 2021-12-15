@@ -16,14 +16,11 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-
   @override
   void initState() {
     super.initState();
     _passwordFocusNode.addListener(() {
-      setState(() {
-
-      });
+      setState(() {});
     });
     _usernameFocusNode.addListener(() {
       setState(() {
@@ -69,7 +66,6 @@ class _SignUpState extends State<SignUp> {
                     height: 150,
                   ),
                 ]),
-
                 const SizedBox(height: 10.0),
                 TextFormField(
                   style: const TextStyle(
@@ -194,25 +190,23 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       onPressed: () async {
-
                         setState(() {
                           circular = true;
                         });
                         try {
                           if (_formSignUpKey.currentState!.validate()) {
-
                             setState(() {
                               circular = false;
                             });
-
 
                             showInformationDialog(context);
                             // Navigator.pushAndRemoveUntil(context,
                             //     MaterialPageRoute(builder: (builder)=> const SignIn()),
                             //         (route) => false);
                           }
-                        } catch (e){
-                          final snackbar = SnackBar(content : Text(e.toString()));
+                        } catch (e) {
+                          final snackbar =
+                              SnackBar(content: Text(e.toString()));
                           ScaffoldMessenger.of(context).showSnackBar(snackbar);
                           setState(() {
                             circular = false;
@@ -253,21 +247,24 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> showInformationDialog(BuildContext context) async {
     user_account.User user = user_account.User(
-        Name: _usernameController.text,
-        Password:  _passwordController.text,
-        PhoneNumber: _phonenumberController.text);
+      Name: _usernameController.text,
+      Password: _passwordController.text,
+      PhoneNumber: _phonenumberController.text,
+      Avatar: "",
+    );
     return await showDialog(
         context: context,
         builder: (context) {
           bool isChecked = false;
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
-              content:  phoneAuth(account : user),
+              content: phoneAuth(account: user),
               actions: <Widget>[
                 InkWell(
-                  child: const Text('Đóng', style : TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
+                  child: const Text('Đóng',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
                   onTap: () {
-
                     Navigator.of(context).pop();
                   },
                 ),
@@ -276,5 +273,4 @@ class _SignUpState extends State<SignUp> {
           });
         });
   }
-
 }
