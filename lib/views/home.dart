@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tineviland/Views/map.dart';
+import 'package:tineviland/views/posts/index.dart';
 import './home/index.dart';
 import './news/index.dart';
 import './account/index.dart';
@@ -27,7 +28,7 @@ class _HomeState extends State<Home> {
 
   final screens = [
     Home(),
-    News(),
+    PostView(),
     AddPost(),
     Account(),
     AddNew(),
