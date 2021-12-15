@@ -99,7 +99,7 @@ TextTheme _buildAppTextTheme(TextTheme base) {
         bodyText1: base.bodyText1!.copyWith(
           fontWeight: FontWeight.w500,
           fontSize: 16.0,
-        ),
+        )
       )
       .apply(
         fontFamily: 'Montsterrat',
