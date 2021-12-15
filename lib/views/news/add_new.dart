@@ -110,7 +110,6 @@ class _AddNewState extends State<AddNew> {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 20),
                 height: 200,
-                // decoration: ,
                 width: size.width * 0.9,
                 child: file != null
                     ? Image.file(file!, fit: BoxFit.cover)
@@ -164,9 +163,6 @@ class _AddNewState extends State<AddNew> {
                         ));
                       } else {
                         try {
-                          print("id nè : ");
-                          print(user.currentUser);
-
                           await FirebaseFirestore.instance
                               .collection("news")
                               .add({
@@ -177,7 +173,7 @@ class _AddNewState extends State<AddNew> {
                             "date_created": new DateTime.now(),
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text("Đăng bài thành công"),
                               backgroundColor: Colors.red,
                             ),
@@ -204,7 +200,7 @@ class _AddNewState extends State<AddNew> {
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
-                      Color(0xff108A2D),
+                      const Color(0xff108A2D),
                     ),
                   ),
                   // onPressed: () {},
