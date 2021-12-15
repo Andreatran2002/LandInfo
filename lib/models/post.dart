@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -12,21 +14,21 @@ class Post {
     required this.price,
     required this.surfaceArea,
     required this.coordinate,
-    required this.images,
+    required this.image,
     required this.date_created,
-    required this.date_updated
+    required this.date_updated,
   });
 
   final Category category;
   final String author_id;
   final String title;
-  final double price;
-  final double surfaceArea;
+  final int price;
+  final int surfaceArea;
   final String content;
   final LatLng  coordinate;
-  final List<String> images;
-  final String date_created;
-  final String date_updated;
+  final String image;
+  final DateTime date_created;
+  final DateTime date_updated;
   //
 
 

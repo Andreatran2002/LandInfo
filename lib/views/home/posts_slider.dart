@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart';
+import 'package:tineviland/models/post.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:tineviland/views/news/detail_news.dart';
+import 'package:tineviland/views/posts/detail_post.dart';
 import '../cards/vertical_card.dart';
 import 'package:intl/intl.dart';
 
@@ -59,17 +63,26 @@ class _SliderForPostsState extends State<SliderForPosts> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (BuildContext context, int index) {
                     // chỗ này là chỗ lấy data
-                    final title = snapshot.data!.docs[index].get('title');
-                    final content = snapshot.data!.docs[index].get('content');
-                    final imageUrl = snapshot.data!.docs[index].get('images');
-                    final authorId = snapshot.data!.docs[index].get('author_id');
                     bool isHot = false;
-                    final dateCreated = DateFormat('MMMM d, yyyy', 'en_US');
-
+                    GeoPoint geoPoint =   snapshot.data!.docs[index].get('locate');
+                    double lat = geoPoint.latitude;
+                    double lng = geoPoint.longitude;
+                    Post post = Post(
+                        date_created: snapshot.data!.docs[index].get('date_created').toDate(),
+                        date_updated: snapshot.data!.docs[index].get('date_updated').toDate(),
+                        author_id: snapshot.data!.docs[index].get('author_id'),
+                        coordinate: LatLng(lat, lng),
+                        content: snapshot.data!.docs[index].get('content'),
+                        category: toCategory(snapshot.data!.docs[index].get('category')),
+                        surfaceArea: snapshot.data!.docs[index].get('surfaceArea'),
+                        price: snapshot.data!.docs[index].get('price'),
+                        image: snapshot.data!.docs[index].get('images'),
+                        title: snapshot.data!.docs[index].get('title'),
+                    );
                     return GestureDetector(
                       onTap: ()=>{
                         Navigator.push(context,  MaterialPageRoute(
-                            builder: (context) =>  DetailNews(content: content, img: imageUrl, title: title,author_id : authorId)))
+                            builder: (context) =>   DetailPost(post : post)))
                       },
                       child: Stack(
                         children: [
@@ -105,7 +118,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                                         topRight: Radius.circular(5),
                                       ),
                                       image: DecorationImage(
-                                        image: NetworkImage(imageUrl),
+                                        image: NetworkImage(post.image),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -117,7 +130,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                                         children: [
                                           Container(
                                             child: Text(
-                                              title,
+                                              post.title,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               style: Theme.of(context)
@@ -132,7 +145,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                                           ),
                                           Container(
                                             child: Text(
-                                              content,
+                                              post.content,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 3,
                                               style: Theme.of(context)
@@ -201,27 +214,19 @@ class _SliderForPostsState extends State<SliderForPosts> {
                   },
                 );
               }),
-          // ListView(
-          //   scrollDirection: Axis.horizontal,
-          //   children: const <Widget>[
-          //     SizedBox(width: 20),
-          //     VerticalCard(
-          //         type: 'trade', news_type: 'new', labelContent: 'Tin Mới'),
-          //     SizedBox(width: 10),
-          //     VerticalCard(
-          //         type: 'trade', news_type: 'near', labelContent: 'Gần đây'),
-          //     SizedBox(width: 10),
-          //     VerticalCard(
-          //         type: 'trade', news_type: 'new', labelContent: 'Tin Mới'),
-          //     SizedBox(width: 10),
-          //     VerticalCard(
-          //         type: 'trade', news_type: 'new', labelContent: 'Tin Mới'),
-          //     SizedBox(width: 10),
-          //     VerticalCard(type: 'news', news_type: 'near', labelContent: ''),
-          //   ],
-          // ),
+
         ),
       ],
     );
+  }
+  Category toCategory(int num){
+    switch(num){
+      case 0 : return Category.all;
+      case 1 : return Category.forSale;
+      case 2 : return Category.forRent;
+      case 3: return Category.needBuy;
+      case 4: return Category.needRent;
+    }
+    return Category.all;
   }
 }
