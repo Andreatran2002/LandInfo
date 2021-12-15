@@ -22,15 +22,22 @@ class DetailNews extends StatefulWidget {
 
 class _DetailNewsState extends State<DetailNews> {
   late User author;
+
+
   @override
   void initState() {
     super.initState();
-    takeAuthorInfo();
+     takeAuthorInfo();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return author == null ?
+    const CircularProgressIndicator(
+      value: 15,
+      semanticsLabel: 'Loading!!',
+    )
+        :  Scaffold(
         appBar: AppBar(
           title: const Text("Chi tiết", style: TextStyle(color: Colors.white)),
         ),
@@ -105,19 +112,20 @@ class _DetailNewsState extends State<DetailNews> {
         ));
   }
 
-  void takeAuthorInfo() async {
-    setState(() async {
-      author = await AuthMethods.getUser(widget.author_id);
+  Future<void> takeAuthorInfo() async {
+    User author1 = await AuthMethods.getUser(widget.author_id);
+    setState(() => {
+      author = author1
     });
   }
 
   Widget authorInfo() {
     return Container(
       alignment: Alignment.topRight,
-      child: Text(author.Name,
+      child: Text(author != null ? author.Name : "" ,
           style: const TextStyle(
               wordSpacing: 2,
-              fontSize: 17)),
+              fontSize: 17),),
     );
   }
 }
