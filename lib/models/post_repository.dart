@@ -1,5 +1,3 @@
-
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'post.dart';
@@ -28,7 +26,7 @@ class PostsRepository {
       case Category.needRent:
         return "Cần thuê";
       case Category.needBuy:
-        return "Cần mua";
+        return "Mua";
     }
   }
 }

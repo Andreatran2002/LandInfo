@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:tineviland/views/news/detail_news.dart';
+import 'package:tineviland/views/news/index.dart';
 import '../cards/vertical_card.dart';
 import 'package:intl/intl.dart';
 
@@ -25,19 +26,43 @@ class _SliderForPostsState extends State<SliderForPosts> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Text(
-            widget.title,
-            style: Theme.of(context).textTheme.headline5?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Montserrat",
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text(
+                widget.title,
+                style: Theme.of(context).textTheme.headline5?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Montserrat",
+                    ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => News(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Xem thêm",
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontFamily: "Montserrat",
+                      ),
                 ),
-          ),
+              ),
+            )
+          ],
         ),
         const SizedBox(height: 5),
         Container(
-          // margin: const EdgeInsets.symmetric(vertical: 10.0),
           height: 210.0,
           child: StreamBuilder(
               stream: FirebaseFirestore.instance.collection('news').snapshots(),
@@ -205,7 +230,7 @@ class PostCard extends StatelessWidget {
                 right: 10,
               ),
               decoration: BoxDecoration(
-                color: isHot ? Colors.red : Colors.green,
+                color: Colors.red,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),
@@ -221,7 +246,7 @@ class PostCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    isHot ? 'Tin mới' : 'Tin cũ',
+                    'Tin mới',
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                           color: Colors.white,
                           fontFamily: "Montserrat",

@@ -147,7 +147,7 @@ class _HoriCardState extends State<HoriCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -158,17 +158,32 @@ class _HoriCardState extends State<HoriCard> {
                               NetworkImage(author!.ImageUrl),
                         ),
                         SizedBox(width: 10),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Text(
-                            author!.Name,
-                            style:
-                                Theme.of(context).textTheme.bodyText2?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      fontSize: 16,
-                                    ),
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              author!.Name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "Montserrat",
+                                    fontSize: 16,
+                                  ),
+                            ),
+                            Text(
+                              author!.PhoneNumber,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Montserrat",
+                                    fontSize: 12,
+                                  ),
+                            ),
+                          ],
                         )
                       ],
                     ),
