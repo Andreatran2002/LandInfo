@@ -31,32 +31,25 @@ class _DetailNewsState extends State<DetailNews> {
 
   @override
   Widget build(BuildContext context) {
-    return author == null
-        ? const CircularProgressIndicator(
-            value: 15,
-            semanticsLabel: 'Loading!!',
-          )
-        : Scaffold(
-            appBar: AppBar(
-              title:
-                  const Text("Chi tiết", style: TextStyle(color: Colors.white)),
-            ),
-            body: ListView(
-              children: [
-                Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.7),
-                        offset: const Offset(0, 2),
-                        blurRadius: 0.3,
-                      ),
-                    ],
-                    image: DecorationImage(
-                      image: NetworkImage(widget.img),
-                      fit: BoxFit.cover,
-                    ),
+    return (author == null) ?
+    const CircularProgressIndicator(
+      value: 15,
+      semanticsLabel: 'Loading!!',
+    )
+        :  Scaffold(
+        appBar: AppBar(
+          title: const Text("Chi tiết", style: TextStyle(color: Colors.white)),
+        ),
+        body: ListView(
+          children: [
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.7),
+                    offset: const Offset(0, 2),
+                    blurRadius: 0.3,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -95,10 +88,10 @@ class _DetailNewsState extends State<DetailNews> {
   Widget authorInfo() {
     return Container(
       alignment: Alignment.topRight,
-      child: Text(
-        author != null ? author.Name : "",
-        style: const TextStyle(wordSpacing: 2, fontSize: 17),
-      ),
+      child: Text(author != null ? author.Name+"   " : "" ,
+          style: const TextStyle(
+              wordSpacing: 2,
+              fontSize: 17),),
     );
   }
 }

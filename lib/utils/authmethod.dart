@@ -110,11 +110,7 @@ class AuthMethods {
 
   static Future<user_account.User> getUser(String userId) async {
     user_account.User user = user_account.User(
-      Password: "",
-      Name: "",
-      PhoneNumber: "",
-      Avatar: "",
-    );
+        Password: "", Name: "", PhoneNumber: "", ImageUrl: "");
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
@@ -123,11 +119,10 @@ class AuthMethods {
       if (documentSnapshot.exists) {
         print('Document exists on the database');
         user = user_account.User(
-          Password: documentSnapshot["password"],
-          Name: documentSnapshot["username"],
-          PhoneNumber: documentSnapshot["phone"],
-          Avatar: documentSnapshot["avatar"],
-        );
+            Password: documentSnapshot["password"],
+            Name: documentSnapshot["username"],
+            PhoneNumber: documentSnapshot["phone"],
+            ImageUrl: documentSnapshot["avatar"]);
         print(documentSnapshot["username"]);
       }
     });

@@ -25,7 +25,7 @@ class UserBloc with ChangeNotifier {
             Password: documentSnapshot["password"],
             Name: documentSnapshot["username"],
             PhoneNumber: documentSnapshot["phone"],
-            Avatar: documentSnapshot["avatar"]);
+            ImageUrl: documentSnapshot["avatar"]);
         print(documentSnapshot["username"]);
       }
     });

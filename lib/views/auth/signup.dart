@@ -247,11 +247,11 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> showInformationDialog(BuildContext context) async {
     user_account.User user = user_account.User(
-      Name: _usernameController.text,
-      Password: _passwordController.text,
-      PhoneNumber: _phonenumberController.text,
-      Avatar: "",
-    );
+        Name: _usernameController.text,
+        Password: _passwordController.text,
+        PhoneNumber: _phonenumberController.text,
+        ImageUrl: "");
+
     return await showDialog(
         context: context,
         builder: (context) {
