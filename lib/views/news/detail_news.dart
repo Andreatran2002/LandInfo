@@ -22,6 +22,7 @@ class DetailNews extends StatefulWidget {
 
 class _DetailNewsState extends State<DetailNews> {
   late User author;
+
   @override
   void initState() {
     super.initState();
@@ -30,67 +31,72 @@ class _DetailNewsState extends State<DetailNews> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Chi tiết", style: TextStyle(color: Colors.white)),
-        ),
-        body: ListView(
-          children: [
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.7),
-                    offset: const Offset(0, 2),
-                    blurRadius: 0.3,
+    return author == null
+        ? const CircularProgressIndicator(
+            value: 15,
+            semanticsLabel: 'Loading!!',
+          )
+        : Scaffold(
+            appBar: AppBar(
+              title:
+                  const Text("Chi tiết", style: TextStyle(color: Colors.white)),
+            ),
+            body: ListView(
+              children: [
+                Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.7),
+                        offset: const Offset(0, 2),
+                        blurRadius: 0.3,
+                      ),
+                    ],
+                    image: DecorationImage(
+                      image: NetworkImage(widget.img),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ],
-                image: DecorationImage(
-                  image: NetworkImage(widget.img),
-                  fit: BoxFit.cover,
                 ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Center(
-                      child:
-                          Text(widget.title, style: TextStyle(fontSize: 25))),
-                  const Divider(
-                    height: 15,
-                    thickness: 1,
+                const SizedBox(height: 10),
+                Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Center(
+                          child: Text(widget.title,
+                              style: TextStyle(fontSize: 25))),
+                      const Divider(
+                        height: 15,
+                        thickness: 1,
+                      ),
+                      Text(
+                        widget.content,
+                        textAlign: TextAlign.justify,
+                      ),
+                    ],
                   ),
-                  Text(
-                    widget.content,
-                    textAlign: TextAlign.justify,
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              height: 15,
-              thickness: 1,
-            ),
-            authorInfo()
-          ],
-        ));
+                ),
+                const Divider(
+                  height: 15,
+                  thickness: 1,
+                ),
+                authorInfo()
+              ],
+            ));
   }
 
-  void takeAuthorInfo() async {
-    setState(() async {
-      author = await AuthMethods.getUser(widget.author_id);
-    });
+  Future<void> takeAuthorInfo() async {
+    User author1 = await AuthMethods.getUser(widget.author_id);
+    setState(() => {author = author1});
   }
 
   Widget authorInfo() {
     return Container(
       alignment: Alignment.topRight,
       child: Text(
-        author.Name,
+        author != null ? author.Name : "",
         style: const TextStyle(wordSpacing: 2, fontSize: 17),
       ),
     );
