@@ -43,7 +43,7 @@ class _AppState extends State<App> {
         debugShowCheckedModeBanner: false,
 
         // home: currentPage,
-        home: Home(),
+        home: const Home(),
         theme: _kAppTheme,
       ),
     );

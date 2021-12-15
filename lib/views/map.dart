@@ -21,6 +21,7 @@ class _MapState extends State<Map> {
   void initState() {
     super.initState();
     Permission.location.request();
+    Permission.storage.request();
   }
 
   void _onMapCreated(GoogleMapController controller) {

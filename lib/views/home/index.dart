@@ -27,7 +27,12 @@ class HomePage extends StatelessWidget {
     User user = userBloc.user;
     var name = user.Name.split(" ");
 
-    return SingleChildScrollView(
+    return (user == null ) ?
+    const CircularProgressIndicator(
+      value: 15,
+      semanticsLabel: 'Loading!!',
+    )
+        : SingleChildScrollView(
       controller: _scrollController,
       child: Stack(
         children: <Widget>[

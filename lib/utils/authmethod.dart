@@ -105,6 +105,21 @@ class AuthMethods {
 
     return Future<bool>.value(result) ;
   }
+  static Future<user_account.User> getUser(String userId) async {
+     user_account.User user =user_account.User(Password: "",Name : "" , PhoneNumber : ""  );
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('Document exists on the database');
+        user =  user_account.User(Password: documentSnapshot["password"],Name: documentSnapshot["username"],PhoneNumber: documentSnapshot["phone"]);
+        print(documentSnapshot["username"]);
+      }
+    });
+    return user;
+  }
   Future<void> signOut() async {
     await storage.delete(key: 'token');
     await storage.delete(key: 'phone');
