@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:tineviland/models/user.dart';
 
+import 'package:tineviland/utils/authmethod.dart';
 import '../cards/vertical_card.dart';
 
 class News extends StatefulWidget {
@@ -14,6 +16,16 @@ class News extends StatefulWidget {
 }
 
 class _NewsState extends State<News> {
+  void initState() {
+    super.initState();
+    // takeAuthorInfo();
+  }
+
+  Future<User> takeAuthorInfo(String id) async {
+    User result = await AuthMethods.getUser(id);
+    return result;
+  }
+
   get size => MediaQuery.of(context).size;
   @override
   Widget build(BuildContext context) {
@@ -51,6 +63,9 @@ class _NewsState extends State<News> {
                   final title = snapshot.data!.docs[index].get('title');
                   final content = snapshot.data!.docs[index].get('content');
                   final imageUrl = snapshot.data!.docs[index].get('images');
+                  final author_id = snapshot.data!.docs[index].get('author_id');
+                  User author = takeAuthorInfo(author_id) as User;
+                  print(author.Name);
 
                   return Container(
                     width: size.width * 0.9,

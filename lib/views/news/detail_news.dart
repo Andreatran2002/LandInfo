@@ -53,18 +53,21 @@ class _DetailNewsState extends State<DetailNews> {
               ),
             ),
             const SizedBox(height: 10),
-
             Container(
-                padding: EdgeInsets.all(8.0),
-              child:Column(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
                 children: [
-                  Center(child: Text(widget.title, style: TextStyle(fontSize: 25))),
+                  Center(
+                      child:
+                          Text(widget.title, style: TextStyle(fontSize: 25))),
                   const Divider(
                     height: 15,
                     thickness: 1,
                   ),
-                  Text(widget.content, textAlign: TextAlign.justify,),
-
+                  Text(
+                    widget.content,
+                    textAlign: TextAlign.justify,
+                  ),
                 ],
               ),
             ),
@@ -73,34 +76,6 @@ class _DetailNewsState extends State<DetailNews> {
               thickness: 1,
             ),
             authorInfo()
-            // Row(
-            //   children: [
-            //     const SizedBox(
-            //       width: 10,
-            //     ),
-            //     Container(
-            //       width: 70,
-            //       height: 70,
-            //       decoration: BoxDecoration(
-            //           border: Border.all(
-            //               width: 4,
-            //               color: Theme.of(context).scaffoldBackgroundColor),
-            //           shape: BoxShape.circle,
-            //           image: DecorationImage(
-            //               fit: BoxFit.cover,
-            //               image: NetworkImage(
-            //                 "https://firebasestorage.googleapis.com/v0/b/tinevyland.appspot.com/o/avatar%2Fdefault-avatar.png?alt=media&token=57c2019d-3687-4984-9bb4-42a7c30dea87",
-            //               ))),
-            //     ),
-            //     const SizedBox(
-            //       width: 10,
-            //     ),
-            //     accoutnInfo(),
-            //
-            //     //
-            //   ],
-            // ),
-
           ],
         ));
   }
@@ -114,10 +89,10 @@ class _DetailNewsState extends State<DetailNews> {
   Widget authorInfo() {
     return Container(
       alignment: Alignment.topRight,
-      child: Text(author.Name,
-          style: const TextStyle(
-              wordSpacing: 2,
-              fontSize: 17)),
+      child: Text(
+        author.Name,
+        style: const TextStyle(wordSpacing: 2, fontSize: 17),
+      ),
     );
   }
 }
