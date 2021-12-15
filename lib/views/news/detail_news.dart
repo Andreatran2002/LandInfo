@@ -31,6 +31,7 @@ class _DetailNewsState extends State<DetailNews> {
 
   @override
   Widget build(BuildContext context) {
+    takeAuthorInfo();
     return (author == null)
         ? const CircularProgressIndicator(
             value: 15,
