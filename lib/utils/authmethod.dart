@@ -42,17 +42,7 @@ class AuthMethods {
         });
     return Future<String>.value(userId);
   }
-  // Future<User?> getUser() async{
-  //   user_account.User? user ;
-  //   var userPhone = await storage.read(key: "phone");
-  //   await FirebaseFirestore.instance.collection("users")
-  //       .where('phone',isEqualTo : userPhone).get().then(
-  //           (data)  {
-  //         user = user_account.User(data.docs[0].id) as user_account.User?;
-  //
-  //       });
-  //   return Future<String>.value(userId);
-  // }
+
 
   Future<void> signUpWithPhoneNumber(
       String verificationId, String smsCode, BuildContext context, user_account.User user, String phone) async {
@@ -119,6 +109,14 @@ class AuthMethods {
       }
     });
     return user;
+  }
+   Future<void> updateAvatar(String avatar) async {
+    String? userId = await getUserId();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .update({'avatar': avatar})
+        .then((value)=>print("Đã updaate avatar"));
   }
   Future<void> signOut() async {
     await storage.delete(key: 'token');

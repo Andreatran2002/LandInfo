@@ -14,5 +14,5 @@ class User{
   final String Name;
   final String PhoneNumber;
   final String Password;
-  final String ImageUrl;
+   final String ImageUrl;
 }
