@@ -169,10 +169,14 @@ class _AccountState extends State<Account> {
                                   //     user = User(user.Name, user.Password, user.PhoneNumber, url);
                                   //   });
                                   // });
+                                  setState(() {
+                                    user = userBloc.user;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(backgroundColor: Theme.of(context).colorScheme.primary,
                                           content:
                                           Text("Cập nhập ảnh đại diện thành công!")));
+
 
                                 }
                               },
