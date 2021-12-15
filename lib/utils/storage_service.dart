@@ -7,24 +7,27 @@ import 'package:flutter/material.dart';
 class Storage {
   final storage = firebase_storage.FirebaseStorage.instance;
 
-  Future<void> uploadFile(
+  Future<String> uploadFile(
     BuildContext context,
     File? file,
     String fileName,
+    String? fileUrl,
   ) async {
+    String url;
     try {
-      print("oke oke " + fileName);
-      await storage
-          .ref('images/$fileName')
-          .putFile(file!)
-          .then((value) => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    "Upload ảnh thành công",
-                  ),
-                  backgroundColor: Colors.green,
-                ),
-              ));
+      print('zoooooooo');
+      var uploadTask = await storage.ref('images/$fileName').putFile(file!);
+      var dowurl = await uploadTask.ref.getDownloadURL();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text(
+      //       "Upload ảnh thành công",
+      //     ),
+      //     backgroundColor: Colors.green,
+      //   ),
+      // );
+      url = dowurl.toString();
+      return url;
     } on firebase_core.FirebaseException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -33,6 +36,7 @@ class Storage {
         ),
       );
       print(e);
+      return '';
     }
   }
 }
