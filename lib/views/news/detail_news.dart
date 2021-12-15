@@ -31,28 +31,36 @@ class _DetailNewsState extends State<DetailNews> {
 
   @override
   Widget build(BuildContext context) {
-    return (author == null) ?
-    const CircularProgressIndicator(
-      value: 15,
-      semanticsLabel: 'Loading!!',
-    )
-        :  Scaffold(
-        appBar: AppBar(
-          title: const Text("Chi tiết", style: TextStyle(color: Colors.white)),
-        ),
-        body: ListView(
-          children: [
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.7),
-                    offset: const Offset(0, 2),
-                    blurRadius: 0.3,
+    return (author == null)
+        ? const CircularProgressIndicator(
+            value: 15,
+            semanticsLabel: 'Loading!!',
+          )
+        : Scaffold(
+            appBar: AppBar(
+              title:
+                  const Text("Chi tiết", style: TextStyle(color: Colors.white)),
+            ),
+            body: ListView(
+              children: [
+                Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.7),
+                        offset: const Offset(0, 2),
+                        blurRadius: 0.3,
+                      ),
+                    ],
+                    image: DecorationImage(
+                      image: NetworkImage(widget.img),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
+
                 Container(
                   padding: EdgeInsets.all(8.0),
                   child: Column(
@@ -76,6 +84,33 @@ class _DetailNewsState extends State<DetailNews> {
                   thickness: 1,
                 ),
                 authorInfo()
+                // Row(
+                //   children: [
+                //     const SizedBox(
+                //       width: 10,
+                //     ),
+                //     Container(
+                //       width: 70,
+                //       height: 70,
+                //       decoration: BoxDecoration(
+                //           border: Border.all(
+                //               width: 4,
+                //               color: Theme.of(context).scaffoldBackgroundColor),
+                //           shape: BoxShape.circle,
+                //           image: DecorationImage(
+                //               fit: BoxFit.cover,
+                //               image: NetworkImage(
+                //                 "https://firebasestorage.googleapis.com/v0/b/tinevyland.appspot.com/o/avatar%2Fdefault-avatar.png?alt=media&token=57c2019d-3687-4984-9bb4-42a7c30dea87",
+                //               ))),
+                //     ),
+                //     const SizedBox(
+                //       width: 10,
+                //     ),
+                //     accoutnInfo(),
+                //
+                //     //
+                //   ],
+                // ),
               ],
             ));
   }
@@ -88,10 +123,10 @@ class _DetailNewsState extends State<DetailNews> {
   Widget authorInfo() {
     return Container(
       alignment: Alignment.topRight,
-      child: Text(author != null ? author.Name+"   " : "" ,
-          style: const TextStyle(
-              wordSpacing: 2,
-              fontSize: 17),),
+      child: Text(
+        author != null ? author.Name + "   " : "",
+        style: const TextStyle(wordSpacing: 2, fontSize: 17),
+      ),
     );
   }
 }

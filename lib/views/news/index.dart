@@ -94,7 +94,7 @@ class _HoriCardState extends State<HoriCard> {
   late User? author = new User(
     Name: "",
     Password: "",
-    Avatar: "loading",
+    ImageUrl: "loading",
     PhoneNumber: "",
   );
 
@@ -153,9 +153,9 @@ class _HoriCardState extends State<HoriCard> {
                       children: <Widget>[
                         CircleAvatar(
                           backgroundImage:
-                              // author!.Avatar == "loading"
-                              //     ? AssetImage("assets\images\default-avatar.png")
-                              NetworkImage(author!.Avatar),
+                              // author!.ImageUrl == "loading"
+                              //     ? AssetImage("assets\images\default-ImageUrl.png")
+                              NetworkImage(author!.ImageUrl),
                         ),
                         SizedBox(width: 10),
                         Padding(
