@@ -255,7 +255,10 @@ class _SignUpState extends State<SignUp> {
     user_account.User user = user_account.User(
         Name: _usernameController.text,
         Password:  _passwordController.text,
-        PhoneNumber: _phonenumberController.text);
+        PhoneNumber: _phonenumberController.text,
+        ImageUrl: ""
+    );
+
     return await showDialog(
         context: context,
         builder: (context) {

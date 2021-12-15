@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -10,6 +13,7 @@ import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/models/post.dart';
 import 'package:tineviland/models/post_repository.dart';
 import 'package:tineviland/Widgets/text_form_field.dart' as text_field;
+import 'package:tineviland/utils/storage_service.dart';
 import 'package:tineviland/views/map.dart' as MyMap;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -31,6 +35,42 @@ class _AddPostState extends State<AddPost> {
   final _priceController = TextEditingController();
   final _contentController = TextEditingController();
   final _surfaceAreaController = TextEditingController();
+  get size => MediaQuery.of(context).size;
+  File? file;
+  String? fileName;
+  String? fileUrl;
+  final Storage storage = Storage();
+
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['png', 'jpg'],
+    );
+    if (result == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Hình ảnh không hợp lệ vui lòng nhập lại!"),
+        ),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Tải hình ảnh thành công !!"),
+        backgroundColor: Colors.green,
+      ),
+    );
+    final path = result.files.single.path!;
+    final name = result.files.single.name;
+
+    setState(() => {
+          file = File(path),
+          fileName = name,
+        });
+  }
+
   String Address = "Chưa cập nhập vị trí";
   bool circular = false;
   void _onMapCreated(GoogleMapController controller) {
@@ -127,6 +167,32 @@ class _AddPostState extends State<AddPost> {
                 label("Nội dung"),
                 description("Nhập vào nội dung", _contentController),
                 const SizedBox(height: 10),
+                Container(
+                    child: Row(
+                  children: [
+                    label("Ảnh minh họa"),
+                    IconButton(
+                      icon: Icon(
+                        Icons.add,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      onPressed: () => {selectFile()},
+                    )
+                  ],
+                )),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  height: 200,
+                  // decoration: ,
+                  width: size.width * 0.9,
+                  child: file != null
+                      ? Image.file(file!, fit: BoxFit.cover)
+                      : const Center(
+                          child: Text('Chọn ảnh'),
+                        ),
+                  // child: ,
+                ),
+                const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () async {
                     setState(() {
@@ -134,29 +200,60 @@ class _AddPostState extends State<AddPost> {
                     });
 
                     try {
-                      if (_addPostFormKey.currentState!.validate()) {
-                        setState(() {
-                          circular = false;
-                        });
-                        var post = await FirebaseFirestore.instance.collection("posts").add({
-                          "category" : dropdownvalue.index,
-                          "author_id" : userBloc.currentUser,
-                          "content" : _contentController.text,
-                          "date_created": DateTime.now(),
-                          "date_updated" : DateTime.now(),
-                          "images": [],
-                          "title": _titleController.text,
-                          "locate": GeoPoint(pos!.latitude, pos!.longitude),
-                          "price": _priceController.text,
-                          "surfaceArea": _surfaceAreaController.text
-                        });
-                        print(post);
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Home()),
-                                (route) => false);
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Đã tạo bài đăng thành công!")));
+                      if (pos == null)
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: const Text("Vui lòng đánh dấu vị trí!"),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                        ));
+                      if (dropdownvalue == Category.all)
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: const Text("Vui lòng thêm hình thức!"),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                        ));
+
+                      if (_addPostFormKey.currentState!.validate() &&
+                          pos != null &&
+                          dropdownvalue != Category.all) {
+                        String url = await storage.uploadFile(
+                          context,
+                          file,
+                          fileName!,
+                          fileUrl,
+                        );
+                        if (url.isEmpty) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Đã có lỗi khi tải ảnh lên !!"),
+                          ));
+                        } else {
+                          setState(() {
+                            circular = false;
+                          });
+                          var post = await FirebaseFirestore.instance
+                              .collection("posts")
+                              .add({
+                            "category": dropdownvalue.index,
+                            "author_id": userBloc.currentUser,
+                            "content": _contentController.text,
+                            "date_created": DateTime.now(),
+                            "date_updated": DateTime.now(),
+                            "images": url,
+                            "title": _titleController.text,
+                            "locate": GeoPoint(pos!.latitude, pos!.longitude),
+                            "price": _priceController.text,
+                            "surfaceArea": _surfaceAreaController.text
+                          });
+                          print(post);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Home()),
+                              (route) => false);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                               SnackBar(backgroundColor: Theme.of(context).colorScheme.primary,
+                                  content:
+                                      Text("Đã tạo bài đăng thành công!")));
+                        }
                       }
                     } catch (e) {
                       final snackbar = SnackBar(content: Text(e.toString()));
@@ -194,7 +291,7 @@ class _AddPostState extends State<AddPost> {
 
   Widget textField(String textHint, TextInputType inputType, int maxLine,
       TextEditingController controller) {
-    return  text_field.TextField(
+    return text_field.TextField(
         textHint: textHint,
         inputType: inputType,
         maxLine: maxLine,
@@ -243,10 +340,9 @@ class _AddPostState extends State<AddPost> {
     print(Address);
     print("Địa chỉ đây nè -----------------------------------------------");
   }
-  Future<void> updateUser(String userDoc,String postDoc) async {
 
+  Future<void> updateUser(String userDoc, String postDoc) async {
     // await FirebaseFirestore.instance.collection("users").doc(userDoc).get().then((value) => )
     // oldPost = [... oldPost, postDoc]
-
   }
 }

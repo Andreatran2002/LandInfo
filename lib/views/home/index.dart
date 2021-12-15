@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/models/user.dart';
+import 'package:tineviland/views/home/posts_slider.dart';
 import '../../constants.dart';
 import './banner_slider.dart';
 import './news_slider.dart';
@@ -109,6 +110,8 @@ class HomePage extends StatelessWidget {
                   child: SliderForBanner(),
                 ),
                 const SliderForNews(title: 'Tin tức', collectionName: 'news'),
+                const SizedBox(height: 10),
+                const SliderForPosts(title: 'Mua bán', collectionName: 'posts'),
                 const SizedBox(height: 10),
                 // const SliderForNews(title: 'Tin tức'),
                 // SliderForNews(),

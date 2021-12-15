@@ -106,7 +106,7 @@ class AuthMethods {
     return Future<bool>.value(result) ;
   }
   static Future<user_account.User> getUser(String userId) async {
-     user_account.User user =user_account.User(Password: "",Name : "" , PhoneNumber : ""  );
+     user_account.User user =user_account.User(Password: "",Name : "" , PhoneNumber : "" ,ImageUrl: "" );
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
@@ -114,7 +114,7 @@ class AuthMethods {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         print('Document exists on the database');
-        user =  user_account.User(Password: documentSnapshot["password"],Name: documentSnapshot["username"],PhoneNumber: documentSnapshot["phone"]);
+        user =  user_account.User(Password: documentSnapshot["password"],Name: documentSnapshot["username"],PhoneNumber: documentSnapshot["phone"],ImageUrl: documentSnapshot["avatar"]);
         print(documentSnapshot["username"]);
       }
     });

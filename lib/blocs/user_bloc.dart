@@ -21,7 +21,7 @@ class UserBloc with ChangeNotifier  {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         print('Document exists on the database');
-        user = User(Password: documentSnapshot["password"],Name: documentSnapshot["username"],PhoneNumber: documentSnapshot["phone"]);
+        user = User(Password: documentSnapshot["password"],Name: documentSnapshot["username"],PhoneNumber: documentSnapshot["phone"],ImageUrl: documentSnapshot["avatar"]);
         print(documentSnapshot["username"]);
       }
     });

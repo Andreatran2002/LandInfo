@@ -32,7 +32,7 @@ class _DetailNewsState extends State<DetailNews> {
 
   @override
   Widget build(BuildContext context) {
-    return author == null ?
+    return (author == null) ?
     const CircularProgressIndicator(
       value: 15,
       semanticsLabel: 'Loading!!',
@@ -122,7 +122,7 @@ class _DetailNewsState extends State<DetailNews> {
   Widget authorInfo() {
     return Container(
       alignment: Alignment.topRight,
-      child: Text(author != null ? author.Name : "" ,
+      child: Text(author != null ? author.Name+"   " : "" ,
           style: const TextStyle(
               wordSpacing: 2,
               fontSize: 17),),
