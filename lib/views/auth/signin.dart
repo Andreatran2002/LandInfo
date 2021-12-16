@@ -172,13 +172,13 @@ class _SignInState extends State<SignIn> {
                                   (route) => false);
                         }
                         else {
-                          final snackbar = SnackBar(content:Text("Số điện thoại hoặc mật khẩu đã sai . Vui lòng nhập lại!"));
+                          final snackbar = SnackBar(backgroundColor: Theme.of(context).colorScheme.error,content:Text("Số điện thoại hoặc mật khẩu đã sai . Vui lòng nhập lại!"));
                           ScaffoldMessenger.of(context).showSnackBar(snackbar);
                         }
 
                       }
                     } catch (e) {
-                      final snackbar = SnackBar(content:Text("Đã có lỗi xảy ra. Vui lòng nhập lại!"));
+                      final snackbar = SnackBar(backgroundColor: Theme.of(context).colorScheme.error,content:Text("Số điện thoại hoặc mật khẩu đã sai . Vui lòng nhập lại!"));
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
                       setState(() {
                         circular = false;

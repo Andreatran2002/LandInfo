@@ -55,7 +55,7 @@ class _NewsState extends State<News> {
                   final content = snapshot.data!.docs[index].get('content');
                   final imageUrl = snapshot.data!.docs[index].get('images');
                   final author_id = snapshot.data!.docs[index].get('author_id');
-                  final date_created = snapshot.data!.docs[index].get('date_created');
+                  final date_created = snapshot.data!.docs[index].get('date_created').toDate();
                   return GestureDetector(
                     onTap: ()=>  Navigator.push(
                         context,

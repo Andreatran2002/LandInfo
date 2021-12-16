@@ -37,6 +37,8 @@ class _DetailPostState extends State<DetailPost> {
     super.dispose();
   }
 
+
+    bool focusMap = false;
   @override
   Widget build(BuildContext context) {
     _center = widget.post.coordinate;
@@ -60,6 +62,8 @@ class _DetailPostState extends State<DetailPost> {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: ListView(
+            shrinkWrap: true,
+            physics: (focusMap)? const NeverScrollableScrollPhysics():  const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
             children: [
               Container(
@@ -277,34 +281,47 @@ class _DetailPostState extends State<DetailPost> {
               ),
               const SizedBox(height: 20),
               Container(
-                height: 300,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: const Offset(0, 2),
-                      blurRadius: 2,
+                  height: 300,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        offset: const Offset(0, 2),
+                        blurRadius: 2,
+                      ),
+                    ],
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(5),
                     ),
-                  ],
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(5),
+                  ),
+                  child: GestureDetector(
+                    onPanUpdate: (DragUpdateDetails details){
+                      setState(()=>focusMap = true);
+                      print(1);
+                      print(focusMap);
+
+                    },
+                    onPanEnd: (DragEndDetails details){
+                      setState(()=>focusMap = false);
+                      print(2);
+                    },
+                    child: GoogleMap(
+                      rotateGesturesEnabled: true,
+                      scrollGesturesEnabled: true,
+                      tiltGesturesEnabled: true,
+                      onMapCreated: _onMapCreated,
+                      myLocationEnabled: true,
+                      mapType: MapType.hybrid,
+                      markers: {if (_place != null) _place!},
+                      initialCameraPosition: CameraPosition(
+                        target: _center!,
+                        // target: _center,
+                        zoom: 14,
+                      ),
+                    ),
                   ),
                 ),
-                child: GoogleMap(
-                  rotateGesturesEnabled: true,
-                  scrollGesturesEnabled: true,
-                  tiltGesturesEnabled: true,
-                  onMapCreated: _onMapCreated,
-                  myLocationEnabled: true,
-                  mapType: MapType.hybrid,
-                  markers: {if (_place != null) _place!},
-                  initialCameraPosition: CameraPosition(
-                    target: _center!,
-                    // target: _center,
-                    zoom: 14,
-                  ),
-                ),
-              ),
+
               const SizedBox(height: 35)
             ],
           ),

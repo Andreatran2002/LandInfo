@@ -138,7 +138,6 @@ class _SliderForNewsState extends State<SliderForNews> {
                     GetAddressFromLatLong(post.coordinate, index);
                     final addressString = _address[index];
 
-                    print('$index - $addressString');
                     return GestureDetector(
                       onTap: () => {
                         Navigator.push(

@@ -36,9 +36,9 @@ class _SliderForPostsState extends State<SliderForPosts> {
               child: Text(
                 widget.title,
                 style: Theme.of(context).textTheme.headline5?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Montserrat",
-                    ),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Montserrat",
+                ),
               ),
             ),
             Padding(
@@ -55,8 +55,8 @@ class _SliderForPostsState extends State<SliderForPosts> {
                 child: Text(
                   "Xem thêm",
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        fontFamily: "Montserrat",
-                      ),
+                    fontFamily: "Montserrat",
+                  ),
                 ),
               ),
             )
@@ -68,9 +68,9 @@ class _SliderForPostsState extends State<SliderForPosts> {
           child: StreamBuilder(
               stream: FirebaseFirestore.instance.collection('news').snapshots(),
               builder: (
-                BuildContext context,
-                AsyncSnapshot<QuerySnapshot> snapshot,
-              ) {
+                  BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot,
+                  ) {
                 if (snapshot.hasError) {
                   print("hello" + snapshot.error.toString());
                   return Text("something is wrong");
@@ -90,9 +90,9 @@ class _SliderForPostsState extends State<SliderForPosts> {
                     final content = snapshot.data!.docs[index].get('content');
                     final imageUrl = snapshot.data!.docs[index].get('images');
                     final authorId =
-                        snapshot.data!.docs[index].get('author_id');
+                    snapshot.data!.docs[index].get('author_id');
                     bool isHot = false;
-                        final dateCreated =snapshot.data!.docs[index].get('date_created').toDate();
+                    final dateCreated =snapshot.data!.docs[index].get('date_created').toDate();
 
                     return PostCard(
                         content: content,
@@ -100,7 +100,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                         title: title,
                         authorId: authorId,
                         isHot: isHot,
-                    dateCreated : dateCreated);
+                        dateCreated : dateCreated);
                   },
                 );
               }),
@@ -136,11 +136,11 @@ class PostCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => DetailNews(
-                    content: content,
-                    img: imageUrl,
-                    title: title,
-                    author_id: authorId,
-                date_created: dateCreated,)))
+                  content: content,
+                  img: imageUrl,
+                  title: title,
+                  author_id: authorId,
+                  date_created: dateCreated,)))
       },
       child: Stack(
         children: [
@@ -191,15 +191,15 @@ class PostCard extends StatelessWidget {
                             child: Text(
                               title,
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
+                              maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
                                   ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "Montserrat",
-                                    fontSize: 16,
-                                  ),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: "Montserrat",
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                           Container(
@@ -211,10 +211,10 @@ class PostCard extends StatelessWidget {
                                   .textTheme
                                   .bodyText2
                                   ?.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Montserrat",
-                                    fontSize: 12,
-                                  ),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Montserrat",
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ],
@@ -254,11 +254,11 @@ class PostCard extends StatelessWidget {
                   Text(
                     'Tin mới',
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                          color: Colors.white,
-                          fontFamily: "Montserrat",
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      color: Colors.white,
+                      fontFamily: "Montserrat",
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),

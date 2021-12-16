@@ -79,14 +79,17 @@ class _DetailNewsState extends State<DetailNews> {
                       fontFamily: "Montserrat",
                     ),
                   ),
-                  Text(
-                    "Ngày đăng : ${widget.date_created.day.toString()}/${widget.date_created.month.toString()}/${widget.date_created.year.toString()}",
-                    style:
-                    Theme.of(context).textTheme.bodyText2?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.italic,
-                      fontFamily: "Montserrat",
-                      fontSize: 13,
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      "Ngày đăng : ${widget.date_created.day.toString()}/${widget.date_created.month.toString()}/${widget.date_created.year.toString()}",
+                      style:
+                      Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: "Montserrat",
+                        fontSize: 11,
+                      ),
                     ),
                   ),
                   const Divider(

@@ -9,6 +9,7 @@ import 'package:tineviland/models/post.dart';
 import 'package:tineviland/models/user.dart';
 
 import 'package:tineviland/utils/authmethod.dart';
+import 'package:tineviland/views/posts/detail_post.dart';
 import '../cards/vertical_card.dart';
 
 class Posts extends StatefulWidget {
@@ -155,141 +156,100 @@ class _HoriCardState extends State<HoriCard> {
     print(_address);
     print("--------------------------------------------- ddaays nha ");
     final lableContent = returnCategory(widget.post.category);
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: widget.size.width * 0.95,
-          height: 150,
-          margin: EdgeInsets.only(bottom: 20),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(2, 2),
-                  blurRadius: 5,
-                  spreadRadius: 1.1,
-                )
-              ]),
-          child: Row(
-            children: [
-              Container(
-                  width: widget.size.width * 0.45,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      bottomLeft: Radius.circular(5),
-                    ),
-                    image: DecorationImage(
-                      image: NetworkImage(widget.post.image),
-                      fit: BoxFit.cover,
-                    ),
-                  )),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 5, right: 10, left: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            CircleAvatar(
-                              backgroundImage:
-                                  // author!.ImageUrl == "loading"
-                                  //     ? AssetImage("assets\images\default-ImageUrl.png")
-                                  NetworkImage(author!.ImageUrl),
-                            ),
-                            SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  author!.Name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Montserrat",
-                                        fontSize: 16,
-                                      ),
-                                ),
-                                Text(
-                                  author!.PhoneNumber,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "Montserrat",
-                                        fontSize: 12,
-                                      ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+    return GestureDetector(
+      onTap: ()=> Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DetailPost(post: widget.post,))),
+
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: widget.size.width * 0.95,
+            height: 150,
+            margin: EdgeInsets.only(bottom: 20),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(2, 2),
+                    blurRadius: 5,
+                    spreadRadius: 1.1,
+                  )
+                ]),
+            child: Row(
+              children: [
+                Container(
+                    width: widget.size.width * 0.45,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(children: <Widget>[
-                            SvgPicture.asset("assets/icons/area.svg"),
-                            SizedBox(width: 8),
-                            Text(
-                              widget.post.surfaceArea.toString() + "m²",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Montserrat",
-                                    fontSize: 12,
-                                  ),
-                            ),
-                          ]),
-                          Row(children: <Widget>[
-                            SvgPicture.asset(
-                              "assets/icons/money.svg",
-                              width: 10,
-                            ),
-                            // SizedBox(width: 8),
-                            Text(
-                              widget.post.price.toString() + " tr",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Montserrat",
-                                    fontSize: 12,
-                                  ),
-                            ),
-                          ]),
-                          // Row()
-                        ],
+                      image: DecorationImage(
+                        image: NetworkImage(widget.post.image),
+                        fit: BoxFit.cover,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 1),
-                              child: SvgPicture.asset(
-                                "assets/icons/locate.svg",
-                                width: 8,
+                    )),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 5, right: 10, left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              CircleAvatar(
+                                backgroundImage:
+                                    // author!.ImageUrl == "loading"
+                                    //     ? AssetImage("assets\images\default-ImageUrl.png")
+                                    NetworkImage(author!.ImageUrl),
                               ),
-                            ),
-                            SizedBox(width: 8),
-                            Flexible(
-                              child: Text(
-                                _address,
-                                overflow: TextOverflow.ellipsis,
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    author!.Name,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "Montserrat",
+                                          fontSize: 16,
+                                        ),
+                                  ),
+                                  Text(
+                                    author!.PhoneNumber,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Montserrat",
+                                          fontSize: 12,
+                                        ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(children: <Widget>[
+                              SvgPicture.asset("assets/icons/area.svg"),
+                              SizedBox(width: 8),
+                              Text(
+                                widget.post.surfaceArea.toString() + "m²",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
@@ -299,82 +259,130 @@ class _HoriCardState extends State<HoriCard> {
                                       fontSize: 12,
                                     ),
                               ),
-                            ),
+                            ]),
+                            Row(children: <Widget>[
+                              SvgPicture.asset(
+                                "assets/icons/money.svg",
+                                width: 10,
+                              ),
+                              // SizedBox(width: 8),
+                              Text(
+                                widget.post.price.toString() + " tr",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "Montserrat",
+                                      fontSize: 12,
+                                    ),
+                              ),
+                            ]),
+                            // Row()
                           ],
                         ),
-                      ),
-                      Flexible(
-                        child: Text(
-                          widget.post.title,
-                          overflow: TextOverflow.ellipsis,
-                          style:
-                              Theme.of(context).textTheme.bodyText2?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "Montserrat",
-                                    fontSize: 16,
-                                  ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left: 1),
+                                child: SvgPicture.asset(
+                                  "assets/icons/locate.svg",
+                                  width: 8,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Flexible(
+                                child: Text(
+                                  _address,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "Montserrat",
+                                        fontSize: 12,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Flexible(
-                        child: Text(
-                          widget.post.content,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style:
-                              Theme.of(context).textTheme.bodyText2?.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Montserrat",
-                                    fontSize: 12,
-                                  ),
+                        Flexible(
+                          child: Text(
+                            widget.post.title,
+                            overflow: TextOverflow.ellipsis,
+                            style:
+                                Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      fontSize: 16,
+                                    ),
+                          ),
                         ),
-                      ),
-                    ],
+                        Flexible(
+                          child: Text(
+                            widget.post.content,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style:
+                                Theme.of(context).textTheme.bodyText2?.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "Montserrat",
+                                      fontSize: 12,
+                                    ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+              ],
+            ),
+          ),
+          Positioned(
+            left: 0,
+            top: 10,
+            child: Container(
+              padding: const EdgeInsets.only(
+                top: 2,
+                bottom: 2,
+                left: 5,
+                right: 10,
               ),
-            ],
-          ),
-        ),
-        Positioned(
-          left: 0,
-          top: 10,
-          child: Container(
-            padding: const EdgeInsets.only(
-              top: 2,
-              bottom: 2,
-              left: 5,
-              right: 10,
-            ),
-            decoration: BoxDecoration(
-              color: lableContent["color"],
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  offset: const Offset(2, 2),
-                  blurRadius: 2,
-                ),
-              ],
-            ),
-            child: Row(
-              children: <Widget>[
-                SvgPicture.asset('assets/icons/fire.svg'),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  lableContent["name"],
-                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        color: Colors.white,
-                        fontFamily: "Montserrat",
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
-              ],
+              decoration: BoxDecoration(
+                color: lableContent["color"],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    offset: const Offset(2, 2),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              child: Row(
+                children: <Widget>[
+                  SvgPicture.asset('assets/icons/fire.svg'),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    lableContent["name"],
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                          color: Colors.white,
+                          fontFamily: "Montserrat",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
