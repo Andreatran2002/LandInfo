@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:tineviland/models/post.dart';
@@ -24,6 +25,17 @@ class SliderForNews extends StatefulWidget {
 }
 
 class _SliderForNewsState extends State<SliderForNews> {
+  // String _address = "";
+
+  GetAddressFromLatLong(LatLng position, String _address) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    _address =
+        '${place.subAdministrativeArea} ${place.locality} ${place.administrativeArea}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -112,8 +124,10 @@ class _SliderForNewsState extends State<SliderForNews> {
                       image: snapshot.data!.docs[index].get('images'),
                       title: snapshot.data!.docs[index].get('title'),
                     );
-
+                    String _address = "";
+                    GetAddressFromLatLong(post.coordinate, _address);
                     final lableContent = returnCategory(post.category);
+
                     return GestureDetector(
                       onTap: () => {
                         Navigator.push(
@@ -190,9 +204,9 @@ class _SliderForNewsState extends State<SliderForNews> {
                                         Row(children: <Widget>[
                                           SvgPicture.asset(
                                             "assets/icons/money.svg",
-                                            width: 16,
+                                            width: 8,
                                           ),
-                                          // SizedBox(width: 8),
+                                          SizedBox(width: 8),
                                           Text(
                                             post.price.toString() + " tr",
                                             style: Theme.of(context)
@@ -217,56 +231,31 @@ class _SliderForNewsState extends State<SliderForNews> {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 1),
-                                              child: SvgPicture.asset(
-                                                "assets/icons/locate.svg",
-                                                width: 8,
-                                              ),
-                                            ),
-                                            SizedBox(width: 8),
-                                            Text(
-                                              'Hồ Chí Minh',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText2
-                                                  ?.copyWith(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: 12,
-                                                  ),
-                                            ),
-                                          ],
+                                      children: <Widget>[
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 1),
+                                          child: SvgPicture.asset(
+                                            "assets/icons/locate.svg",
+                                            width: 8,
+                                          ),
                                         ),
-                                        // Container(
-                                        //   padding: const EdgeInsets.symmetric(
-                                        //     horizontal: 8,
-                                        //     // vertical: 2,
-                                        //   ),
-                                        //   decoration: BoxDecoration(
-                                        //     borderRadius:
-                                        //         BorderRadius.circular(10),
-                                        //     border: Border.all(
-                                        //       width: 1,
-                                        //       color: Colors.green,
-                                        //     ),
-                                        //   ),
-                                        //   child: Text(
-                                        //     'Mua',
-                                        //     style: Theme.of(context)
-                                        //         .textTheme
-                                        //         .bodyText2
-                                        //         ?.copyWith(
-                                        //           fontWeight: FontWeight.w500,
-                                        //           fontFamily: "Montserrat",
-                                        //           fontSize: 12,
-                                        //         ),
-                                        //   ),
-                                        // )
+                                        SizedBox(width: 8),
+                                        Flexible(
+                                          child: Text(
+                                            _address,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Montserrat",
+                                                  fontSize: 12,
+                                                ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
