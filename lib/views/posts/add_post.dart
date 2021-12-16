@@ -240,8 +240,8 @@ class _AddPostState extends State<AddPost> {
                             "images": url,
                             "title": _titleController.text,
                             "locate": GeoPoint(pos!.latitude, pos!.longitude),
-                            "price": _priceController.text,
-                            "surfaceArea": _surfaceAreaController.text
+                            "price": double.parse(_priceController.text),
+                            "surfaceArea": double.parse(_surfaceAreaController.text)
                           });
                           print(post);
                           Navigator.pushAndRemoveUntil(
