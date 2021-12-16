@@ -112,11 +112,11 @@ class HomePage extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: SliderForBanner(),
                       ),
-                      const SliderForPosts(
-                          title: 'Mua bán', collectionName: 'posts'),
-                      const SizedBox(height: 10),
                       const SliderForNews(
-                          title: 'Tin tức', collectionName: 'news'),
+                          title: 'Mua bán', collectionName: 'news'),
+                      const SizedBox(height: 10),
+                      const SliderForPosts(
+                          title: 'Tin tức', collectionName: 'posts'),
                       const SizedBox(height: 10),
                       // const SliderForNews(title: 'Tin tức'),
                       // SliderForNews(),
