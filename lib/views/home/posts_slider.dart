@@ -25,15 +25,22 @@ class SliderForNews extends StatefulWidget {
 }
 
 class _SliderForNewsState extends State<SliderForNews> {
-  // String _address = "";
-
-  GetAddressFromLatLong(LatLng position, String _address) async {
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    print(placemarks);
-    Placemark place = placemarks[0];
-    _address =
-        '${place.subAdministrativeArea} ${place.locality} ${place.administrativeArea}';
+  late List<dynamic> _address = [
+    'Địa chỉ',
+    'Địa chỉ',
+    'Địa chỉ',
+    'Địa chỉ',
+    'Địa chỉ',
+  ];
+  void GetAddressFromLatLong(LatLng position, int index) async {
+    setState(() async {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark place = placemarks[0];
+      _address[index] =
+          '${place.subAdministrativeArea} ${place.locality} ${place.administrativeArea}';
+      // isUpdate = !false;
+    });
   }
 
   @override
@@ -70,6 +77,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                   "Xem thêm",
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                         fontFamily: "Montserrat",
+                        color: Colors.green[500],
                       ),
                 ),
               ),
@@ -124,10 +132,13 @@ class _SliderForNewsState extends State<SliderForNews> {
                       image: snapshot.data!.docs[index].get('images'),
                       title: snapshot.data!.docs[index].get('title'),
                     );
-                    String _address = "";
-                    GetAddressFromLatLong(post.coordinate, _address);
+
                     final lableContent = returnCategory(post.category);
 
+                    GetAddressFromLatLong(post.coordinate, index);
+                    final addressString = _address[index];
+
+                    print('$index - $addressString');
                     return GestureDetector(
                       onTap: () => {
                         Navigator.push(
@@ -170,9 +181,22 @@ class _SliderForNewsState extends State<SliderForNews> {
                                         topLeft: Radius.circular(5),
                                         topRight: Radius.circular(5),
                                       ),
-                                      image: DecorationImage(
-                                        image: NetworkImage(post.image),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(5),
+                                        topRight: Radius.circular(5),
+                                      ),
+                                      child: FadeInImage.assetNetwork(
+                                        // fadeInCurve: Curves.bounceIn,
+                                        fadeInDuration: Duration(
+                                          milliseconds: 500,
+                                        ),
+                                        placeholder:
+                                            'assets/images/loading.gif',
+                                        image: post.image,
                                         fit: BoxFit.cover,
+                                        width: 180,
                                       ),
                                     ),
                                   ),
@@ -204,9 +228,9 @@ class _SliderForNewsState extends State<SliderForNews> {
                                         Row(children: <Widget>[
                                           SvgPicture.asset(
                                             "assets/icons/money.svg",
-                                            width: 8,
+                                            width: 10,
                                           ),
-                                          SizedBox(width: 8),
+                                          // SizedBox(width: 8),
                                           Text(
                                             post.price.toString() + " tr",
                                             style: Theme.of(context)
@@ -230,7 +254,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.start,
                                       children: <Widget>[
                                         Padding(
                                           padding:
@@ -243,7 +267,11 @@ class _SliderForNewsState extends State<SliderForNews> {
                                         SizedBox(width: 8),
                                         Flexible(
                                           child: Text(
-                                            _address,
+                                            addressString,
+                                            // ",",
+                                            // _address[index].toString() == ""
+                                            //     ? ""
+                                            //     : _address[index].toString(),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: Theme.of(context)
