@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Container(
-                  height: size.height * 0.4,
+                  height: size.height * 0.3,
                   decoration: const BoxDecoration(
                     color: kGreenLightColor,
                     borderRadius: BorderRadius.only(
@@ -56,9 +56,10 @@ class HomePage extends StatelessWidget {
                             ? (90 - _scrollPosition) / 100
                             : 0,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 20,
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                            left: 20,
+                            right: 20,
                           ),
                           child: Row(
                             // key: headingKey,
@@ -82,32 +83,32 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: TextField(
-                            style:
-                                Theme.of(context).textTheme.bodyText1?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "Montserrat",
-                                      fontSize: 16,
-                                    ),
-                            decoration: InputDecoration(
-                              hintText: "Tìm kiếm...",
-                              icon: SvgPicture.asset("assets/icons/search.svg"),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                      //   child: Container(
+                      //     padding: const EdgeInsets.symmetric(
+                      //       horizontal: 14,
+                      //       vertical: 5,
+                      //     ),
+                      //     decoration: BoxDecoration(
+                      //       color: Colors.white,
+                      //       borderRadius: BorderRadius.circular(30),
+                      //     ),
+                      //     child: TextField(
+                      //       style:
+                      //           Theme.of(context).textTheme.bodyText1?.copyWith(
+                      //                 fontWeight: FontWeight.w600,
+                      //                 fontFamily: "Montserrat",
+                      //                 fontSize: 16,
+                      //               ),
+                      //       decoration: InputDecoration(
+                      //         hintText: "Tìm kiếm...",
+                      //         icon: SvgPicture.asset("assets/icons/search.svg"),
+                      //         border: InputBorder.none,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: SliderForBanner(),

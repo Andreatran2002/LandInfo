@@ -55,6 +55,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                   "Xem thêm",
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                         fontFamily: "Montserrat",
+                        color: Colors.green[500],
                       ),
                 ),
               ),
@@ -128,13 +129,16 @@ class PostCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DetailNews(
-                    content: content,
-                    img: imageUrl,
-                    title: title,
-                    author_id: authorId)))
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailNews(
+              content: content,
+              img: imageUrl,
+              title: title,
+              author_id: authorId,
+            ),
+          ),
+        )
       },
       child: Stack(
         children: [
@@ -169,9 +173,24 @@ class PostCard extends StatelessWidget {
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5),
                       ),
-                      image: DecorationImage(
-                        image: NetworkImage(imageUrl),
+                      // image: DecorationImage(
+                      //   image: NetworkImage(imageUrl),
+                      //   fit: BoxFit.cover,
+                      // ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5),
+                      ),
+                      child: FadeInImage.assetNetwork(
+                        fadeInDuration: Duration(
+                          milliseconds: 500,
+                        ),
+                        placeholder: 'assets/images/loading.gif',
+                        image: imageUrl,
                         fit: BoxFit.cover,
+                        width: 180,
                       ),
                     ),
                   ),
