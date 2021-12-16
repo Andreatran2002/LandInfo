@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:tineviland/models/user.dart';
 
 import 'package:tineviland/utils/authmethod.dart';
+import 'package:tineviland/views/news/detail_news.dart';
 import '../cards/vertical_card.dart';
 
 class News extends StatefulWidget {
@@ -55,12 +56,18 @@ class _NewsState extends State<News> {
                   final imageUrl = snapshot.data!.docs[index].get('images');
                   final author_id = snapshot.data!.docs[index].get('author_id');
 
-                  return HoriCard(
-                    size: size,
-                    imageUrl: imageUrl,
-                    title: title,
-                    content: content,
-                    author_id: author_id,
+                  return GestureDetector(
+                    onTap: ()=>  Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailNews(img: imageUrl,content: content,author_id: author_id,title: title,))),
+                    child: HoriCard(
+                      size: size,
+                      imageUrl: imageUrl,
+                      title: title,
+                      content: content,
+                      author_id: author_id,
+                    ),
                   );
                 },
               );
