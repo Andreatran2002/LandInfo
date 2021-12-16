@@ -28,7 +28,8 @@ class _HomeState extends State<Home> {
 
   final screens = [
     Home(),
-    PostView(),
+    News(),
+    // PostView(),
     AddPost(),
     Account(),
     AddNew(),

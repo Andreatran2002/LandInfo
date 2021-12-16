@@ -5,14 +5,14 @@ import 'package:tineviland/models/user.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:tineviland/utils/geolocator_service.dart';
 
-class UserBloc with ChangeNotifier  {
-  String? currentUser ;
+class UserBloc with ChangeNotifier {
+  String? currentUser;
   final AuthMethods _authMethods = AuthMethods();
   late User user;
-  UserBloc(){
+  UserBloc() {
     setCurrentUser();
   }
-  setCurrentUser() async  {
+  setCurrentUser() async {
     currentUser = await _authMethods.getUserId();
     await FirebaseFirestore.instance
         .collection('users')
@@ -21,11 +21,14 @@ class UserBloc with ChangeNotifier  {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         print('Document exists on the database');
-        user = User(Password: documentSnapshot["password"],Name: documentSnapshot["username"],PhoneNumber: documentSnapshot["phone"],ImageUrl: documentSnapshot["avatar"]);
+        user = User(
+            Password: documentSnapshot["password"],
+            Name: documentSnapshot["username"],
+            PhoneNumber: documentSnapshot["phone"],
+            ImageUrl: documentSnapshot["avatar"]);
         print(documentSnapshot["username"]);
       }
     });
     notifyListeners();
   }
-
 }

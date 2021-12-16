@@ -15,17 +15,8 @@ class Storage {
   ) async {
     String url;
     try {
-      print('zoooooooo');
       var uploadTask = await storage.ref('images/$fileName').putFile(file!);
       var dowurl = await uploadTask.ref.getDownloadURL();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(
-      //     content: Text(
-      //       "Upload ảnh thành công",
-      //     ),
-      //     backgroundColor: Colors.green,
-      //   ),
-      // );
       url = dowurl.toString();
       return url;
     } on firebase_core.FirebaseException catch (e) {
