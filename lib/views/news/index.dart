@@ -136,17 +136,34 @@ class _HoriCardState extends State<HoriCard> {
       child: Row(
         children: [
           Container(
-              width: widget.size.width * 0.45,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  bottomLeft: Radius.circular(5),
+            width: widget.size.width * 0.45,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5),
+                bottomLeft: Radius.circular(5),
+              ),
+              image: DecorationImage(
+                image: NetworkImage(widget.imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
+              ),
+              child: FadeInImage.assetNetwork(
+                // fadeInCurve: Curves.bounceIn,
+                fadeInDuration: Duration(
+                  milliseconds: 500,
                 ),
-                image: DecorationImage(
-                  image: NetworkImage(widget.imageUrl),
-                  fit: BoxFit.cover,
-                ),
-              )),
+                placeholder: 'assets/images/loading.gif',
+                image: widget.imageUrl,
+                fit: BoxFit.cover,
+                width: 180,
+              ),
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(top: 5, right: 10, left: 10),

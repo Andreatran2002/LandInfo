@@ -20,45 +20,46 @@ class _SliderForBannerState extends State<SliderForBanner> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        // padding: const EdgeInsets.symmetric(vertical: 20),
         child: CarouselSlider.builder(
-          itemCount: bannerList.length,
-          itemBuilder: (context, index, realIndex) {
-            final url = bannerList[index];
-            return Container(
-              width: 400,
-              // color: Colors.black,
-              margin: const EdgeInsets.symmetric(
-                horizontal: 5.0,
-                vertical: 10,
-              ),
-              // child: Image.asset(item),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    offset: const Offset(0, 2),
-                    blurRadius: 2,
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: AssetImage(url),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          },
-          options: CarouselOptions(
-            height: 200.0,
-            autoPlay: true,
-            viewportFraction: 1,
-            enableInfiniteScroll: false,
-
-            // autoPlayInterval: const Duration(seconds: 4),
-            // onPageChanged: (index, reason) {},
+      itemCount: bannerList.length,
+      itemBuilder: (context, index, realIndex) {
+        final url = bannerList[index];
+        return Container(
+          width: 400,
+          // color: Colors.black,
+          margin: const EdgeInsets.only(
+            right: 5.0,
+            left: 5.0,
+            bottom: 10,
           ),
-        ));
+          // child: Image.asset(item),
+          decoration: BoxDecoration(
+            color: Colors.black,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                offset: const Offset(0, 2),
+                blurRadius: 2,
+              ),
+            ],
+            borderRadius: BorderRadius.circular(10),
+            image: DecorationImage(
+              image: AssetImage(url),
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      },
+      options: CarouselOptions(
+        height: 200.0,
+        autoPlay: true,
+        viewportFraction: 1,
+        enableInfiniteScroll: false,
+
+        // autoPlayInterval: const Duration(seconds: 4),
+        // onPageChanged: (index, reason) {},
+      ),
+    ));
   }
 }

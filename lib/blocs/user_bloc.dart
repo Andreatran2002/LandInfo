@@ -8,7 +8,12 @@ import 'package:tineviland/utils/geolocator_service.dart';
 class UserBloc with ChangeNotifier {
   String? currentUser;
   final AuthMethods _authMethods = AuthMethods();
-  late User user;
+  late User user = new User(
+    Name: "",
+    Password: "",
+    PhoneNumber: "",
+    ImageUrl: "assets\images\default-avatar.png",
+  );
   UserBloc() {
     setCurrentUser();
   }
