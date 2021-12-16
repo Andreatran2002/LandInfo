@@ -6,20 +6,20 @@ import 'package:tineviland/views/news/detail_news.dart';
 import '../cards/vertical_card.dart';
 import 'package:intl/intl.dart';
 
-class SliderForPosts extends StatefulWidget {
+class SliderForNews extends StatefulWidget {
   final String title;
   final String collectionName;
-  const SliderForPosts({
+  const SliderForNews({
     Key? key,
     required this.title,
     required this.collectionName,
   }) : super(key: key);
 
   @override
-  State<SliderForPosts> createState() => _SliderForPostsState();
+  State<SliderForNews> createState() => _SliderForNewsState();
 }
 
-class _SliderForPostsState extends State<SliderForPosts> {
+class _SliderForNewsState extends State<SliderForNews> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,21 +30,21 @@ class _SliderForPostsState extends State<SliderForPosts> {
           child: Text(
             widget.title,
             style: Theme.of(context).textTheme.headline5?.copyWith(
-              fontWeight: FontWeight.bold,
-              fontFamily: "Montserrat",
-            ),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Montserrat",
+                ),
           ),
         ),
         const SizedBox(height: 5),
         Container(
-          // margin: const EdgeInsets.symmetric(vertical: 10.0),
-          height: 220.0,
+          height: 230.0,
           child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+              stream:
+                  FirebaseFirestore.instance.collection('posts').snapshots(),
               builder: (
-                  BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot,
-                  ) {
+                BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot,
+              ) {
                 if (snapshot.hasError) {
                   print("hello" + snapshot.error.toString());
                   return Text("something is wrong");
@@ -62,19 +62,27 @@ class _SliderForPostsState extends State<SliderForPosts> {
                     final title = snapshot.data!.docs[index].get('title');
                     final content = snapshot.data!.docs[index].get('content');
                     final imageUrl = snapshot.data!.docs[index].get('images');
-                    final authorId = snapshot.data!.docs[index].get('author_id');
+                    final authorId =
+                        snapshot.data!.docs[index].get('author_id');
                     bool isHot = false;
                     final dateCreated = DateFormat('MMMM d, yyyy', 'en_US');
 
                     return GestureDetector(
-                      onTap: ()=>{
-                        Navigator.push(context,  MaterialPageRoute(
-                            builder: (context) =>  DetailNews(content: content, img: imageUrl, title: title,author_id : authorId)))
+                      onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailNews(
+                                    content: content,
+                                    img: imageUrl,
+                                    title: title,
+                                    author_id: authorId)))
                       },
                       child: Stack(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 4, bottom: 4, left: 20),
+                            padding: const EdgeInsets.only(
+                                top: 4, bottom: 4, left: 20),
                             child: Container(
                               width: 180,
                               decoration: BoxDecoration(
@@ -89,6 +97,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
                                     height: 100,
@@ -110,39 +119,148 @@ class _SliderForPostsState extends State<SliderForPosts> {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(height: 5),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(children: <Widget>[
+                                          SvgPicture.asset(
+                                              "assets/icons/area.svg"),
+                                          SizedBox(width: 8),
+                                          Text(
+                                            '93m2',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Montserrat",
+                                                  fontSize: 12,
+                                                ),
+                                          ),
+                                        ]),
+                                        Row(children: <Widget>[
+                                          SvgPicture.asset(
+                                            "assets/icons/money.svg",
+                                            width: 16,
+                                          ),
+                                          // SizedBox(width: 8),
+                                          Text(
+                                            '93m2',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Montserrat",
+                                                  fontSize: 12,
+                                                ),
+                                          ),
+                                        ]),
+                                        // Row()
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                      vertical: 4,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 1),
+                                              child: SvgPicture.asset(
+                                                "assets/icons/locate.svg",
+                                                width: 8,
+                                              ),
+                                            ),
+                                            SizedBox(width: 8),
+                                            Text(
+                                              'Hồ Chí Minh',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: 12,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            // vertical: 2,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'Mua',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Montserrat",
+                                                  fontSize: 12,
+                                                ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                   Flexible(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
+                                          Text(
+                                            title,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Montserrat",
+                                                  fontSize: 16,
+                                                ),
+                                          ),
                                           Container(
                                             child: Text(
-                                              title,
+                                              content,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyText2
                                                   ?.copyWith(
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: "Montserrat",
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              content,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 3,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText2
-                                                  ?.copyWith(
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "Montserrat",
-                                                fontSize: 12,
-                                              ),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: 12,
+                                                  ),
                                             ),
                                           ),
                                         ],
@@ -185,11 +303,11 @@ class _SliderForPostsState extends State<SliderForPosts> {
                                         .textTheme
                                         .bodyText2
                                         ?.copyWith(
-                                      color: Colors.white,
-                                      fontFamily: "Montserrat",
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                          color: Colors.white,
+                                          fontFamily: "Montserrat",
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                   ),
                                 ],
                               ),

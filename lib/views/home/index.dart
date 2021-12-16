@@ -28,98 +28,103 @@ class HomePage extends StatelessWidget {
     User user = userBloc.user;
     var name = user.Name.split(" ");
 
-    return (user == null ) ?
-    const CircularProgressIndicator(
-      value: 15,
-      semanticsLabel: 'Loading!!',
-    )
+    return (user == null)
+        ? const CircularProgressIndicator(
+            value: 15,
+            semanticsLabel: 'Loading!!',
+          )
         : SingleChildScrollView(
-      controller: _scrollController,
-      child: Stack(
-        children: <Widget>[
-          Container(
-            height: size.height * 0.4,
-            decoration: const BoxDecoration(
-              color: kGreenLightColor,
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(10),
-                bottomLeft: Radius.circular(10),
-              ),
-            ),
-          ),
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            controller: _scrollController,
+            child: Stack(
               children: <Widget>[
-                Opacity(
-                  opacity: ((90 - _scrollPosition) / 100 >= 0)
-                      ? (90 - _scrollPosition) / 100
-                      : 0,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
-                    child: Row(
-                      // key: headingKey,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          "assets/images/mainLogo.png",
-                          height: 90,
-                        ),
-                        Text(
-                          "Hi " + name[0],
-                          style:
-                              Theme.of(context).textTheme.headline4?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "Montserrat",
-                                  ),
-                        ),
-                      ],
+                Container(
+                  height: size.height * 0.4,
+                  decoration: const BoxDecoration(
+                    color: kGreenLightColor,
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: TextField(
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: "Montserrat",
-                            fontSize: 16,
+                SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Opacity(
+                        opacity: ((90 - _scrollPosition) / 100 >= 0)
+                            ? (90 - _scrollPosition) / 100
+                            : 0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 20,
                           ),
-                      decoration: InputDecoration(
-                        hintText: "Tìm kiếm...",
-                        icon: SvgPicture.asset("assets/icons/search.svg"),
-                        border: InputBorder.none,
+                          child: Row(
+                            // key: headingKey,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(
+                                "assets/images/mainLogo.png",
+                                height: 90,
+                              ),
+                              Text(
+                                "Hi " + name[0],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline4
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: "Montserrat",
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: TextField(
+                            style:
+                                Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Montserrat",
+                                      fontSize: 16,
+                                    ),
+                            decoration: InputDecoration(
+                              hintText: "Tìm kiếm...",
+                              icon: SvgPicture.asset("assets/icons/search.svg"),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: SliderForBanner(),
+                      ),
+                      const SliderForPosts(
+                          title: 'Mua bán', collectionName: 'posts'),
+                      const SizedBox(height: 10),
+                      const SliderForNews(
+                          title: 'Tin tức', collectionName: 'news'),
+                      const SizedBox(height: 10),
+                      // const SliderForNews(title: 'Tin tức'),
+                      // SliderForNews(),
+                    ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: SliderForBanner(),
-                ),
-                const SliderForNews(title: 'Tin tức', collectionName: 'news'),
-                const SizedBox(height: 10),
-                const SliderForPosts(title: 'Mua bán', collectionName: 'posts'),
-                const SizedBox(height: 10),
-                // const SliderForNews(title: 'Tin tức'),
-                // SliderForNews(),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }
