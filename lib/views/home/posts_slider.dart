@@ -5,8 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:tineviland/models/post.dart';
 import 'package:tineviland/utils/authmethod.dart';
-import 'package:tineviland/views/news/detail_news.dart';
 import 'package:tineviland/views/posts/detail_post.dart';
+import 'package:tineviland/views/posts/index.dart';
 import '../cards/vertical_card.dart';
 import 'package:intl/intl.dart';
 
@@ -29,17 +29,41 @@ class _SliderForNewsState extends State<SliderForNews> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Text(
-            widget.title,
-            style: Theme.of(context).textTheme.headline5?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Montserrat",
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text(
+                widget.title,
+                style: Theme.of(context).textTheme.headline5?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Montserrat",
+                    ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Posts(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Xem thêm",
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontFamily: "Montserrat",
+                      ),
                 ),
-          ),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 5),
         Container(
           height: 215.0,
           child: StreamBuilder(
@@ -88,6 +112,8 @@ class _SliderForNewsState extends State<SliderForNews> {
                       image: snapshot.data!.docs[index].get('images'),
                       title: snapshot.data!.docs[index].get('title'),
                     );
+
+                    final lableContent = returnCategory(post.category);
                     return GestureDetector(
                       onTap: () => {
                         Navigator.push(
@@ -150,7 +176,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                               "assets/icons/area.svg"),
                                           SizedBox(width: 8),
                                           Text(
-                                            '93m2',
+                                            post.surfaceArea.toString() + "m²",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText2
@@ -168,7 +194,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                           ),
                                           // SizedBox(width: 8),
                                           Text(
-                                            '93m2',
+                                            post.price.toString() + " tr",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText2
@@ -216,31 +242,31 @@ class _SliderForNewsState extends State<SliderForNews> {
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            // vertical: 2,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              width: 1,
-                                              color: Colors.green,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            'Mua',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2
-                                                ?.copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: "Montserrat",
-                                                  fontSize: 12,
-                                                ),
-                                          ),
-                                        )
+                                        // Container(
+                                        //   padding: const EdgeInsets.symmetric(
+                                        //     horizontal: 8,
+                                        //     // vertical: 2,
+                                        //   ),
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius:
+                                        //         BorderRadius.circular(10),
+                                        //     border: Border.all(
+                                        //       width: 1,
+                                        //       color: Colors.green,
+                                        //     ),
+                                        //   ),
+                                        //   child: Text(
+                                        //     'Mua',
+                                        //     style: Theme.of(context)
+                                        //         .textTheme
+                                        //         .bodyText2
+                                        //         ?.copyWith(
+                                        //           fontWeight: FontWeight.w500,
+                                        //           fontFamily: "Montserrat",
+                                        //           fontSize: 12,
+                                        //         ),
+                                        //   ),
+                                        // )
                                       ],
                                     ),
                                   ),
@@ -299,7 +325,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                 right: 10,
                               ),
                               decoration: BoxDecoration(
-                                color: isHot ? Colors.red : Colors.green,
+                                color: lableContent["color"],
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.5),
@@ -315,7 +341,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                     width: 5,
                                   ),
                                   Text(
-                                    isHot ? 'Tin mới' : 'Tin cũ',
+                                    lableContent["name"],
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText2
@@ -355,5 +381,21 @@ class _SliderForNewsState extends State<SliderForNews> {
         return Category.needRent;
     }
     return Category.all;
+  }
+
+  Map<String, dynamic> returnCategory(dynamic cate) {
+    switch (cate) {
+      case Category.all:
+        return {"name": "Tất cả", "color": Colors.green};
+      case Category.forSale:
+        return {"name": "Bán", "color": Colors.yellow[700]};
+      case Category.forRent:
+        return {"name": "Thuê", "color": Colors.orange};
+      case Category.needBuy:
+        return {"name": "Cần mua", "color": Colors.red};
+      case Category.needRent:
+        return {"name": "Cần thuê", "color": Colors.red[600]};
+    }
+    return {"name": "Tất cả", "color": Colors.green};
   }
 }

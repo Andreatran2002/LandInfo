@@ -241,7 +241,8 @@ class _AddPostState extends State<AddPost> {
                             "title": _titleController.text,
                             "locate": GeoPoint(pos!.latitude, pos!.longitude),
                             "price": int.parse(_priceController.text),
-                            "surfaceArea": int.parse(_surfaceAreaController.text)
+                            "surfaceArea":
+                                int.parse(_surfaceAreaController.text)
                           });
                           print(post);
                           Navigator.pushAndRemoveUntil(
@@ -249,10 +250,10 @@ class _AddPostState extends State<AddPost> {
                               MaterialPageRoute(
                                   builder: (context) => const Home()),
                               (route) => false);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                               SnackBar(backgroundColor: Theme.of(context).colorScheme.primary,
-                                  content:
-                                      Text("Đã tạo bài đăng thành công!")));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              content: Text("Đã tạo bài đăng thành công!")));
                         }
                       }
                     } catch (e) {
