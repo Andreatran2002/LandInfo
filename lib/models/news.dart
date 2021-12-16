@@ -17,7 +17,7 @@ class News {
   final String author_id;
   final String title;
   final String content;
-  final List<String> images;
+  final String images;
 //
 
 

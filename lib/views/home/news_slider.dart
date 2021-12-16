@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:tineviland/models/news.dart' as news_model;
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:tineviland/views/news/detail_news.dart';
 import 'package:tineviland/views/news/index.dart';
@@ -84,20 +85,22 @@ class _SliderForPostsState extends State<SliderForPosts> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (BuildContext context, int index) {
                     // chỗ này là chỗ lấy data
+
                     final title = snapshot.data!.docs[index].get('title');
                     final content = snapshot.data!.docs[index].get('content');
                     final imageUrl = snapshot.data!.docs[index].get('images');
                     final authorId =
                         snapshot.data!.docs[index].get('author_id');
                     bool isHot = false;
-                    final dateCreated = DateFormat('MMMM d, yyyy', 'en_US');
+                        final dateCreated =snapshot.data!.docs[index].get('date_created').toDate();
 
                     return PostCard(
                         content: content,
                         imageUrl: imageUrl,
                         title: title,
                         authorId: authorId,
-                        isHot: isHot);
+                        isHot: isHot,
+                    dateCreated : dateCreated);
                   },
                 );
               }),
@@ -115,6 +118,7 @@ class PostCard extends StatelessWidget {
     required this.title,
     required this.authorId,
     required this.isHot,
+    required this.dateCreated
   }) : super(key: key);
 
   final content;
@@ -122,6 +126,7 @@ class PostCard extends StatelessWidget {
   final title;
   final authorId;
   final bool isHot;
+  final DateTime dateCreated;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +139,8 @@ class PostCard extends StatelessWidget {
                     content: content,
                     img: imageUrl,
                     title: title,
-                    author_id: authorId)))
+                    author_id: authorId,
+                date_created: dateCreated,)))
       },
       child: Stack(
         children: [

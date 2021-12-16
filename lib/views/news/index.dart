@@ -55,12 +55,12 @@ class _NewsState extends State<News> {
                   final content = snapshot.data!.docs[index].get('content');
                   final imageUrl = snapshot.data!.docs[index].get('images');
                   final author_id = snapshot.data!.docs[index].get('author_id');
-
+                  final date_created = snapshot.data!.docs[index].get('date_created');
                   return GestureDetector(
                     onTap: ()=>  Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailNews(img: imageUrl,content: content,author_id: author_id,title: title,))),
+                            builder: (context) => DetailNews(date_created: date_created ,img: imageUrl,content: content,author_id: author_id,title: title,))),
                     child: HoriCard(
                       size: size,
                       imageUrl: imageUrl,

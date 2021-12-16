@@ -10,18 +10,20 @@ class DetailNews extends StatefulWidget {
       required this.content,
       required this.title,
       required this.author_id,
+        required this.date_created,
       Key? key})
       : super(key: key);
   final String img;
   final String content;
   final String title;
   final String author_id;
+  final DateTime date_created;
   @override
   _DetailNewsState createState() => _DetailNewsState();
 }
 
 class _DetailNewsState extends State<DetailNews> {
-  late User author;
+  User author = User(Name:"", Password:"",PhoneNumber: "",ImageUrl: "");
 
   @override
   void initState() {
@@ -32,12 +34,7 @@ class _DetailNewsState extends State<DetailNews> {
   @override
   Widget build(BuildContext context) {
     takeAuthorInfo();
-    return (author == null)
-        ? const CircularProgressIndicator(
-            value: 15,
-            semanticsLabel: 'Loading!!',
-          )
-        : Scaffold(
+    return  Scaffold(
             appBar: AppBar(
               centerTitle: true,
               title: const Text(
@@ -80,6 +77,16 @@ class _DetailNewsState extends State<DetailNews> {
                       fontSize: 26,
                       fontWeight: FontWeight.w600,
                       fontFamily: "Montserrat",
+                    ),
+                  ),
+                  Text(
+                    "Ngày đăng : ${widget.date_created.day.toString()}/${widget.date_created.month.toString()}/${widget.date_created.year.toString()}",
+                    style:
+                    Theme.of(context).textTheme.bodyText2?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontStyle: FontStyle.italic,
+                      fontFamily: "Montserrat",
+                      fontSize: 13,
                     ),
                   ),
                   const Divider(
@@ -127,6 +134,7 @@ class _DetailNewsState extends State<DetailNews> {
                       style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Montserrat",
+
                       ),
                     ),
                   ),
