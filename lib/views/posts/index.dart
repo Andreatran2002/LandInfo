@@ -256,7 +256,7 @@ class _HoriCardState extends State<HoriCard> {
                           Row(children: <Widget>[
                             SvgPicture.asset(
                               "assets/icons/money.svg",
-                              width: 16,
+                              width: 10,
                             ),
                             // SizedBox(width: 8),
                             Text(
