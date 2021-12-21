@@ -7,6 +7,7 @@ import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:tineviland/views/home.dart';
+import 'package:tineviland/views/land_use_planning/detail_land_planning.dart';
 import 'package:tineviland/views/posts/add_post.dart';
 import 'package:tineviland/views/auth/signin.dart';
 
@@ -42,7 +43,7 @@ class _AppState extends State<App> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
 
-        home: currentPage,
+        home: DetailLandPlanning(),
         // home: Home(),
         theme: _kAppTheme,
       ),
@@ -55,8 +56,6 @@ class _AppState extends State<App> {
       setState(() async {
         currentPage = const Home();
         userDocument = await authMethod.getUserId();
-        print("hehe");
-        print(userDocument);
       });
     }
   }
