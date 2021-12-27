@@ -43,7 +43,7 @@ class _AppState extends State<App> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
 
-        home: DetailLandPlanning(),
+        home: currentPage,
         // home: Home(),
         theme: _kAppTheme,
       ),

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/models/user.dart';
 import 'package:tineviland/views/home/posts_slider.dart';
+import 'package:tineviland/views/land_use_planning/land_planning_page.dart';
 import '../../constants.dart';
 import './banner_slider.dart';
 import './news_slider.dart';
@@ -83,35 +84,32 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                      //   child: Container(
-                      //     padding: const EdgeInsets.symmetric(
-                      //       horizontal: 14,
-                      //       vertical: 5,
-                      //     ),
-                      //     decoration: BoxDecoration(
-                      //       color: Colors.white,
-                      //       borderRadius: BorderRadius.circular(30),
-                      //     ),
-                      //     child: TextField(
-                      //       style:
-                      //           Theme.of(context).textTheme.bodyText1?.copyWith(
-                      //                 fontWeight: FontWeight.w600,
-                      //                 fontFamily: "Montserrat",
-                      //                 fontSize: 16,
-                      //               ),
-                      //       decoration: InputDecoration(
-                      //         hintText: "Tìm kiếm...",
-                      //         icon: SvgPicture.asset("assets/icons/search.svg"),
-                      //         border: InputBorder.none,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: SliderForBanner(),
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            children:[ IconButton(
+                              iconSize : 60,
+                              icon:  const Icon(Icons.map),
+                              onPressed:(){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LandPlanningPage(),
+                                  ),
+                                );
+                              },
+                              color: Theme.of(context).colorScheme.primary,
+                              tooltip: "Quy hoạch",
+                            ),
+
+                            ]
+                          )
+                        ],
                       ),
                       const SliderForNews(
                           title: 'Mua bán', collectionName: 'news'),

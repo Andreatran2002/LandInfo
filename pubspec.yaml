@@ -60,6 +60,8 @@ dependencies:
   image_picker: ^0.8.4+4
   flutter_phone_direct_caller: ^2.1.0
   image: ^3.1.0
+  syncfusion_flutter_maps: ^19.4.38-beta
+  flutter_map: ^0.14.0
 
 dev_dependencies:
   flutter_test:
