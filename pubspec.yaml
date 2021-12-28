@@ -62,6 +62,8 @@ dependencies:
   image: ^3.1.0
   syncfusion_flutter_maps: ^19.4.38-beta
   flutter_map: ^0.14.0
+  flutter_markdown: ^0.6.9
+  markdown_editable_textinput: ^2.0.2
 
 dev_dependencies:
   flutter_test:

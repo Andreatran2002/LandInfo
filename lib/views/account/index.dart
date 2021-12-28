@@ -6,8 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tineviland/blocs/user_bloc.dart';
+import 'package:tineviland/models/user.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:tineviland/utils/storage_service.dart';
+import 'package:tineviland/views/auth/signup.dart';
 // import 'package:settings_ui/pages/settings.dart';
 
 class Account extends StatefulWidget {
@@ -23,6 +25,7 @@ class _AccountState extends State<Account> {
   String? fileName;
   String? fileUrl;
   String? url;
+  late User user;
   final Storage storage = Storage();
 
   Future selectFile() async {
@@ -53,12 +56,27 @@ class _AccountState extends State<Account> {
           file = File(path),
           fileName = name,
         });
+    url = await storage.uploadFile(
+      context,
+      file,
+      fileName!,
+      fileUrl,
+    );
+    AuthMethods auth = AuthMethods();
+    auth.updateAvatar(url!);
+    setState(() {
+      user = userBloc.user;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(backgroundColor: Theme.of(context).colorScheme.primary,
+            content:
+            Text("Cập nhập ảnh đại diện thành công!")));
   }
-
+  var userBloc;
   @override
   Widget build(BuildContext context) {
-    final userBloc = Provider.of<UserBloc>(context);
-    var user = userBloc.user;
+     userBloc = Provider.of<UserBloc>(context);
+     user = userBloc.user;
 
     return Scaffold(
       body: (userBloc.user == null)
@@ -146,43 +164,43 @@ class _AccountState extends State<Account> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            TextButton(
-
-                              child: Text("Lưu", style : TextStyle(fontSize: 18)),
-                              onPressed: () async {
-                                url = await storage.uploadFile(
-                                  context,
-                                  file,
-                                  fileName!,
-                                  fileUrl,
-                                );
-                                if (url!.isEmpty) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                    content: Text("Đã có lỗi khi tải ảnh lên !!"),
-                                  ));
-                                } else {
-                                  AuthMethods auth = AuthMethods();
-                                  auth.updateAvatar(url!);
-                                  //     .then((value)  {
-                                  //   setState(() {
-                                  //     user = User(user.Name, user.Password, user.PhoneNumber, url);
-                                  //   });
-                                  // });
-                                  setState(() {
-                                    user = userBloc.user;
-                                  });
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(backgroundColor: Theme.of(context).colorScheme.primary,
-                                          content:
-                                          Text("Cập nhập ảnh đại diện thành công!")));
-
-
-                                }
-                              },
-                              style: ButtonStyle(
-                              ),
-                            ),
+                            // TextButton(
+                            //
+                            //   child: Text("Lưu", style : TextStyle(fontSize: 18)),
+                            //   onPressed: () async {
+                            //     url = await storage.uploadFile(
+                            //       context,
+                            //       file,
+                            //       fileName!,
+                            //       fileUrl,
+                            //     );
+                            //     if (url!.isEmpty) {
+                            //       ScaffoldMessenger.of(context)
+                            //           .showSnackBar(const SnackBar(
+                            //         content: Text("Đã có lỗi khi tải ảnh lên !!"),
+                            //       ));
+                            //     } else {
+                            //       AuthMethods auth = AuthMethods();
+                            //       auth.updateAvatar(url!);
+                            //       //     .then((value)  {
+                            //       //   setState(() {
+                            //       //     user = User(user.Name, user.Password, user.PhoneNumber, url);
+                            //       //   });
+                            //       // });
+                            //       setState(() {
+                            //         user = userBloc.user;
+                            //       });
+                            //       ScaffoldMessenger.of(context).showSnackBar(
+                            //           SnackBar(backgroundColor: Theme.of(context).colorScheme.primary,
+                            //               content:
+                            //               Text("Cập nhập ảnh đại diện thành công!")));
+                            //
+                            //
+                            //     }
+                            //   },
+                            //   style: ButtonStyle(
+                            //   ),
+                            // ),
                             OutlineButton(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
@@ -193,6 +211,10 @@ class _AccountState extends State<Account> {
                                   await authMethod.signOut();
                                   authMethod.showSnackBar(
                                       context, "Đã đăng xuất");
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(builder: (builder) =>const  SignUp()),
+                                          (route) => false);
                                 });
                               },
                               child: const Text("SIGN OUT",

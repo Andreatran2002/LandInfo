@@ -1,4 +1,5 @@
 
+import 'package:latlong2/latlong.dart';
 class LandPlanning {
   LandPlanning({
     required this.title,
@@ -7,7 +8,8 @@ class LandPlanning {
     required this.accessToken,
     required this.isValidated,
     required this.mapUrl,
-    required this.imageUrl
+    required this.imageUrl,
+    required this.center
 
 });
   final String title ;
@@ -17,4 +19,5 @@ class LandPlanning {
   final String mapUrl;
   final String accessToken;
   final String imageUrl;
+  final LatLng center;
 }

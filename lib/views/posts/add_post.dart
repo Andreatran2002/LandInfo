@@ -1,13 +1,15 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:markdown_editable_textinput/format_markdown.dart';
+import 'package:markdown_editable_textinput/markdown_text_input.dart';
 import 'package:provider/provider.dart';
 import 'package:tineviland/Views/map.dart';
+import 'package:tineviland/Widgets/rich_editor.dart';
 import 'package:tineviland/blocs/application_bloc.dart';
 import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/models/post.dart';
@@ -28,12 +30,13 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
+  String description = "";
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(10.856809388642066, 106.77465589400319);
   final _addPostFormKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _priceController = TextEditingController();
-  final _contentController = TextEditingController();
+  final contentController = TextEditingController();
   final _surfaceAreaController = TextEditingController();
   get size => MediaQuery.of(context).size;
   File? file;
@@ -76,24 +79,22 @@ class _AddPostState extends State<AddPost> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
-
+  late RichEditor richEditor;
   LatLng? pos;
   void onDataChange(val) {
     setState(() {
       pos = val;
-      // Address = val.toString();
-      print(pos);
-      print("mêmmeeeeeeeeeeee");
     });
     GetAddressFromLatLong(val);
   }
 
-  @override
+
   Category dropdownvalue = Category.all;
   final List<Category> _categories = Category.values;
   @override
   Widget build(BuildContext context) {
     final userBloc = Provider.of<UserBloc>(context);
+    richEditor = RichEditor(controller : contentController);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -165,8 +166,7 @@ class _AddPostState extends State<AddPost> {
                 Text(Address),
                 const SizedBox(height: 10),
                 label("Nội dung"),
-                description("Nhập vào nội dung", _contentController),
-                const SizedBox(height: 10),
+                richEditor,
                 Container(
                     child: Row(
                   children: [
@@ -181,7 +181,7 @@ class _AddPostState extends State<AddPost> {
                   ],
                 )),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 20),
+                  margin: const EdgeInsets.symmetric(vertical: 20),
                   height: 200,
                   // decoration: ,
                   width: size.width * 0.9,
@@ -200,16 +200,19 @@ class _AddPostState extends State<AddPost> {
                     });
 
                     try {
-                      if (pos == null)
+                      print(richEditor.controller.text);
+                      if (pos == null) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: const Text("Vui lòng đánh dấu vị trí!"),
                           backgroundColor: Theme.of(context).colorScheme.error,
                         ));
-                      if (dropdownvalue == Category.all)
+                      }
+                      if (dropdownvalue == Category.all) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: const Text("Vui lòng thêm hình thức!"),
                           backgroundColor: Theme.of(context).colorScheme.error,
                         ));
+                      }
 
                       if (_addPostFormKey.currentState!.validate() &&
                           pos != null &&
@@ -229,12 +232,13 @@ class _AddPostState extends State<AddPost> {
                           setState(() {
                             circular = false;
                           });
+                          print(richEditor.controller.text);
                           var post = await FirebaseFirestore.instance
                               .collection("posts")
                               .add({
                             "category": dropdownvalue.index,
                             "author_id": userBloc.currentUser,
-                            "content": _contentController.text,
+                            "content": richEditor.controller.text,
                             "date_created": DateTime.now(),
                             "date_updated": DateTime.now(),
                             "images": url,
@@ -244,7 +248,6 @@ class _AddPostState extends State<AddPost> {
                             "surfaceArea":
                                 int.parse(_surfaceAreaController.text)
                           });
-                          print(post);
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
@@ -253,7 +256,7 @@ class _AddPostState extends State<AddPost> {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               backgroundColor:
                                   Theme.of(context).colorScheme.primary,
-                              content: Text("Đã tạo bài đăng thành công!")));
+                              content: const Text("Đã tạo bài đăng thành công!")));
                         }
                       }
                     } catch (e) {
@@ -299,24 +302,24 @@ class _AddPostState extends State<AddPost> {
         controller: controller);
   }
 
-  Widget description(String textHint, TextEditingController controller) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
-      child: TextFormField(
-        controller: controller,
-        maxLines: 8,
-        decoration: const InputDecoration(
-            contentPadding: EdgeInsets.only(top: 10, bottom: 10)),
-        validator: (value) {
-          if (value == "") {
-            return 'Vui lòng không được bỏ trống';
-          }
-          return null;
-        },
-      ),
-    );
-  }
+  // Widget descriptionBox(String textHint, TextEditingController controller) {
+  //   return Container(
+  //     width: MediaQuery.of(context).size.width,
+  //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
+  //     child: TextFormField(
+  //       controller: controller,
+  //       maxLines: 8,
+  //       decoration: const InputDecoration(
+  //           contentPadding: EdgeInsets.only(top: 10, bottom: 10)),
+  //       validator: (value) {
+  //         if (value == "") {
+  //           return 'Vui lòng không được bỏ trống';
+  //         }
+  //         return null;
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget label(String label) {
     return Text(label,

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tineviland/models/land_planing.dart';
-
-import 'detail_land_planning.dart';
+import 'package:latlong2/latlong.dart';
+import 'detail_map_land_planning.dart';
 
 
 class LandPlanningPage extends StatefulWidget {
@@ -40,6 +40,9 @@ class _LandPlanningPageState extends State<LandPlanningPage> {
                   scrollDirection: Axis.vertical,
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (BuildContext context, int index) {
+                    GeoPoint geoPoint = snapshot.data!.docs[index].get('center');
+                    double lat = geoPoint.latitude;
+                    double lng = geoPoint.longitude;
                     final LandPlanning landPlanning = LandPlanning(
                         title:  snapshot.data!.docs[index].get('title'),
                         content: snapshot.data!.docs[index].get('content'),
@@ -47,12 +50,14 @@ class _LandPlanningPageState extends State<LandPlanningPage> {
                         accessToken: snapshot.data!.docs[index].get('accessToken'),
                         isValidated: snapshot.data!.docs[index].get('isValidated'),
                         mapUrl: snapshot.data!.docs[index].get('mapUrl'),
-                        imageUrl: snapshot.data!.docs[index].get('imageUrl'));
+                        imageUrl: snapshot.data!.docs[index].get('imageUrl'),
+                        center:  LatLng(lat, lng)
+                    );
                     return GestureDetector(
                       onTap: ()=>  Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DetailLandPlanning(landPlanning: landPlanning,))),
+                              builder: (context) => DetailMapLandPlanning(landPlanning: landPlanning,))),
                       child: LandPlanningCard(
                         landPlanning: landPlanning,
                       ),
