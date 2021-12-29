@@ -11,14 +11,20 @@ class DetailLandPlanning extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "Chi tiết",
+          "Thông tin quy hoạch",
           style: TextStyle(
             color: Colors.white,
             fontFamily: "Montserrat",
           ),
+
         ),
+        leading: IconButton(
+        onPressed: () {
+        Navigator.pop(context);
+        },
+        icon: const Icon(Icons.arrow_back_rounded , color: Colors.white,),),
       ),
-      body: Padding(
+      body: Padding(    
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListView(
           padding:

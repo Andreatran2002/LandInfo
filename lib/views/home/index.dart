@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/models/user.dart';
+import 'package:tineviland/views/home/land_planning_slider.dart';
 import 'package:tineviland/views/home/posts_slider.dart';
 import 'package:tineviland/views/land_use_planning/land_planning_page.dart';
 import '../../constants.dart';
@@ -89,28 +90,8 @@ class HomePage extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 15),
                         child: SliderForBanner(),
                       ),
-                      Row(
-                        children: [
-                          Column(
-                            children:[ IconButton(
-                              iconSize : 60,
-                              icon:  const Icon(Icons.map),
-                              onPressed:(){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LandPlanningPage(),
-                                  ),
-                                );
-                              },
-                              color: Theme.of(context).colorScheme.primary,
-                              tooltip: "Quy hoạch",
-                            ),
 
-                            ]
-                          )
-                        ],
-                      ),
+                      const LandPlanningSlider(title: "Quy hoạch", collectionName: "landPlannings"),
                       const SliderForNews(
                           title: 'Mua bán', collectionName: 'news'),
                       const SizedBox(height: 10),

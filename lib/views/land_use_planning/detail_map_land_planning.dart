@@ -24,7 +24,7 @@ class _DetailMapLandPlanningState extends State<DetailMapLandPlanning> {
     return Scaffold(
       appBar: AppBar(
         centerTitle : true,
-        title: const Text("Chi tiết", style: TextStyle(color : Colors.white) ),
+        title: const Text("Bản đồ quy hoạch", style: TextStyle(color : Colors.white) ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

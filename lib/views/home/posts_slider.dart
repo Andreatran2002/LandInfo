@@ -104,9 +104,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                 }
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data!.docs.length < 5
-                      ? snapshot.data!.docs.length
-                      : 5,
+                  itemCount: snapshot.data!.docs.length < 6 ? snapshot.data!.docs.length : 5 ,
                   itemBuilder: (BuildContext context, int index) {
                     // chỗ này là chỗ lấy data
                     bool isHot = false;
@@ -189,7 +187,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                         ),
                                         child: FadeInImage.assetNetwork(
                                           // fadeInCurve: Curves.bounceIn,
-                                          fadeInDuration: Duration(
+                                          fadeInDuration: const Duration(
                                             milliseconds: 500,
                                           ),
                                           placeholder:
@@ -200,7 +198,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    const SizedBox(height: 5),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
@@ -214,7 +212,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                                 children: <Widget>[
                                               SvgPicture.asset(
                                                   "assets/icons/area.svg"),
-                                              SizedBox(width: 8),
+                                              const SizedBox(width: 8),
                                               Text(
                                                 post.surfaceArea.toString() + "m²",
                                                 maxLines: 1,

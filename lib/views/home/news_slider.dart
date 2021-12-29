@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
-import 'package:tineviland/models/news.dart' as news_model;
-import 'package:tineviland/utils/authmethod.dart';
 import 'package:tineviland/views/news/detail_news.dart';
 import 'package:tineviland/views/news/index.dart';
-import '../cards/vertical_card.dart';
-import 'package:intl/intl.dart';
 
 class SliderForPosts extends StatefulWidget {
   final String title;
@@ -38,6 +34,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                 style: Theme.of(context).textTheme.headline5?.copyWith(
                   fontWeight: FontWeight.bold,
                   fontFamily: "Montserrat",
+
                 ),
               ),
             ),
@@ -48,7 +45,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => News(),
+                      builder: (context) => const News(),
                     ),
                   );
                 },
@@ -56,6 +53,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                   "Xem thêm",
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                     fontFamily: "Montserrat",
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
@@ -82,7 +80,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
                 }
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data!.docs.length,
+                  itemCount: snapshot.data!.docs.length < 6 ? snapshot.data!.docs.length : 5 ,
                   itemBuilder: (BuildContext context, int index) {
                     // chỗ này là chỗ lấy data
 
