@@ -6,6 +6,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tineviland/models/post.dart';
 import 'package:tineviland/models/user.dart';
+import 'package:flutter_markdown/flutter_markdown.dart' as md;
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
@@ -58,6 +59,11 @@ class _DetailPostState extends State<DetailPost> {
               fontFamily: "Montserrat",
             ),
           ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_rounded , color: Colors.white,),),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -203,15 +209,9 @@ class _DetailPostState extends State<DetailPost> {
                 ],
               ),
               const SizedBox(height: 10),
-              Container(
-                child: Text(
-                  widget.post.content,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontFamily: "Montserrat",
-                  ),
-                ),
-              ),
+
+                    md.MarkdownBody(data : widget.post.content),
+
               const Divider(
                 height: 25,
                 thickness: 1,

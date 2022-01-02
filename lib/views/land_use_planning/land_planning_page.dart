@@ -18,7 +18,7 @@ class _LandPlanningPageState extends State<LandPlanningPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar : AppBar(
-          title: Text("Quy hoạch", style : TextStyle(color : Colors.white)),
+          title: const Text("Quy hoạch", style : TextStyle(color : Colors.white)),
 
         ),
         body :Padding(
@@ -29,7 +29,7 @@ class _LandPlanningPageState extends State<LandPlanningPage> {
                   (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
                   print("hello" + snapshot.error.toString());
-                  return Text("something is wrong");
+                  return const Text("something is wrong");
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -40,9 +40,7 @@ class _LandPlanningPageState extends State<LandPlanningPage> {
                   scrollDirection: Axis.vertical,
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (BuildContext context, int index) {
-                    GeoPoint geoPoint = snapshot.data!.docs[index].get('center');
-                    double lat = geoPoint.latitude;
-                    double lng = geoPoint.longitude;
+
                     final LandPlanning landPlanning = LandPlanning(
                         title:  snapshot.data!.docs[index].get('title'),
                         content: snapshot.data!.docs[index].get('content'),
@@ -51,7 +49,11 @@ class _LandPlanningPageState extends State<LandPlanningPage> {
                         isValidated: snapshot.data!.docs[index].get('isValidated'),
                         mapUrl: snapshot.data!.docs[index].get('mapUrl'),
                         imageUrl: snapshot.data!.docs[index].get('imageUrl'),
-                        center:  LatLng(lat, lng)
+                      leftTop:  LatLng(snapshot.data!.docs[index].get('leftTop').latitude, snapshot.data!.docs[index].get('leftTop').longitude),
+                      rightTop:  LatLng(snapshot.data!.docs[index].get('rightTop').latitude, snapshot.data!.docs[index].get('rightTop').longitude),
+                      leftBotton:  LatLng(snapshot.data!.docs[index].get('leftBotton').latitude, snapshot.data!.docs[index].get('leftBotton').longitude),
+                      rightBotton:  LatLng(snapshot.data!.docs[index].get('rightBotton').latitude, snapshot.data!.docs[index].get('rightBotton').longitude),
+
                     );
                     return GestureDetector(
                       onTap: ()=>  Navigator.push(
@@ -87,10 +89,10 @@ class _LandPlanningCardState extends State<LandPlanningCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding : EdgeInsets.all(16),
-      width: 300 ,
-      height: 150,
-      margin: EdgeInsets.only(bottom: 20),
+      padding : const EdgeInsets.all(16),
+      width: MediaQuery.of(context).size.width*0.9 ,
+      height:MediaQuery.of(context).size.height*0.18,
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -154,16 +156,15 @@ class _LandPlanningCardState extends State<LandPlanningCard> {
                     ),
                   ),
                   Text(widget.landPlanning.isValidated ? "Tình trạng:  Còn hiệu lực": "Tình trạng: Mất hiệu lực", style : TextStyle(color : Theme.of(context).colorScheme.primary)),
-                  Flexible(
-                    child: Text(
-                      widget.landPlanning.content,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                        fontWeight: FontWeight.w500,
+                  const SizedBox(height : 10),
+                  Text(
+                    "Ngày đăng : ${widget.landPlanning.date_created.day}/${widget.landPlanning.date_created.month}/${widget.landPlanning.date_created.year}",
+                    textAlign: TextAlign.right,
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+
                         fontFamily: "Montserrat",
-                        fontSize: 12,
-                      ),
+                        fontSize: 10,
+                        fontStyle: FontStyle.italic
                     ),
                   ),
                 ],

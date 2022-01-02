@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart' as md;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:tineviland/models/user.dart';
@@ -24,13 +25,18 @@ class _NewsState extends State<News> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "Tất cả tin",
+          "Tin tức",
           style: TextStyle(
             color: Colors.white,
             fontFamily: "Montserrat",
             fontWeight: FontWeight.bold,
           ),
         ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_rounded , color: Colors.white,),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -66,7 +72,8 @@ class _NewsState extends State<News> {
                       imageUrl: imageUrl,
                       title: title,
                       content: content,
-                      author_id: author_id,
+                      authorId: author_id,
+                      dateCreated : date_created
                     ),
                   );
                 },
@@ -84,14 +91,16 @@ class HoriCard extends StatefulWidget {
     required this.imageUrl,
     required this.title,
     required this.content,
-    required this.author_id,
+    required this.authorId,
+    required this.dateCreated
   }) : super(key: key);
 
   final size;
   final imageUrl;
   final title;
   final content;
-  final author_id;
+  final authorId;
+  final DateTime  dateCreated;
 
   @override
   State<HoriCard> createState() => _HoriCardState();
@@ -106,7 +115,7 @@ class _HoriCardState extends State<HoriCard> {
   );
 
   Future<void> takeAuthorInfo() async {
-    User author1 = await AuthMethods.getUser(widget.author_id);
+    User author1 = await AuthMethods.getUser(widget.authorId);
     setState(() => {author = author1});
   }
 
@@ -119,9 +128,9 @@ class _HoriCardState extends State<HoriCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.size.width * 0.9,
-      height: 150,
-      margin: EdgeInsets.only(bottom: 20),
+      width: MediaQuery.of(context).size.height*0.9,
+      height: MediaQuery.of(context).size.height*0.18,
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -181,7 +190,7 @@ class _HoriCardState extends State<HoriCard> {
                               //     ? AssetImage("assets\images\default-ImageUrl.png")
                               NetworkImage(author!.ImageUrl),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -223,18 +232,20 @@ class _HoriCardState extends State<HoriCard> {
                           ),
                     ),
                   ),
-                  Flexible(
-                    child: Text(
-                      widget.content,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "Montserrat",
-                            fontSize: 12,
-                          ),
+                  const SizedBox(height: 5),
+                  Text(
+                    "Ngày đăng : ${widget.dateCreated.day}/${widget.dateCreated.month}/${widget.dateCreated.year}",
+                    textAlign: TextAlign.right,
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+
+                      fontFamily: "Montserrat",
+                      fontSize: 10,
+                      fontStyle: FontStyle.italic
                     ),
                   ),
+                 // md.MarkdownBody(data : widget.content,
+                 // shrinkWrap : true),
+
                 ],
               ),
             ),

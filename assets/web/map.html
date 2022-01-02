@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Add a raster image to a map layer</title>
+		<meta
+			name="viewport"
+			content="initial-scale=1,maximum-scale=1,user-scalable=no"
+		/>
+		<link
+			href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
+			rel="stylesheet"
+		/>
+		<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+			}
+			#map {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+				object-fit: cover;
+			}
+			#map > img {
+				transform: scale(1.6);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="map"></div>
+		<script>
+			// TO MAKE THE MAP APPEAR YOU MUST
+			// ADD YOUR ACCESS TOKEN FROM
+			// https://account.mapbox.com
+			mapboxgl.accessToken =
+				'pk.eyJ1IjoiYW5kcmVhdHJhbjIwMDIiLCJhIjoiY2t4aXZndmk0NTFodTJwbXVlbXJpNnM0dyJ9.fOnQcO_C_2T8wlNCzIWzwQ'
+
+			const map = new mapboxgl.Map({
+				container: 'map',
+				zoom: 5,
+				center: [107.65111738425016, 10.823045174173771],
+				style: 'mapbox://styles/andreatran2002/ckxuiyic394hv16ryg9jx3jb7',
+			})
+			// disable map rotation using right click + drag
+			map.dragRotate.disable()
+
+			// disable map rotation using touch rotation 7
+			// map.touchZoomRotate.disableRotation()
+			map.on('load', () => {
+				map.addSource('radar', {
+					type: 'image',
+					url: 'https://firebasestorage.googleapis.com/v0/b/tinevyland.appspot.com/o/images%2Fbinhthuanland.png?alt=media&token=dee26c88-1040-4810-8b2f-f5c61c6cf15d',
+					coordinates: [
+						[107.58666162840977, 10.862194423537657],
+						[107.9934334442015 , 10.863327708805501],
+						[107.99401042550049, 10.578739266811178],
+						[107.58666162840977, 10.578739266811178],
+					],
+				})
+				map.addLayer({
+					id: 'radar-layer',
+					type: 'raster',
+					source: 'radar',
+
+					paint: {
+						'raster-fade-duration': 0,
+						'raster-opacity': 0.8,
+					},
+				})
+			})
+		</script>
+	</body>
+</html>

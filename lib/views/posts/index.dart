@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -26,14 +27,20 @@ class _PostsState extends State<Posts> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+
         title: const Text(
-          "Tất cả buôn bán",
+          "Mua bán",
           style: TextStyle(
             color: Colors.white,
             fontFamily: "Montserrat",
             fontWeight: FontWeight.bold,
           ),
         ),
+        leading: IconButton(
+        onPressed: () {
+        Navigator.pop(context);
+        },
+        icon: const Icon(Icons.arrow_back_rounded , color: Colors.white,),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -153,8 +160,6 @@ class _HoriCardState extends State<HoriCard> {
 
   @override
   Widget build(BuildContext context) {
-    print(_address);
-    print("--------------------------------------------- ddaays nha ");
     final lableContent = returnCategory(widget.post.category);
     return GestureDetector(
       onTap: ()=> Navigator.push(
@@ -167,8 +172,8 @@ class _HoriCardState extends State<HoriCard> {
         children: [
           Container(
             width: widget.size.width * 0.95,
-            height: 150,
-            margin: EdgeInsets.only(bottom: 20),
+            height: MediaQuery.of(context).size.height*0.18,
+            margin: const EdgeInsets.only(bottom: 20),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -211,7 +216,7 @@ class _HoriCardState extends State<HoriCard> {
                                     //     ? AssetImage("assets\images\default-ImageUrl.png")
                                     NetworkImage(author!.ImageUrl),
                               ),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -247,7 +252,7 @@ class _HoriCardState extends State<HoriCard> {
                           children: [
                             Row(children: <Widget>[
                               SvgPicture.asset("assets/icons/area.svg"),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Text(
                                 widget.post.surfaceArea.toString() + "m²",
                                 style: Theme.of(context)
@@ -256,7 +261,7 @@ class _HoriCardState extends State<HoriCard> {
                                     ?.copyWith(
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "Montserrat",
-                                      fontSize: 12,
+                                      fontSize: 10,
                                     ),
                               ),
                             ]),
@@ -267,14 +272,14 @@ class _HoriCardState extends State<HoriCard> {
                               ),
                               // SizedBox(width: 8),
                               Text(
-                                widget.post.price.toString() + " tr",
+                                convertCost(widget.post.price),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2
                                     ?.copyWith(
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "Montserrat",
-                                      fontSize: 12,
+                                      fontSize: 10,
                                     ),
                               ),
                             ]),
@@ -292,7 +297,7 @@ class _HoriCardState extends State<HoriCard> {
                                   width: 8,
                                 ),
                               ),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Flexible(
                                 child: Text(
                                   _address,
@@ -303,14 +308,14 @@ class _HoriCardState extends State<HoriCard> {
                                       ?.copyWith(
                                         fontWeight: FontWeight.w500,
                                         fontFamily: "Montserrat",
-                                        fontSize: 12,
+                                        fontSize: 10,
                                       ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Flexible(
+                        Expanded(
                           child: Text(
                             widget.post.title,
                             overflow: TextOverflow.ellipsis,
@@ -322,19 +327,7 @@ class _HoriCardState extends State<HoriCard> {
                                     ),
                           ),
                         ),
-                        Flexible(
-                          child: Text(
-                            widget.post.content,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style:
-                                Theme.of(context).textTheme.bodyText2?.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "Montserrat",
-                                      fontSize: 12,
-                                    ),
-                          ),
-                        ),
+
                       ],
                     ),
                   ),
@@ -400,5 +393,13 @@ class _HoriCardState extends State<HoriCard> {
         return {"name": "Cần thuê", "color": Colors.red[600]};
     }
     return {"name": "Tất cả", "color": Colors.green};
+  }
+  String convertCost(int cost){
+    String result = "";
+    if (cost /1000 >=1){
+      result = "${(cost/1000).toStringAsFixed(0)} tỷ ${cost % 1000} tr";
+    }
+    else result = "$cost tr";
+    return result ;
   }
 }

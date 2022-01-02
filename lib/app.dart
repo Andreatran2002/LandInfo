@@ -7,12 +7,7 @@ import 'package:tineviland/blocs/user_bloc.dart';
 import 'package:tineviland/utils/authmethod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:tineviland/views/home.dart';
-import 'package:tineviland/views/land_use_planning/detail_land_planning.dart';
-import 'package:tineviland/views/posts/add_post.dart';
-import 'package:tineviland/views/auth/signin.dart';
-
 import 'blocs/application_bloc.dart';
-import 'views/news/add_new.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);

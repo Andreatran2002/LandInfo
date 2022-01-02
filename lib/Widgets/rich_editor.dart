@@ -19,7 +19,7 @@ class _RichEditorState extends State<RichEditor> {
     super.initState();
 
     widget.controller.addListener(() {
-      print(widget.controller.text);
+    //  print(widget.controller.text);
     });
   }
   @override

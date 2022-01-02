@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart'; // new
 import 'package:firebase_auth/firebase_auth.dart'; // new
 import 'package:flutter/material.dart';
 import 'package:tineviland/views/auth/signin.dart';
-import 'package:tineviland/views/home.dart';
 import 'package:crypt/crypt.dart';
 import 'package:tineviland/models/user.dart' as user_account;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -43,6 +41,21 @@ class AuthMethods {
     return Future<String>.value(userId);
   }
 
+
+  Future<bool> hasAccount(String phone) async {
+    String? userId;
+    var userPhone = await storage.read(key: "phone");
+    await FirebaseFirestore.instance
+        .collection("users")
+        .where('phone', isEqualTo: userPhone)
+        .get()
+        .then((data) {
+      userId = data.docs[0].id;
+    });
+    if (userId != null ) return Future<bool>.value(true);
+    return Future<bool>.value(false);
+  }
+
   Future<void> signUpWithPhoneNumber(String verificationId, String smsCode,
       BuildContext context, user_account.User user, String phone) async {
     try {
@@ -63,14 +76,30 @@ class AuthMethods {
         "password": setPassword(user.Password),
       });
 
-      showSnackBar(context, "Đăng ký tài khoản thành công");
+      showSnackBar(context, "Đăng ký tài khoản thành công",Theme.of(context).colorScheme.primary);
     } catch (e) {
-      showSnackBar(context, e.toString());
+      showSnackBar(context,"Xác thực không thành công. Vui lòng kiểm tra lại!",Theme.of(context).colorScheme.error);
     }
   }
 
-  void showSnackBar(BuildContext context, String text) {
-    final snackBar = SnackBar(content: Text(text));
+  Future<void> authenticationByPhone(String verificationId, String smsCode, String phone,BuildContext context,)async {
+    try{
+      AuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: smsCode);
+
+      UserCredential userCredential =
+      await _auth.signInWithCredential(credential);
+      showSnackBar(context, "Xác thực tài khoản thành công",Theme.of(context).colorScheme.primary);
+
+    }
+    catch(e){
+      showSnackBar(context,"Xác thực không thành công. Vui lòng kiểm tra lại!",Theme.of(context).colorScheme.error);
+    }
+
+  }
+
+  void showSnackBar(BuildContext context, String text, Color backgroundColor) {
+    final snackBar = SnackBar(content: Text(text), backgroundColor: backgroundColor,);
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 

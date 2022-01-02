@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:markdown_editable_textinput/format_markdown.dart';
@@ -30,10 +31,10 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
-  String description = "";
+  String _description = '';
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(10.856809388642066, 106.77465589400319);
-  final _addPostFormKey = GlobalKey<FormState>();
+  final addPostFormKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _priceController = TextEditingController();
   final contentController = TextEditingController();
@@ -43,7 +44,14 @@ class _AddPostState extends State<AddPost> {
   String? fileName;
   String? fileUrl;
   final Storage storage = Storage();
+  @override
+  void initState() {
+    super.initState();
 
+    contentController.addListener(() {
+      print(contentController.text);
+    });
+  }
   Future selectFile() async {
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
@@ -58,7 +66,7 @@ class _AddPostState extends State<AddPost> {
       );
       return;
     }
-
+    print("he1");
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("Tải hình ảnh thành công !!"),
@@ -72,6 +80,7 @@ class _AddPostState extends State<AddPost> {
           file = File(path),
           fileName = name,
         });
+    print(path +" "+ name );
   }
 
   String Address = "Chưa cập nhập vị trí";
@@ -91,10 +100,11 @@ class _AddPostState extends State<AddPost> {
 
   Category dropdownvalue = Category.all;
   final List<Category> _categories = Category.values;
+
   @override
   Widget build(BuildContext context) {
+    richEditor = RichEditor(controller: contentController , key:addPostFormKey);
     final userBloc = Provider.of<UserBloc>(context);
-    richEditor = RichEditor(controller : contentController);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -105,191 +115,191 @@ class _AddPostState extends State<AddPost> {
             ),
           ),
         ),
-        body: Container(
-          padding: const EdgeInsets.all(18.0),
-          child: SingleChildScrollView(
-              child: Form(
-            key: _addPostFormKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                label("Tiêu đề bài đăng"),
-                textField("Tiêu đề bài đăng", TextInputType.text, 1,
-                    _titleController),
-                const SizedBox(height: 10),
-                label("Hình thức"),
-                DropdownButton(
-                  isExpanded: true,
-                  value: dropdownvalue,
-                  icon: const Icon(Icons.keyboard_arrow_down),
-                  items: _categories.map((Category items) {
-                    return DropdownMenuItem(
-                        value: items,
-                        child: Text(PostsRepository.printCategory(items)));
-                  }).toList(),
-                  onChanged: (Category? newValue) {
-                    setState(() {
-                      dropdownvalue = newValue!;
-                    });
-                  },
-                ),
-                const SizedBox(height: 10),
-                label("Giá cả"),
-                textField(
-                    "Nhập giá", TextInputType.number, 1, _priceController),
-                const SizedBox(height: 10),
-                label("Diện tích (m2)"),
-                textField("Nhập diện tích", TextInputType.number, 1,
-                    _surfaceAreaController),
-                const SizedBox(height: 10),
-                Container(
-                    child: Row(
-                  children: [
-                    label("Vị trí"),
-                    IconButton(
-                      icon: Icon(
-                        Icons.add,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyMap.Map(
-                                      pos: pos,
-                                      callback: (val) => onDataChange(val),
-                                    )))
-                      },
-                    )
-                  ],
-                )),
-                Text(Address),
-                const SizedBox(height: 10),
-                label("Nội dung"),
-                richEditor,
-                Container(
-                    child: Row(
-                  children: [
-                    label("Ảnh minh họa"),
-                    IconButton(
-                      icon: Icon(
-                        Icons.add,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: () => {selectFile()},
-                    )
-                  ],
-                )),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  height: 200,
-                  // decoration: ,
-                  width: size.width * 0.9,
-                  child: file != null
-                      ? Image.file(file!, fit: BoxFit.cover)
-                      : const Center(
-                          child: Text('Chọn ảnh'),
-                        ),
-                  // child: ,
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () async {
-                    setState(() {
-                      circular = true;
-                    });
+        body: SingleChildScrollView(
+          child: Padding(
+            padding:const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  textFieldDefault(_titleController, "Tiêu đề bài đăng", 2, 3,TextInputType.text),
 
-                    try {
-                      print(richEditor.controller.text);
-                      if (pos == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: const Text("Vui lòng đánh dấu vị trí!"),
-                          backgroundColor: Theme.of(context).colorScheme.error,
-                        ));
-                      }
-                      if (dropdownvalue == Category.all) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: const Text("Vui lòng thêm hình thức!"),
-                          backgroundColor: Theme.of(context).colorScheme.error,
-                        ));
-                      }
-
-                      if (_addPostFormKey.currentState!.validate() &&
-                          pos != null &&
-                          dropdownvalue != Category.all) {
-                        String url = await storage.uploadFile(
-                          context,
-                          file,
-                          fileName!,
-                          fileUrl,
-                        );
-                        if (url.isEmpty) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text("Đã có lỗi khi tải ảnh lên !!"),
-                          ));
-                        } else {
-                          setState(() {
-                            circular = false;
-                          });
-                          print(richEditor.controller.text);
-                          var post = await FirebaseFirestore.instance
-                              .collection("posts")
-                              .add({
-                            "category": dropdownvalue.index,
-                            "author_id": userBloc.currentUser,
-                            "content": richEditor.controller.text,
-                            "date_created": DateTime.now(),
-                            "date_updated": DateTime.now(),
-                            "images": url,
-                            "title": _titleController.text,
-                            "locate": GeoPoint(pos!.latitude, pos!.longitude),
-                            "price": int.parse(_priceController.text),
-                            "surfaceArea":
-                                int.parse(_surfaceAreaController.text)
-                          });
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Home()),
-                              (route) => false);
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                              content: const Text("Đã tạo bài đăng thành công!")));
-                        }
-                      }
-                    } catch (e) {
-                      final snackbar = SnackBar(content: Text(e.toString()));
-                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  label("Hình thức"),
+                  DropdownButton(
+                    isExpanded: true,
+                    value: dropdownvalue,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    items: _categories.map((Category items) {
+                      return DropdownMenuItem(
+                          value: items,
+                          child: Text(PostsRepository.printCategory(items)));
+                    }).toList(),
+                    onChanged: (Category? newValue) {
                       setState(() {
-                        circular = false;
+                        dropdownvalue = newValue!;
                       });
-                    }
-                  },
-                  child: circular
-                      ? const CircularProgressIndicator(
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  textFieldDefault(_priceController, "Giá cả (triệu)", 1, 1,TextInputType.number),
+                  textFieldDefault(_surfaceAreaController, "Diện tích (m2)", 1, 1,TextInputType.number),
+                  Container(
+                      child: Row(
+                        children: [
+                          label("Vị trí"),
+                          IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyMap.Map(
+                                        pos: pos,
+                                        callback: (val) => onDataChange(val),
+                                      )))
+                            },
+                          )
+                        ],
+                      )),
+                  Text(Address),
+                  const SizedBox(height: 10),
+                  label("Nội dung"),
+                  richEditor,
+                  Container(
+                      child: Row(
+                        children: [
+                          label("Ảnh minh họa"),
+                          IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: () => {selectFile()},
+                          )
+                        ],
+                      )),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 20),
+                    height: 200,
+                    // decoration: ,
+                    width: size.width * 0.9,
+                    child: file != null
+                        ? Image.file(file!, fit: BoxFit.cover)
+                        : const Center(
+                      child: Text('Chọn ảnh'),
+                    ),
+                    // child: ,
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () async {
+                      setState(() {
+                        circular = true;
+                      });
+
+                      try {
+                        if (pos == null) {
+                          SnackBarError("Vui lòng đánh dấu vị trí !!", context);
+                        }
+                        if (dropdownvalue == Category.all) {
+                          SnackBarError("Vui lòng thêm hình thức !!", context);
+                        }
+                        if (_titleController.text == "") {
+                          SnackBarError("Vui lòng nhập tiêu đề !!", context);
+                        }
+                        if (_priceController.text == "") {
+                          SnackBarError("Vui lòng nhập giá tiền !!", context);
+                        }
+                        if (_surfaceAreaController.text == "") {
+                          SnackBarError("Vui lòng nhập giá tiền !!", context);
+                        }
+                        if(richEditor.controller.text==""){
+                          SnackBarError("Vui lòng nhập nội dung chi tiết !!", context);
+                        }
+
+                        if (pos != null &&
+                            dropdownvalue != Category.all &&
+                            _titleController != "" &&
+                        _surfaceAreaController!="" &&
+                        _priceController != ""&&
+                            richEditor.controller.text != ""
+                        ) {
+                          print("he2");
+                          String url = await storage.uploadFile(
+                            context,
+                            file,
+                            fileName!,
+                            fileUrl,
+                          );
+                          if (url.isEmpty) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Đã có lỗi khi tải ảnh lên !!"),
+                            ));
+                          } else {
+                            setState(() {
+                              circular = false;
+                            });
+                            print("he");
+                            var post = await FirebaseFirestore.instance
+                                .collection("posts")
+                                .add({
+                              "category": dropdownvalue.index,
+                              "author_id": userBloc.currentUser,
+                              "content": richEditor.controller.text,
+                              "date_created": DateTime.now(),
+                              "date_updated": DateTime.now(),
+                              "images": url,
+                              "title": _titleController.text,
+                              "locate": GeoPoint(pos!.latitude, pos!.longitude),
+                              "price": int.parse(_priceController.text),
+                              "surfaceArea":
+                              int.parse(_surfaceAreaController.text)
+                            });
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Home()),
+                                    (route) => false);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                                content: const Text("Đã tạo bài đăng thành công!")));
+                          }
+                        }
+                      } catch (e) {
+                        final snackbar = SnackBar(content: Text(e.toString()));
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        setState(() {
+                          circular = false;
+                        });
+                      }
+                    },
+                    child: circular
+                        ? const CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                        : const Text('Đăng',
+                        style: TextStyle(
+                          height: 1.5,
+                          fontSize: 17,
                           color: Colors.white,
-                        )
-                      : const Text('Đăng',
-                          style: TextStyle(
-                            height: 1.5,
-                            fontSize: 17,
-                            color: Colors.white,
-                          )),
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(8.0),
-                    fixedSize: MaterialStateProperty.all(const Size(350, 50)),
-                    shape: MaterialStateProperty.all(
-                      const BeveledRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        )),
+                    style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(8.0),
+                      fixedSize: MaterialStateProperty.all(const Size(350, 50)),
+                      shape: MaterialStateProperty.all(
+                        const BeveledRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          )),
+                ],
+              )
+          ),
         ));
   }
 
@@ -301,25 +311,6 @@ class _AddPostState extends State<AddPost> {
         maxLine: maxLine,
         controller: controller);
   }
-
-  // Widget descriptionBox(String textHint, TextEditingController controller) {
-  //   return Container(
-  //     width: MediaQuery.of(context).size.width,
-  //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
-  //     child: TextFormField(
-  //       controller: controller,
-  //       maxLines: 8,
-  //       decoration: const InputDecoration(
-  //           contentPadding: EdgeInsets.only(top: 10, bottom: 10)),
-  //       validator: (value) {
-  //         if (value == "") {
-  //           return 'Vui lòng không được bỏ trống';
-  //         }
-  //         return null;
-  //       },
-  //     ),
-  //   );
-  // }
 
   Widget label(String label) {
     return Text(label,
@@ -348,5 +339,29 @@ class _AddPostState extends State<AddPost> {
   Future<void> updateUser(String userDoc, String postDoc) async {
     // await FirebaseFirestore.instance.collection("users").doc(userDoc).get().then((value) => )
     // oldPost = [... oldPost, postDoc]
+  }
+  void SnackBarError(String content,BuildContext context ){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text( content),
+      backgroundColor: Theme.of(context).colorScheme.error,
+    ));
+  }
+  Widget textFieldDefault(TextEditingController controller, String? labelText , int minLines , int maxLines,  TextInputType inputType){
+    return TextField(
+      controller: controller,
+      decoration:  InputDecoration(
+        labelText: labelText,
+
+        labelStyle: const TextStyle(
+          fontFamily: 'Montserrat',
+        ),
+        border: const OutlineInputBorder(),
+      ),
+      keyboardType: inputType,
+      maxLength: 500,
+      minLines: minLines,
+      maxLines: maxLines,
+      textAlignVertical: TextAlignVertical.top,
+    );
   }
 }

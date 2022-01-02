@@ -62,7 +62,7 @@ class _SliderForPostsState extends State<SliderForPosts> {
         ),
         const SizedBox(height: 5),
         Container(
-          height: 210.0,
+          height: MediaQuery.of(context).size.height*0.25,
           child: StreamBuilder(
               stream: FirebaseFirestore.instance.collection('news').snapshots(),
               builder: (
@@ -189,7 +189,7 @@ class PostCard extends StatelessWidget {
                             child: Text(
                               title,
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
+                              maxLines: 2,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
@@ -202,16 +202,16 @@ class PostCard extends StatelessWidget {
                           ),
                           Container(
                             child: Text(
-                              content,
+                              "Ngày đăng : ${dateCreated.day}/${dateCreated.month}/${dateCreated.year}",
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
+                              maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
                                   ?.copyWith(
-                                fontWeight: FontWeight.w500,
                                 fontFamily: "Montserrat",
-                                fontSize: 12,
+                                fontSize: 11,
+                                fontStyle : FontStyle.italic
                               ),
                             ),
                           ),
@@ -250,7 +250,7 @@ class PostCard extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    'Tin mới',
+    (daysBetween(dateCreated,DateTime.now())==0)? "Hôm nay":daysBetween(dateCreated,DateTime.now()).toString()+ " ngày trước",
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                       color: Colors.white,
                       fontFamily: "Montserrat",
@@ -265,5 +265,10 @@ class PostCard extends StatelessWidget {
         ],
       ),
     );
+  }
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
   }
 }

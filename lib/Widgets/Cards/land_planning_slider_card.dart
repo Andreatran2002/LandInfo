@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tineviland/models/land_planing.dart';
-import 'package:tineviland/views/land_use_planning/detail_land_planning.dart';
 import 'package:tineviland/views/land_use_planning/detail_map_land_planning.dart';
 
 class LandPlanningCardSlider extends StatelessWidget {
@@ -65,9 +64,7 @@ class LandPlanningCardSlider extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Text(
+                        children: [Text(
                               landPlanning.title,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -79,11 +76,10 @@ class LandPlanningCardSlider extends StatelessWidget {
                                 fontFamily: "Montserrat",
                                 fontSize: 16,
                               ),
-                            ),
+
                           ),
                           Text(landPlanning.isValidated ? "Tình trạng:  Còn hiệu lực": "Tình trạng: Mất hiệu lực", style : TextStyle(fontSize: 12,color : Theme.of(context).colorScheme.primary)),
-                          Container(
-                            child: Text(
+                          Text(
                               landPlanning.content,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
@@ -95,7 +91,7 @@ class LandPlanningCardSlider extends StatelessWidget {
                                 fontFamily: "Montserrat",
                                 fontSize: 12,
                               ),
-                            ),
+
                           ),
                         ],
                       ),
@@ -132,7 +128,7 @@ class LandPlanningCardSlider extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    daysBetween(landPlanning.date_created,DateTime.now()).toString()+" ngày trước",
+                  daysBetween(landPlanning.date_created,DateTime.now()) >0 ?daysBetween(landPlanning.date_created,DateTime.now()).toString()+" ngày trước": "Hôm nay",
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                       color: Colors.white,
                       fontFamily: "Montserrat",

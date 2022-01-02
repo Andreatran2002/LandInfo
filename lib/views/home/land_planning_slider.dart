@@ -78,11 +78,8 @@ class _LandPlanningSliderState extends State<LandPlanningSlider> {
                 }
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data!.docs.length < 6 ? snapshot.data!.docs.length : 5 ,
+                    itemCount: snapshot.data!.docs.length < 6 ? snapshot.data!.docs.length : 5 ,
                   itemBuilder: (BuildContext context, int index) {
-                    GeoPoint geoPoint = snapshot.data!.docs[index].get('center');
-                    double lat = geoPoint.latitude;
-                    double lng = geoPoint.longitude;
                     final LandPlanning landPlanning = LandPlanning(
                         title:  snapshot.data!.docs[index].get('title'),
                         content: snapshot.data!.docs[index].get('content'),
@@ -91,7 +88,10 @@ class _LandPlanningSliderState extends State<LandPlanningSlider> {
                         isValidated: snapshot.data!.docs[index].get('isValidated'),
                         mapUrl: snapshot.data!.docs[index].get('mapUrl'),
                         imageUrl: snapshot.data!.docs[index].get('imageUrl'),
-                        center:  LatLng(lat, lng)
+                        leftTop:  LatLng(snapshot.data!.docs[index].get('leftTop').latitude, snapshot.data!.docs[index].get('leftTop').longitude),
+                        rightTop:  LatLng(snapshot.data!.docs[index].get('rightTop').latitude, snapshot.data!.docs[index].get('rightTop').longitude),
+                        leftBotton:  LatLng(snapshot.data!.docs[index].get('leftBotton').latitude, snapshot.data!.docs[index].get('leftBotton').longitude),
+                        rightBotton:  LatLng(snapshot.data!.docs[index].get('rightBotton').latitude, snapshot.data!.docs[index].get('rightBotton').longitude),
                     );
                     return GestureDetector(
                       onTap: ()=>  Navigator.push(

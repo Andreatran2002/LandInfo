@@ -7,9 +7,6 @@ import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:tineviland/models/user.dart' as user_account;
 import 'package:tineviland/utils/authmethod.dart';
-import 'package:tineviland/views/auth/signup.dart';
-
-import '../home.dart';
 
 enum MobileVerificationState{
   SHOW_MOBILE_FORM_STATE,
@@ -63,8 +60,7 @@ class _phoneAuthState extends State<phoneAuth> {
                 ]
               )
             )
-            ,
-                optField(),
+            ,optField(),
           ])));
   }
 
@@ -105,7 +101,7 @@ class _phoneAuthState extends State<phoneAuth> {
                       await auth.verifyPhoneNumber(
                         phoneNumber: phone,
                         verificationCompleted: (PhoneAuthCredential credential) async {
-                          // await auth.signInWithCredential(credential);
+                          // await auth.signInWithCredential(credential); 
                         },
                         verificationFailed: (FirebaseAuthException e) {
                           if (e.code == 'invalid-phone-number') {
@@ -157,21 +153,21 @@ class _phoneAuthState extends State<phoneAuth> {
 
   }
   Widget optField() {
-    // if (currenState == MobileVerificationState.SHOW_OPT_FORM_STATE)
-    //   return const Text("Vui lòng nhập số điện thoại để nhận được mã xác thực!");
-    // else
-    return OTPTextField(
+    if (currenState == MobileVerificationState.SHOW_MOBILE_FORM_STATE)
+      return const Text("*Vui lòng nhập số điện thoại để nhận mã xác thực!", style : TextStyle(fontSize : 14, fontStyle: FontStyle.italic, color : Colors.black54));
+    else {
+      return OTPTextField(
       length: 6,
       width: MediaQuery.of(context).size.width-120,
       fieldWidth: 30,
       style: const TextStyle(fontSize: 15,),
       textFieldAlignment: MainAxisAlignment.spaceAround,
       fieldStyle: FieldStyle.underline,
-      onCompleted: (pin) async {
-        print("Completed: " + pin);
+      onCompleted: (pin)  {
         authService.signUpWithPhoneNumber(verificationId, pin, context,widget._account, _phonenumberController.text);
       },
     );
+    }
   }
 
   

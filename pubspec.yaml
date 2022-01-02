@@ -64,6 +64,7 @@ dependencies:
   flutter_map: ^0.14.0
   flutter_markdown: ^0.6.9
   markdown_editable_textinput: ^2.0.2
+  webview_flutter: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -95,6 +96,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/icons/
+    - assets/web/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

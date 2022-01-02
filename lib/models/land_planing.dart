@@ -9,7 +9,10 @@ class LandPlanning {
     required this.isValidated,
     required this.mapUrl,
     required this.imageUrl,
-    required this.center
+    required this.leftTop,
+    required this.rightTop,
+    required this.leftBotton,
+    required this.rightBotton
 
 });
   final String title ;
@@ -19,5 +22,8 @@ class LandPlanning {
   final String mapUrl;
   final String accessToken;
   final String imageUrl;
-  final LatLng center;
+  final LatLng leftTop;
+  final LatLng rightTop ;
+  final LatLng leftBotton;
+  final LatLng rightBotton;
 }

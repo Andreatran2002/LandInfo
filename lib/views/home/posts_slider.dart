@@ -85,7 +85,7 @@ class _SliderForNewsState extends State<SliderForNews> {
           ],
         ),
         Container(
-          height: 215.0,
+          height: MediaQuery.of(context).size.height*0.28,
           child: StreamBuilder(
               stream:
                   FirebaseFirestore.instance.collection('posts').snapshots(),
@@ -222,7 +222,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                                     ?.copyWith(
                                                       fontWeight: FontWeight.w500,
                                                       fontFamily: "Montserrat",
-                                                      fontSize: 12,
+                                                      fontSize: 10,
                                                     ),
                                               ),
                                             ]),
@@ -233,7 +233,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                               ),
                                               // SizedBox(width: 8),
                                               Text(
-                                                post.price.toString() + " tr",
+                                                convertCost(post.price),
                                                 maxLines: 1,
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -241,7 +241,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                                     ?.copyWith(
                                                       fontWeight: FontWeight.w500,
                                                       fontFamily: "Montserrat",
-                                                      fontSize: 12,
+                                                      fontSize: 10,
                                                     ),
                                               ),
                                             ]),
@@ -267,7 +267,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                               width: 8,
                                             ),
                                           ),
-                                          SizedBox(width: 8),
+                                          const SizedBox(width: 8),
                                           Flexible(
                                             child: Text(
                                               addressString,
@@ -275,7 +275,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                               // _address[index].toString() == ""
                                               //     ? ""
                                               //     : _address[index].toString(),
-                                              maxLines: 1,
+                                              maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
                                                   .textTheme
@@ -283,7 +283,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.w500,
                                                     fontFamily: "Montserrat",
-                                                    fontSize: 12,
+                                                    fontSize: 10,
                                                   ),
                                             ),
                                           ),
@@ -301,7 +301,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                             Text(
                                               post.title,
                                               overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
+                                              maxLines: 2,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyText2
@@ -311,21 +311,7 @@ class _SliderForNewsState extends State<SliderForNews> {
                                                     fontSize: 16,
                                                   ),
                                             ),
-                                            Container(
-                                              child: Text(
-                                                post.content,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText2
-                                                    ?.copyWith(
-                                                      fontWeight: FontWeight.w500,
-                                                      fontFamily: "Montserrat",
-                                                      fontSize: 12,
-                                                    ),
-                                              ),
-                                            ),
+
                                           ],
                                         ),
                                       ),
@@ -418,5 +404,13 @@ class _SliderForNewsState extends State<SliderForNews> {
         return {"name": "Cần thuê", "color": Colors.red[600]};
     }
     return {"name": "Tất cả", "color": Colors.green};
+  }
+  String convertCost(int cost){
+    String result = "";
+    if (cost /1000 >=1){
+      result = "${(cost/1000).toStringAsFixed(0)} tỷ ${cost % 1000} tr";
+    }
+    else result = "$cost tr";
+    return result ;
   }
 }

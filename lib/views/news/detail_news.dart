@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tineviland/models/user.dart';
 import 'package:tineviland/utils/authmethod.dart';
@@ -38,12 +39,17 @@ class _DetailNewsState extends State<DetailNews> {
             appBar: AppBar(
               centerTitle: true,
               title: const Text(
-                "Chi tiết",
+                "Tin tức chi tiết",
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: "Montserrat",
                 ),
               ),
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back_rounded , color: Colors.white,),),
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -70,10 +76,10 @@ class _DetailNewsState extends State<DetailNews> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     widget.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.w600,
                       fontFamily: "Montserrat",
@@ -130,17 +136,8 @@ class _DetailNewsState extends State<DetailNews> {
                       //
                     ],
                   ),
-                  SizedBox(height: 10),
-                  Container(
-                    child: Text(
-                      widget.content,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: "Montserrat",
-
-                      ),
-                    ),
-                  ),
+                  const SizedBox(height: 10),
+              MarkdownBody(data :widget.content),
                   const Divider(
                     height: 25,
                     thickness: 1,

@@ -210,7 +210,7 @@ class _AccountState extends State<Account> {
                                 setState(() async {
                                   await authMethod.signOut();
                                   authMethod.showSnackBar(
-                                      context, "Đã đăng xuất");
+                                      context, "Đã đăng xuất",Theme.of(context).colorScheme.primary);
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(builder: (builder) =>const  SignUp()),
